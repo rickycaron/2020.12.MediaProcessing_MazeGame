@@ -6,6 +6,7 @@
 #include "ghealthpack.h"
 #include "world.h"
 #include <QDebug>
+#include <QCompleter>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -17,6 +18,10 @@ Widget::Widget(QWidget *parent)
     view->setScene(scene);
     buildWorld();
     ui->verticalLayout->addWidget(view);
+    QStringList commentList;
+    commentList<<"up"<<"right"<<"down"<<"left"<<"goto"<<"attack"<<"take"<<"help";
+    QCompleter *completer = new QCompleter(commentList, this);
+    ui->lineEdit->setCompleter(completer);
 }
 
 Widget::~Widget()
