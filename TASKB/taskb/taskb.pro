@@ -9,18 +9,24 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    command.cpp \
+    commandcontroller.cpp \
     genemy.cpp \
     ghealthpack.cpp \
     gprotagonist.cpp \
     gtile.cpp \
     main.cpp \
+    moveup.cpp \
     widget.cpp
 
 HEADERS += \
+    command.h \
+    commandcontroller.h \
     genemy.h \
     ghealthpack.h \
     gprotagonist.h \
     gtile.h \
+    moveup.h \
     widget.h
 
 FORMS += \

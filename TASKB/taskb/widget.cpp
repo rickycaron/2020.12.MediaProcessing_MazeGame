@@ -1,7 +1,6 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include "gtile.h"
-#include "gprotagonist.h"
 #include "genemy.h"
 #include "ghealthpack.h"
 #include "world.h"
@@ -18,9 +17,9 @@ Widget::Widget(QWidget *parent)
     view->setScene(scene);
     buildWorld();
     ui->verticalLayout->addWidget(view);
-    QStringList commentList;
-    commentList<<"up"<<"right"<<"down"<<"left"<<"goto"<<"attack"<<"take"<<"help";
-    QCompleter *completer = new QCompleter(commentList, this);
+    QStringList commandtList;
+    commandtList<<"up"<<"right"<<"down"<<"left"<<"goto"<<"attack"<<"take"<<"help";
+    QCompleter *completer = new QCompleter(commandtList, this);
     ui->lineEdit->setCompleter(completer);
 }
 
@@ -31,10 +30,10 @@ Widget::~Widget()
 
 void Widget::buildWorld()
 {
-    World* w = new World();
-    w->createWorld("://images/worldmap.png",10,10,0.25);
-    int row = w->getRows();
-    int col =  w->getCols();
+    World *world = new World();
+    world->createWorld("://images/worldmap.png",10,10,0.25);
+    int row = world->getRows();
+    int col =  world->getCols();
 
     for (int i=0;i<row ; i++) {
         for (int j=0;j<col;j++ ) {
@@ -47,23 +46,22 @@ void Widget::buildWorld()
     }
 
 
-    GProtagonist *p = new GProtagonist();
-    p->setPos(QPointF(20*w->getProtagonist()->getXPos(),20*w->getProtagonist()->getYPos()));
+    p = new GProtagonist();
+    p->setPos(QPointF(20*world->getProtagonist()->getXPos(),20*world->getProtagonist()->getYPos()));
     scene->addItem(p);
 
-
-    std::vector<std::unique_ptr<Enemy>> enemies = w->getEnemies();
+    std::vector<std::unique_ptr<Enemy>> enemies = world->getEnemies();
     for(unsigned int i=0;i<enemies.size();i++){
-        //myText * enemy = new myText();
         GEnemy * enemy = new GEnemy();
         int x = enemies[i]->getXPos();
         int y = enemies[i]->getYPos();
         enemy->setPos(QPointF(20*x,20*y));
         scene->addItem(enemy);
+        qDebug()<<enemy->pos().x()<<" "<<enemy->pos().y();
     }
 
 
-    std::vector<std::unique_ptr<Tile>> healthpacks = w->getHealthPacks();
+    std::vector<std::unique_ptr<Tile>> healthpacks = world->getHealthPacks();
     for(unsigned int i=0;i<healthpacks.size();i++){
         //myText * healthpack = new myText();
         //healthpack->setPlainText("H");
@@ -76,6 +74,17 @@ void Widget::buildWorld()
 
 }
 
-
-
-
+void Widget::on_lineEdit_editingFinished()
+{
+    QString command = ui->lineEdit->text();
+    qDebug()<<"command: "<<command;
+    if(command=="right"){
+        p->moveRight();
+    }else if (command=="left") {
+        p->moveLeft();
+        }else if (command=="up") {
+        p->moveUp();
+    }else {
+        p->moveDown();
+    }
+}
