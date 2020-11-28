@@ -7,7 +7,7 @@
 #include <QDebug>
 #include <QCompleter>
 #include "textscene.h"
-#include "command.h"
+
 #include "moveright.h"
 #include "moveleft.h"
 #include "moveup.h"
@@ -39,6 +39,11 @@ Widget::Widget(QWidget *parent)
     QCompleter *completer = new QCompleter(commandtList, this);
     ui->lineEdit->setCompleter(completer);
 
+    Controller *c = new Controller(protagonist);
+    clist["right"]=std::make_unique<MoveRight>(c);
+    clist["left"]=std::make_unique<MoveLeft>(c);
+    clist["up"]=std::make_unique<MoveUp>(c);
+    clist["down"]=std::make_unique<MoveDown>(c);
 }
 
 Widget::~Widget()
@@ -49,26 +54,10 @@ Widget::~Widget()
 void Widget::on_lineEdit_editingFinished()
 {
     QString command = ui->lineEdit->text();
-    Controller *c = new Controller(protagonist);
-    MoveRight *right = new MoveRight(c);
-    MoveLeft *left = new MoveLeft(c);
-    MoveUp *up = new MoveUp(c);
-    MoveDown *down = new MoveDown(c);
-
-
-    if(command=="right"){
-        //p->moveRight();
-        right->excute();
-
-    }else if (command=="left") {
-        //p->moveLeft();
-        left->excute();
-        }else if (command=="up") {
-        //p->moveUp();
-        up->excute();
-    }else {
-        down->excute();
-        //p->moveDown();
+    if(clist.count(command)==1){
+        clist[command]->excute();
+    }else{
+        qDebug()<<"Can't find command";
     }
 }
 
