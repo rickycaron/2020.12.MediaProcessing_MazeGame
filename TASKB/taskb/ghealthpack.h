@@ -7,7 +7,7 @@
 class GHealthpack : public QGraphicsTextItem
 {
 public:
-    GHealthpack();
+    GHealthpack(int xPos, int yPos);
     QRectF boundingRect() const;
 
 signals:

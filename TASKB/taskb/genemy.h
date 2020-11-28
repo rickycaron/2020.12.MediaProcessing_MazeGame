@@ -7,7 +7,7 @@
 class GEnemy : public QGraphicsTextItem
 {
 public:
-    GEnemy();
+    GEnemy(int xPos, int yPos);
     QRectF boundingRect() const;
 
 signals:

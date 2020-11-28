@@ -1,8 +1,9 @@
 #include "genemy.h"
 
-GEnemy::GEnemy() : QGraphicsTextItem()
+GEnemy::GEnemy(int xPos, int yPos) : QGraphicsTextItem()
 {
     setPlainText("E");
+    setPos(20*xPos, 20*yPos);
 }
 
 QRectF GEnemy::boundingRect() const

@@ -1,9 +1,10 @@
 #include "gtile.h"
 #include <QPainter>
 
-GTile::GTile():QGraphicsTextItem()
+GTile::GTile(int xPos, int yPos):QGraphicsTextItem()
 {
     setPlainText(" ");
+    setPos(QPointF(20*xPos,20*yPos));
 }
 
 QRectF GTile::boundingRect() const

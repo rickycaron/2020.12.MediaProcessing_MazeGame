@@ -1,8 +1,9 @@
 #include "ghealthpack.h"
 
-GHealthpack::GHealthpack() : QGraphicsTextItem()
+GHealthpack::GHealthpack(int xPos, int yPos) : QGraphicsTextItem()
 {
     setPlainText("H");
+    setPos(20*xPos, 20*yPos);
 }
 
 QRectF GHealthpack::boundingRect() const

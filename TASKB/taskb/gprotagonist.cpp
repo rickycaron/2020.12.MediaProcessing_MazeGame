@@ -2,11 +2,12 @@
 #include <QDebug>
 #include <QGraphicsScene>
 
-GProtagonist::GProtagonist():QGraphicsTextItem()
+GProtagonist::GProtagonist(int xPos, int yPos)
 {
     setPlainText("P");
     xAnimation = new QPropertyAnimation(this,"x",this);
     yAnimation = new QPropertyAnimation(this,"y",this);
+    setPos(QPointF(20*xPos,20*yPos));
 }
 
 QRectF GProtagonist::boundingRect() const
@@ -25,7 +26,7 @@ void GProtagonist::moveRight()
     xAnimation->setStartValue(x());
     xAnimation->setEndValue(x()+1);
     xAnimation->setEasingCurve(QEasingCurve::Linear);
-    xAnimation->setDuration(1000);
+    xAnimation->setDuration(500);
     xAnimation->start();
 }
 
@@ -35,7 +36,7 @@ void GProtagonist::moveLeft()
     xAnimation->setStartValue(x());
     xAnimation->setEndValue(x()-1);
     xAnimation->setEasingCurve(QEasingCurve::Linear);
-    xAnimation->setDuration(1000);
+    xAnimation->setDuration(500);
     xAnimation->start();
 }
 
@@ -45,7 +46,7 @@ void GProtagonist::moveUp()
     yAnimation->setStartValue(y());
     yAnimation->setEndValue(y()-1);
     yAnimation->setEasingCurve(QEasingCurve::Linear);
-    yAnimation->setDuration(1000);
+    yAnimation->setDuration(500);
     yAnimation->start();
 }
 
@@ -55,7 +56,7 @@ void GProtagonist::moveDown()
     yAnimation->setStartValue(y());
     yAnimation->setEndValue(y()+1);
     yAnimation->setEasingCurve(QEasingCurve::Linear);
-    yAnimation->setDuration(1000);
+    yAnimation->setDuration(500);
     yAnimation->start();
 }
 

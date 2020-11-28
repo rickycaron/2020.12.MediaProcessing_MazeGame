@@ -6,21 +6,39 @@
 #include "world.h"
 #include <QDebug>
 #include <QCompleter>
+#include "textscene.h"
+#include "command.h"
+#include "moveright.h"
+#include "moveleft.h"
+#include "moveup.h"
+#include "movedown.h"
+#include "controller.h"
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    scene = new QGraphicsScene(this);
-    view = new QGraphicsView(this);
+    QGraphicsView *view = new QGraphicsView(this);
+    World *world = new World();
+    world->createWorld("://images/worldmap.png",10,10,0.25);
+
+    std::vector<std::unique_ptr<Tile>> tiles = world->getTiles();
+    //std::unique_ptr<Protagonist> protagonist = world->getProtagonist();
+    protagonist = world->getProtagonist();
+    std::vector<std::unique_ptr<Enemy>> enemies = world->getEnemies();
+    std::vector<std::unique_ptr<Tile>> healthpacks = world->getHealthPacks();
+
+    TextScene *scene = new TextScene(this, tiles,protagonist, enemies, healthpacks);
     view->setScene(scene);
-    buildWorld();
     ui->verticalLayout->addWidget(view);
+    connect(protagonist.get(),&Protagonist::posChanged,scene,&TextScene::redrawProtagonist);
+
     QStringList commandtList;
     commandtList<<"up"<<"right"<<"down"<<"left"<<"goto"<<"attack"<<"take"<<"help";
     QCompleter *completer = new QCompleter(commandtList, this);
     ui->lineEdit->setCompleter(completer);
+
 }
 
 Widget::~Widget()
@@ -28,63 +46,29 @@ Widget::~Widget()
     delete ui;
 }
 
-void Widget::buildWorld()
-{
-    World *world = new World();
-    world->createWorld("://images/worldmap.png",10,10,0.25);
-    int row = world->getRows();
-    int col =  world->getCols();
-
-    for (int i=0;i<row ; i++) {
-        for (int j=0;j<col;j++ ) {
-            //myText * tile = new myText();
-            GTile * tile = new GTile();
-            //tile->setPlainText(" ");
-            tile->setPos(QPointF(20*i,20*j));
-            scene->addItem(tile);
-        }
-    }
-
-
-    p = new GProtagonist();
-    p->setPos(QPointF(20*world->getProtagonist()->getXPos(),20*world->getProtagonist()->getYPos()));
-    scene->addItem(p);
-
-    std::vector<std::unique_ptr<Enemy>> enemies = world->getEnemies();
-    for(unsigned int i=0;i<enemies.size();i++){
-        GEnemy * enemy = new GEnemy();
-        int x = enemies[i]->getXPos();
-        int y = enemies[i]->getYPos();
-        enemy->setPos(QPointF(20*x,20*y));
-        scene->addItem(enemy);
-        qDebug()<<enemy->pos().x()<<" "<<enemy->pos().y();
-    }
-
-
-    std::vector<std::unique_ptr<Tile>> healthpacks = world->getHealthPacks();
-    for(unsigned int i=0;i<healthpacks.size();i++){
-        //myText * healthpack = new myText();
-        //healthpack->setPlainText("H");
-        GHealthpack * healthpack = new GHealthpack();
-        int x = healthpacks[i]->getXPos();
-        int y = healthpacks[i]->getYPos();
-        healthpack->setPos(QPointF(20*x,20*y));
-        scene->addItem(healthpack);
-    }
-
-}
-
 void Widget::on_lineEdit_editingFinished()
 {
     QString command = ui->lineEdit->text();
-    qDebug()<<"command: "<<command;
+    Controller *c = new Controller(protagonist);
+    MoveRight *right = new MoveRight(c);
+    MoveLeft *left = new MoveLeft(c);
+    MoveUp *up = new MoveUp(c);
+    MoveDown *down = new MoveDown(c);
+
+
     if(command=="right"){
-        p->moveRight();
+        //p->moveRight();
+        right->excute();
+
     }else if (command=="left") {
-        p->moveLeft();
+        //p->moveLeft();
+        left->excute();
         }else if (command=="up") {
-        p->moveUp();
+        //p->moveUp();
+        up->excute();
     }else {
-        p->moveDown();
+        down->excute();
+        //p->moveDown();
     }
 }
+

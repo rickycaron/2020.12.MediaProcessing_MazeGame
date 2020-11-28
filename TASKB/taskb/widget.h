@@ -22,11 +22,8 @@ public:
 
 private slots:
     void on_lineEdit_editingFinished();
-
 private:
     Ui::Widget *ui;
-    QGraphicsScene *scene;
-    QGraphicsView *view;
-    GProtagonist *p;
+    std::shared_ptr<Protagonist> protagonist;
 };
 #endif // WIDGET_H

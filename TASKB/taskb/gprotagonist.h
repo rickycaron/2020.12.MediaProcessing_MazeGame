@@ -12,7 +12,7 @@ class GProtagonist : public QGraphicsTextItem
     Q_PROPERTY(qreal x READ x WRITE setX)
     Q_PROPERTY(qreal y READ y WRITE setY)
 public:
-    explicit GProtagonist();
+    GProtagonist(int xPos, int yPos);
     QRectF boundingRect() const;
     qreal x() const;
     void moveRight();

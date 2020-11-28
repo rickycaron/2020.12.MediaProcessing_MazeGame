@@ -6,7 +6,7 @@
 class MoveUp : public Command
 {
 public:
-    MoveUp();
+    explicit MoveUp(Controller *con);
     void excute() const override;
 };
 

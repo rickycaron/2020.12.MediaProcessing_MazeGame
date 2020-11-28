@@ -8,7 +8,7 @@ class GTile : public QGraphicsTextItem
 {
 
 public:
-    GTile();
+    GTile(int xPos, int yPos);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
