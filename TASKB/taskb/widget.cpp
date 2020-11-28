@@ -1,8 +1,8 @@
 #include "widget.h"
 #include "ui_widget.h"
-#include "gtile.h"
-#include "genemy.h"
-#include "ghealthpack.h"
+#include "ttile.h"
+#include "tenemy.h"
+#include "thealthpack.h"
 #include "world.h"
 #include <QDebug>
 #include <QCompleter>
@@ -24,8 +24,7 @@ Widget::Widget(QWidget *parent)
     world->createWorld("://images/worldmap.png",10,10,0.25);
 
     std::vector<std::unique_ptr<Tile>> tiles = world->getTiles();
-    //std::unique_ptr<Protagonist> protagonist = world->getProtagonist();
-    protagonist = world->getProtagonist();
+    std::shared_ptr<Protagonist> protagonist = world->getProtagonist();
     std::vector<std::unique_ptr<Enemy>> enemies = world->getEnemies();
     std::vector<std::unique_ptr<Tile>> healthpacks = world->getHealthPacks();
 
@@ -34,6 +33,7 @@ Widget::Widget(QWidget *parent)
     ui->verticalLayout->addWidget(view);
     connect(protagonist.get(),&Protagonist::posChanged,scene,&TextScene::redrawProtagonist);
 
+    //auto completion
     QStringList commandtList;
     commandtList<<"up"<<"right"<<"down"<<"left"<<"goto"<<"attack"<<"take"<<"help";
     QCompleter *completer = new QCompleter(commandtList, this);

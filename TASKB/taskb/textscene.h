@@ -4,10 +4,10 @@
 #include <QGraphicsScene>
 #include <QList>
 #include "world.h"
-#include "gtile.h"
-#include "gprotagonist.h"
-#include "genemy.h"
-#include "ghealthpack.h"
+#include "ttile.h"
+#include "tprotagonist.h"
+#include "tenemy.h"
+#include "thealthpack.h"
 
 class TextScene : public QGraphicsScene
 {
@@ -21,10 +21,10 @@ public:
 public slots:
     void redrawProtagonist(int xPos, int yPos);
 private:
-    QList<GTile *> tileQlist;
-    GProtagonist *protagonistView;
-    QList<GEnemy *> enemyQlist;
-    QList<GHealthpack *> healthpackQlist;
+    QList<TTile *> tileQlist;
+    TProtagonist *protagonistView;
+    QList<TEnemy *> enemyQlist;
+    QList<THealthpack *> healthpackQlist;
 };
 
 #endif // TEXTSCENE_H

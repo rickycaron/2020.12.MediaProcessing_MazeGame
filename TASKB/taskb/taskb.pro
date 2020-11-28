@@ -12,31 +12,31 @@ SOURCES += \
     command.cpp \
     commandcontroller.cpp \
     controller.cpp \
-    genemy.cpp \
-    ghealthpack.cpp \
-    gprotagonist.cpp \
-    gtile.cpp \
     main.cpp \
     movedown.cpp \
     moveleft.cpp \
     moveright.cpp \
     moveup.cpp \
+    tenemy.cpp \
     textscene.cpp \
+    thealthpack.cpp \
+    tprotagonist.cpp \
+    ttile.cpp \
     widget.cpp
 
 HEADERS += \
     command.h \
     commandcontroller.h \
     controller.h \
-    genemy.h \
-    ghealthpack.h \
-    gprotagonist.h \
-    gtile.h \
     movedown.h \
     moveleft.h \
     moveright.h \
     moveup.h \
+    tenemy.h \
     textscene.h \
+    thealthpack.h \
+    tprotagonist.h \
+    ttile.h \
     widget.h
 
 FORMS += \

@@ -1,18 +1,18 @@
-#include "gtile.h"
+#include "ttile.h"
 #include <QPainter>
 
-GTile::GTile(int xPos, int yPos):QGraphicsTextItem()
+TTile::TTile(int xPos, int yPos):QGraphicsTextItem()
 {
     setPlainText(" ");
     setPos(QPointF(20*xPos,20*yPos));
 }
 
-QRectF GTile::boundingRect() const
+QRectF TTile::boundingRect() const
 {
     return QRectF(0,0,20,20);
 }
 
-void GTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void TTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QPen * mPen = new QPen();
     mPen->setWidth(1);

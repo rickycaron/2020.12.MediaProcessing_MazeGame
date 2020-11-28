@@ -13,7 +13,7 @@ TextScene::TextScene(QObject *parent, const std::vector<std::unique_ptr<Tile>> &
 void TextScene::printTiles(const std::vector<std::unique_ptr<Tile>> &tiles)
 {
     for(unsigned int i=0;i<tiles.size();i++){
-        GTile *tile = new GTile(tiles[i]->getXPos(),tiles[i]->getYPos());
+        TTile *tile = new TTile(tiles[i]->getXPos(),tiles[i]->getYPos());
         tileQlist.append(tile);
         this->addItem(tile);
     }
@@ -21,14 +21,14 @@ void TextScene::printTiles(const std::vector<std::unique_ptr<Tile>> &tiles)
 
 void TextScene::printProtagonist(const std::shared_ptr<Protagonist> &protagonist)
 {
-    protagonistView = new GProtagonist(protagonist->getXPos(),protagonist->getYPos());
+    protagonistView = new TProtagonist(protagonist->getXPos(),protagonist->getYPos());
     this->addItem(protagonistView);
 }
 
 void TextScene::printEnemies(const std::vector<std::unique_ptr<Enemy> > &enemies)
 {
     for(unsigned int i=0;i<enemies.size();i++){
-        GEnemy * enemy = new GEnemy(enemies[i]->getXPos(),enemies[i]->getYPos());
+        TEnemy * enemy = new TEnemy(enemies[i]->getXPos(),enemies[i]->getYPos());
         enemyQlist.append(enemy);
         this->addItem(enemy);
     }
@@ -37,7 +37,7 @@ void TextScene::printEnemies(const std::vector<std::unique_ptr<Enemy> > &enemies
 void TextScene::printHealthpacks(const std::vector<std::unique_ptr<Tile> > &healthpacks)
 {
     for(unsigned int i=0;i<healthpacks.size();i++){
-        GHealthpack * healthpack = new GHealthpack(healthpacks[i]->getXPos(),healthpacks[i]->getYPos());
+        THealthpack * healthpack = new THealthpack(healthpacks[i]->getXPos(),healthpacks[i]->getYPos());
         healthpackQlist.append(healthpack);
         this->addItem(healthpack);
     }
