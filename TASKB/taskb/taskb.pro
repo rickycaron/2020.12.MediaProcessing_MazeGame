@@ -14,6 +14,9 @@ SOURCES += \
     gprotagonist.cpp \
     gtile.cpp \
     main.cpp \
+    node.cpp \
+    pathfinder.cpp \
+    point.cpp \
     widget.cpp
 
 HEADERS += \
@@ -21,6 +24,9 @@ HEADERS += \
     ghealthpack.h \
     gprotagonist.h \
     gtile.h \
+    node.h \
+    pathfinder.h \
+    point.h \
     widget.h
 
 FORMS += \
