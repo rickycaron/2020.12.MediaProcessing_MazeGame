@@ -4,9 +4,7 @@ Pathfinder::Pathfinder(int row, int column, std::vector<std::shared_ptr<Tile>> n
 {
     this->row=row;
     this->column=column;
-    //tiles=newtiles;
-    //std::vector<std::unique_ptr<Tile>> tiles=newtiles;
-    newtiles[10];
+    tiles=newtiles;
     Point startponit=Point();
     Point endponit=Point();
     currentNode=std::make_shared<Node>();
@@ -14,15 +12,17 @@ Pathfinder::Pathfinder(int row, int column, std::vector<std::shared_ptr<Tile>> n
     rootNode=currentNode;
 }
 
-void Pathfinder::initializePathfinder(int startx, int starty, int endx, int endy)
+void Pathfinder::showsolutionpath()
 {
-    clearAllContainer();
-    startPoint.setPoint(startx,starty);
-    goalPoint.setPoint(endx,endy);
-    rootNode=std::make_shared<Node>(move(tiles[startx+row*starty]),nullptr);
-    currentNode=rootNode;
-    openlist.push_back(rootNode);
-    moveCost=0;
+    while (!solution.isEmpty()) {
+        auto tile=solution.pop();
+        std::cout<<solution.size()<<". Point is ("<<tile->getXPos()<<", "<<tile->getYPos()<<"). "<<std::endl;
+    }
+}
+
+void Pathfinder::initialze(const std::shared_ptr<Tile> &p, const std::shared_ptr<Tile> goal)
+{
+    initializePathfinder(p->getXPos(), p->getYPos(), goal->getXPos(), goal->getYPos());
 }
 
 void Pathfinder::clearAllContainer()
@@ -34,6 +34,19 @@ void Pathfinder::clearAllContainer()
     currentNode=nullptr;
     successorNode=nullptr;
     rootNode=nullptr;
+}
+
+void Pathfinder::initializePathfinder(int startx, int starty, int endx, int endy)
+{
+    clearAllContainer();
+    startPoint.setPoint(startx,starty);
+    goalPoint.setPoint(endx,endy);
+    rootNode=std::make_shared<Node>(move(tiles[startx+row*starty]),nullptr);
+    currentNode=rootNode;
+    openlist.push_back(rootNode);
+    moveCost=0;
+    int index = (column)*starty + startx;
+    createdNoteIndex.insert(index);
 }
 
 bool Pathfinder::reachingGoal()
@@ -101,7 +114,8 @@ void Pathfinder::breadthfirstAddNode(int index, std::shared_ptr<Node> parent)
     if(!createdNoteIndex.contains(index))
     {
         // the node hasn't been created yet
-        auto pos = std::make_shared<Tile>(std::move(*tiles[index]));
+        //auto pos = std::make_shared<Tile>(std::move(*tiles[index]));
+        auto pos = std::make_shared<Tile>((*tiles[index]));
         if(!(std::isinf(tiles[index]->getValue())))
         {   //i the value is not inf, it is walkable
             openlist.push_back(std::make_shared<Node>(pos,parent));

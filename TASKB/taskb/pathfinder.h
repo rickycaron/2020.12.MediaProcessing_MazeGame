@@ -1,6 +1,6 @@
 #ifndef PATHFINDER_H
 #define PATHFINDER_H
-#include <iostream>
+
 #include <memory>
 #include <list>
 #include <vector>
@@ -13,7 +13,7 @@
 class Pathfinder
 {
 public:
-    Pathfinder(int row,int column, std::vector<std::shared_ptr<Tile>> tiles);
+    Pathfinder(int row,int column, std::vector<std::shared_ptr<Tile>> newtiles);
     std::vector<std::shared_ptr<Tile>> tiles;//this should be initialized when the pathfinder is created
 
     std::list<std::shared_ptr<Node>> openlist;
@@ -26,7 +26,9 @@ public:
     Point startPoint;
     Point goalPoint;
     Point nearbyPoint;
+    void showsolutionpath();
 
+    void initialze(const std::shared_ptr<Tile> &p,const std::shared_ptr<Tile> goal);
 
     bool calcPath_BreadthFirst();
 private:
@@ -40,8 +42,6 @@ private:
 
     bool breadthfirstalorithum();
     void breadthfirstAddNode(int index,std::shared_ptr<Node>parent);
-
-
 };
 
 #endif // PATHFINDER_H

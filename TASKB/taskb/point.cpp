@@ -27,3 +27,8 @@ void Point::setPoint(int x, int y)
     xpos=x;
     ypos=y;
 }
+
+void Point::show()
+{
+    std::cout<<"The goal is ("<<xpos<<", "<<ypos<<"). "<<std::endl;
+}

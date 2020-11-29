@@ -21,6 +21,8 @@ public:
     std::vector<std::shared_ptr<Tile> > getTiles() const;
     int getRow() const;
     int getCol() const;
+    std::shared_ptr<Protagonist> getProtagonist() const;
+    std::vector<std::shared_ptr<Tile> > getHealthpacks() const;
 
 private:
     TextScene *scene;

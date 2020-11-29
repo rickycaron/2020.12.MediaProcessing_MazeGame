@@ -109,3 +109,13 @@ int Controller::getCol() const
 {
     return col;
 }
+
+std::shared_ptr<Protagonist> Controller::getProtagonist() const
+{
+    return protagonist;
+}
+
+std::vector<std::shared_ptr<Tile> > Controller::getHealthpacks() const
+{
+    return healthpacks;
+}
