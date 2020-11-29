@@ -17,9 +17,16 @@ public:
     void consumeEnergy();
     void attack();
     void detectEnemy();
+
+    std::vector<std::shared_ptr<Tile> > getTiles() const;
+    int getRow() const;
+    int getCol() const;
+
 private:
     TextScene *scene;
     std::unique_ptr<World> world;
+    int row = 0;
+    int col = 0;
     std::shared_ptr<Protagonist> protagonist;
     std::vector<std::shared_ptr<Tile>> tiles;
     std::vector<std::shared_ptr<Enemy>> enemies;
