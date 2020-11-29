@@ -9,22 +9,9 @@ int main(int argc, char *argv[])
     Widget w;
     w.show();
 
-
-    //World *world->createWorld("://images/worldmap.png",10,10,0.25);
-//    std::shared_ptr<World> world=std::make_shared<World>();
-//    world->createWorld("://images/worldmap.png",10,10,0.25);
-//    world->getCols();
-//    std::cout<<"rows"<<world->getCols()<<"columns"<<world->getRows()<<std::endl;
-//    std::vector<std::unique_ptr<Tile>> tiles = world->getTiles();
-     std::shared_ptr<Controller> controller=std::make_shared<Controller>();
-     std::cout<<"rows"<<controller->getCol()<<"columns"<<controller->getRow()<<std::endl;
-
-
+    std::shared_ptr<Controller> controller=std::make_shared<Controller>();
+    std::cout<<"rows"<<controller->getCol()<<"columns"<<controller->getRow()<<std::endl;
     std::shared_ptr<Pathfinder> pathfinder=std::make_shared<Pathfinder>(controller->getRow(),controller->getCol(),controller->getTiles());
 
-
-//    std::vector<std::unique_ptr<Tile>> tiles = world->getTiles();
-//    function(const std::vector<std::unique<Tile>> &tiles)
-//    tiles[index]
     return a.exec();
 }
