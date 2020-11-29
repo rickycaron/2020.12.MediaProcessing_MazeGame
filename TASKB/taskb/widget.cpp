@@ -1,27 +1,40 @@
 #include "widget.h"
 #include "ui_widget.h"
-#include "gtile.h"
-#include "gprotagonist.h"
-#include "genemy.h"
-#include "ghealthpack.h"
+#include "ttile.h"
+#include "tenemy.h"
+#include "thealthpack.h"
 #include "world.h"
 #include <QDebug>
 #include <QCompleter>
+#include "textscene.h"
+
+#include "moveright.h"
+#include "moveleft.h"
+#include "moveup.h"
+#include "movedown.h"
+#include "controller.h"
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    scene = new QGraphicsScene(this);
-    view = new QGraphicsView(this);
-    view->setScene(scene);
-    buildWorld();
+    QGraphicsView *view = new QGraphicsView(this);
+    Controller *controller = new Controller();
+    controller->createScene(this);
+    controller->addSceneToView(*view);
     ui->verticalLayout->addWidget(view);
-    QStringList commentList;
-    commentList<<"up"<<"right"<<"down"<<"left"<<"goto"<<"attack"<<"take"<<"help";
-    QCompleter *completer = new QCompleter(commentList, this);
+
+    //auto completion
+    QStringList commandtList;
+    commandtList<<"up"<<"right"<<"down"<<"left"<<"goto"<<"attack"<<"take"<<"help";
+    QCompleter *completer = new QCompleter(commandtList, this);
     ui->lineEdit->setCompleter(completer);
+
+    clist["right"]=std::make_unique<MoveRight>(controller);
+    clist["left"]=std::make_unique<MoveLeft>(controller);
+    clist["up"]=std::make_unique<MoveUp>(controller);
+    clist["down"]=std::make_unique<MoveDown>(controller);
 }
 
 Widget::~Widget()
@@ -29,53 +42,13 @@ Widget::~Widget()
     delete ui;
 }
 
-void Widget::buildWorld()
+void Widget::on_lineEdit_editingFinished()
 {
-    World* w = new World();
-    w->createWorld("://images/worldmap.png",10,10,0.25);
-    int row = w->getRows();
-    int col =  w->getCols();
-
-    for (int i=0;i<row ; i++) {
-        for (int j=0;j<col;j++ ) {
-            //myText * tile = new myText();
-            GTile * tile = new GTile();
-            //tile->setPlainText(" ");
-            tile->setPos(QPointF(20*i,20*j));
-            scene->addItem(tile);
-        }
+    QString command = ui->lineEdit->text();
+    if(clist.count(command)==1){
+        clist[command]->excute();
+    }else{
+        qDebug()<<"Can't find command";
     }
-
-
-    GProtagonist *p = new GProtagonist();
-    p->setPos(QPointF(20*w->getProtagonist()->getXPos(),20*w->getProtagonist()->getYPos()));
-    scene->addItem(p);
-
-
-    std::vector<std::unique_ptr<Enemy>> enemies = w->getEnemies();
-    for(unsigned int i=0;i<enemies.size();i++){
-        //myText * enemy = new myText();
-        GEnemy * enemy = new GEnemy();
-        int x = enemies[i]->getXPos();
-        int y = enemies[i]->getYPos();
-        enemy->setPos(QPointF(20*x,20*y));
-        scene->addItem(enemy);
-    }
-
-
-    std::vector<std::unique_ptr<Tile>> healthpacks = w->getHealthPacks();
-    for(unsigned int i=0;i<healthpacks.size();i++){
-        //myText * healthpack = new myText();
-        //healthpack->setPlainText("H");
-        GHealthpack * healthpack = new GHealthpack();
-        int x = healthpacks[i]->getXPos();
-        int y = healthpacks[i]->getYPos();
-        healthpack->setPos(QPointF(20*x,20*y));
-        scene->addItem(healthpack);
-    }
-
 }
-
-
-
 

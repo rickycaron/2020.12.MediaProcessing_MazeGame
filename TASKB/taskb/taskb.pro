@@ -2,31 +2,43 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++17
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    genemy.cpp \
-    ghealthpack.cpp \
-    gprotagonist.cpp \
-    gtile.cpp \
+    attack.cpp \
+    command.cpp \
+    commandcontroller.cpp \
+    controller.cpp \
     main.cpp \
-    node.cpp \
-    pathfinder.cpp \
-    point.cpp \
+    movedown.cpp \
+    moveleft.cpp \
+    moveright.cpp \
+    moveup.cpp \
+    tenemy.cpp \
+    textscene.cpp \
+    thealthpack.cpp \
+    tprotagonist.cpp \
+    ttile.cpp \
     widget.cpp
 
 HEADERS += \
-    genemy.h \
-    ghealthpack.h \
-    gprotagonist.h \
-    gtile.h \
-    node.h \
-    pathfinder.h \
-    point.h \
+    attack.h \
+    command.h \
+    commandcontroller.h \
+    controller.h \
+    movedown.h \
+    moveleft.h \
+    moveright.h \
+    moveup.h \
+    tenemy.h \
+    textscene.h \
+    thealthpack.h \
+    tprotagonist.h \
+    ttile.h \
     widget.h
 
 FORMS += \
