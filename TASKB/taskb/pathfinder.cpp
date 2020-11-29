@@ -6,6 +6,9 @@ pathfinder::pathfinder(int row, int column)
     this->column=column;
     Point startponit=Point();
     Point endponit=Point();
+    currentNode=std::make_shared<Node>();
+    successorNode=currentNode;
+    rootNode=currentNode;
 }
 
 void pathfinder::initializePathfinder(int startx, int starty, int endx, int endy)
@@ -16,10 +19,12 @@ void pathfinder::initializePathfinder(int startx, int starty, int endx, int endy
     rootNode=std::make_shared<Node>(move(tiles[startx+row*starty]),nullptr);
     currentNode=rootNode;
     openlist.push_back(rootNode);
+    moveCost=0;
 }
 
 void pathfinder::clearAllContainer()
 {
+    createdNoteIndex.clear();
     openlist.clear();
     closedlist.clear();
     solution.clear();
@@ -28,13 +33,14 @@ void pathfinder::clearAllContainer()
     rootNode=nullptr;
 }
 
-bool pathfinder::reachinGoal()
+bool pathfinder::reachingGoal()
 {
     if(currentNode==nullptr)
     {
         return false;
     }
-    if(currentNode->getTile()->getXPos()==goalPoint.getXpos()&&currentNode->getTile()->getYPos()==goalPoint.getYpos()){
+    if(currentNode->getTile()->getXPos()==goalPoint.getXpos()&&currentNode->getTile()->getYPos()==goalPoint.getYpos())
+    {
         return true;
     }
     else
@@ -51,12 +57,12 @@ bool pathfinder::breadthfirstalorithum()
         //??maybe bug, it returned the reference in th list, will it be deleted after nest line execution?, maybe dequeue is better here
         currentNode=openlist.front();
         auto tile=currentNode->getTile();
-        auto parent =std::make_shared<Node>(currentNode);
+        auto parent =currentNode;
         openlist.erase(openlist.begin());
         //2.check if reached in goal
-        if(reachinGoal())
+        if(reachingGoal())
         {
-            solution.push_back(currentNode);
+            //solution.push(currentNode->getTile());
             return true;// The path is found!
         }
         else
@@ -87,7 +93,56 @@ bool pathfinder::breadthfirstalorithum()
     return false;
 }
 
-bool pathfinder::breadthfirstAddNode(int index, std::shared_ptr<Node> parent)
+void pathfinder::breadthfirstAddNode(int index, std::shared_ptr<Node> parent)
 {
-
+    if(!createdNoteIndex.contains(index))
+    {
+        // the node hasn't been created yet
+        auto pos = std::make_shared<Tile>(std::move(*tiles[index]));
+        if(!(std::isinf(tiles[index]->getValue())))
+        {   //i the value is not inf, it is walkable
+            openlist.push_back(std::make_shared<Node>(pos,parent));
+            createdNoteIndex.insert(index);
+        }
+    }
 }
+
+bool pathfinder::calcPath_BreadthFirst()
+{
+    //stay in while loop, until the goal is found or the openlist is empty
+    while (!breadthfirstalorithum() && openlist.size()) {}
+
+    //when there are still nodes left in the op
+    if(openlist.size())
+    {
+        qDebug("Path is found!!!");
+        while (currentNode->getPre()!=nullptr)
+        {
+            moveCost += 1+currentNode->getTile()->getValue();
+            solution.push(currentNode->getTile());
+            //show the path we have found one by one
+            //screen->addPathStep(destination.getTile()->getXPos(),destination.getTile()->getYPos());
+            currentNode=currentNode->getPre();
+        }
+        //now the currentNode is the startPoint node, we are on this node now
+    }else
+    {
+        qDebug("BreathFirst: Path is not found in the end!!!!");
+        return false;
+    }
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
