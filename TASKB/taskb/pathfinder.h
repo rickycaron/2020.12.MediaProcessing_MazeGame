@@ -13,8 +13,8 @@
 class Pathfinder
 {
 public:
-    Pathfinder(int row,int column, std::vector<std::unique_ptr<Tile>> &tiles);
-    std::vector<std::unique_ptr<Tile>> tiles;//this should be initialized when the pathfinder is created
+    Pathfinder(int row,int column, std::vector<std::shared_ptr<Tile>> tiles);
+    std::vector<std::shared_ptr<Tile>> tiles;//this should be initialized when the pathfinder is created
 
 
     std::list<std::shared_ptr<Node>> openlist;

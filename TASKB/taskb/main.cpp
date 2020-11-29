@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
      std::cout<<"rows"<<controller->getCol()<<"columns"<<controller->getRow()<<std::endl;
 
 
-    std::shared_ptr<Pathfinder> pathfinder=std::make_shared<Pathfinder>(controller->getRow(),controller->getCol());
+    std::shared_ptr<Pathfinder> pathfinder=std::make_shared<Pathfinder>(controller->getRow(),controller->getCol(),controller->getTiles());
 
 
 //    std::vector<std::unique_ptr<Tile>> tiles = world->getTiles();

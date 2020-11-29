@@ -1,6 +1,6 @@
 #include "pathfinder.h"
 
-Pathfinder::Pathfinder(int row, int column,std::vector<std::unique_ptr<Tile>> &newtiles)
+Pathfinder::Pathfinder(int row, int column, std::vector<std::shared_ptr<Tile>> newtiles)
 {
     this->row=row;
     this->column=column;
