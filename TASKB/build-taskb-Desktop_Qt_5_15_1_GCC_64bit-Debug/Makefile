@@ -37,10 +37,10 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = taskb1.0.0
-DISTDIR = /home/yuqi/Desktop/TASKB/build-taskb-Desktop_Qt_5_15_1_GCC_64bit-Debug/.tmp/taskb1.0.0
+DISTDIR = /home/rickycaron/Desktop/mdfinal/mp20-team-a6-fa/TASKB/build-taskb-Desktop_Qt_5_15_1_GCC_64bit-Debug/.tmp/taskb1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/opt/Qt/5.15.1/gcc_64/lib
-LIBS          = $(SUBLIBS) -L/home/yuqi/Desktop/TASKB/taskb/../world_v4/ -lworld /opt/Qt/5.15.1/gcc_64/lib/libQt5Widgets.so /opt/Qt/5.15.1/gcc_64/lib/libQt5Gui.so /opt/Qt/5.15.1/gcc_64/lib/libQt5Core.so -lGL -lpthread   
+LIBS          = $(SUBLIBS) -L/home/rickycaron/Desktop/mdfinal/mp20-team-a6-fa/TASKB/taskb/../world_v4/ -lworld /opt/Qt/5.15.1/gcc_64/lib/libQt5Widgets.so /opt/Qt/5.15.1/gcc_64/lib/libQt5Gui.so /opt/Qt/5.15.1/gcc_64/lib/libQt5Core.so -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -57,6 +57,9 @@ SOURCES       = ../taskb/genemy.cpp \
 		../taskb/gprotagonist.cpp \
 		../taskb/gtile.cpp \
 		../taskb/main.cpp \
+		../taskb/node.cpp \
+		../taskb/pathfinder.cpp \
+		../taskb/point.cpp \
 		../taskb/widget.cpp qrc_resource.cpp \
 		moc_widget.cpp
 OBJECTS       = genemy.o \
@@ -64,6 +67,9 @@ OBJECTS       = genemy.o \
 		gprotagonist.o \
 		gtile.o \
 		main.o \
+		node.o \
+		pathfinder.o \
+		point.o \
 		widget.o \
 		qrc_resource.o \
 		moc_widget.o
@@ -248,11 +254,17 @@ DIST          = /opt/Qt/5.15.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../taskb/ghealthpack.h \
 		../taskb/gprotagonist.h \
 		../taskb/gtile.h \
+		../taskb/node.h \
+		../taskb/pathfinder.h \
+		../taskb/point.h \
 		../taskb/widget.h ../taskb/genemy.cpp \
 		../taskb/ghealthpack.cpp \
 		../taskb/gprotagonist.cpp \
 		../taskb/gtile.cpp \
 		../taskb/main.cpp \
+		../taskb/node.cpp \
+		../taskb/pathfinder.cpp \
+		../taskb/point.cpp \
 		../taskb/widget.cpp
 QMAKE_TARGET  = taskb
 DESTDIR       = 
@@ -640,8 +652,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../taskb/resource.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt/5.15.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../taskb/genemy.h ../taskb/ghealthpack.h ../taskb/gprotagonist.h ../taskb/gtile.h ../taskb/widget.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../taskb/genemy.cpp ../taskb/ghealthpack.cpp ../taskb/gprotagonist.cpp ../taskb/gtile.cpp ../taskb/main.cpp ../taskb/widget.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../taskb/genemy.h ../taskb/ghealthpack.h ../taskb/gprotagonist.h ../taskb/gtile.h ../taskb/node.h ../taskb/pathfinder.h ../taskb/point.h ../taskb/widget.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../taskb/genemy.cpp ../taskb/ghealthpack.cpp ../taskb/gprotagonist.cpp ../taskb/gtile.cpp ../taskb/main.cpp ../taskb/node.cpp ../taskb/pathfinder.cpp ../taskb/point.cpp ../taskb/widget.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../taskb/widget.ui $(DISTDIR)/
 
 
@@ -802,7 +814,7 @@ moc_widget.cpp: ../taskb/widget.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsScene \
 		moc_predefs.h \
 		/opt/Qt/5.15.1/gcc_64/bin/moc
-	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/yuqi/Desktop/TASKB/build-taskb-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/yuqi/Desktop/TASKB/taskb -I/home/yuqi/Desktop/TASKB/world_v4 -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../taskb/widget.h -o moc_widget.cpp
+	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/mdfinal/mp20-team-a6-fa/TASKB/build-taskb-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/mdfinal/mp20-team-a6-fa/TASKB/taskb -I/home/rickycaron/Desktop/mdfinal/mp20-team-a6-fa/TASKB/world_v4 -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../taskb/widget.h -o moc_widget.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1388,6 +1400,174 @@ main.o: ../taskb/main.cpp ../taskb/widget.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qinputmethod.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../taskb/main.cpp
 
+node.o: ../taskb/node.cpp ../taskb/node.h \
+		../world_v4/world.h \
+		../world_v4/world_global.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/QObject \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringliteral.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringview.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/QImage \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtgui-config.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qrgba64.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qline.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o node.o ../taskb/node.cpp
+
+pathfinder.o: ../taskb/pathfinder.cpp ../taskb/pathfinder.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/QSet \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qset.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringliteral.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringview.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/QStack \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstack.h \
+		../taskb/node.h \
+		../world_v4/world.h \
+		../world_v4/world_global.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/QObject \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/QImage \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtgui-config.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qrgba64.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qline.h \
+		../taskb/point.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pathfinder.o ../taskb/pathfinder.cpp
+
+point.o: ../taskb/point.cpp ../taskb/point.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o point.o ../taskb/point.cpp
+
 widget.o: ../taskb/widget.cpp ../taskb/widget.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qwidget.h \
@@ -1527,7 +1707,10 @@ widget.o: ../taskb/widget.cpp ../taskb/widget.h \
 		../world_v4/world_global.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QObject \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/QImage \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/QDebug
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/QDebug \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QCompleter \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qcompleter.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractitemmodel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o widget.o ../taskb/widget.cpp
 
 qrc_resource.o: qrc_resource.cpp 

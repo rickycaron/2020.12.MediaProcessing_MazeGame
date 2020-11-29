@@ -1,16 +1,21 @@
 #ifndef PATHFINDER_H
 #define PATHFINDER_H
+#include <iostream>
 #include <memory>
 #include <list>
 #include <vector>
 #include <QSet>
 #include <QStack>
+#include <cmath>
+#include <cfloat>
 #include "node.h"
 #include "point.h"
-class pathfinder
+class Pathfinder
 {
 public:
-    pathfinder(int row,int column);
+    Pathfinder(int row,int column, std::vector<std::unique_ptr<Tile>> &tiles);
+    std::vector<std::unique_ptr<Tile>> tiles;//this should be initialized when the pathfinder is created
+
 
     std::list<std::shared_ptr<Node>> openlist;
     std::list<std::shared_ptr<Node>> closedlist;
@@ -22,7 +27,7 @@ public:
     Point startPoint;
     Point goalPoint;
     Point nearbyPoint;
-    std::vector<std::unique_ptr<Tile>> tiles;//this should be initialized when the pathfinder is created
+
 
     bool calcPath_BreadthFirst();
 private:

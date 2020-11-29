@@ -1,9 +1,12 @@
 #include "pathfinder.h"
 
-pathfinder::pathfinder(int row, int column)
+Pathfinder::Pathfinder(int row, int column,std::vector<std::unique_ptr<Tile>> &newtiles)
 {
     this->row=row;
     this->column=column;
+    //tiles=newtiles;
+    //std::vector<std::unique_ptr<Tile>> tiles=newtiles;
+    newtiles[10];
     Point startponit=Point();
     Point endponit=Point();
     currentNode=std::make_shared<Node>();
@@ -11,7 +14,7 @@ pathfinder::pathfinder(int row, int column)
     rootNode=currentNode;
 }
 
-void pathfinder::initializePathfinder(int startx, int starty, int endx, int endy)
+void Pathfinder::initializePathfinder(int startx, int starty, int endx, int endy)
 {
     clearAllContainer();
     startPoint.setPoint(startx,starty);
@@ -22,7 +25,7 @@ void pathfinder::initializePathfinder(int startx, int starty, int endx, int endy
     moveCost=0;
 }
 
-void pathfinder::clearAllContainer()
+void Pathfinder::clearAllContainer()
 {
     createdNoteIndex.clear();
     openlist.clear();
@@ -33,7 +36,7 @@ void pathfinder::clearAllContainer()
     rootNode=nullptr;
 }
 
-bool pathfinder::reachingGoal()
+bool Pathfinder::reachingGoal()
 {
     if(currentNode==nullptr)
     {
@@ -49,7 +52,7 @@ bool pathfinder::reachingGoal()
     }
 }
 
-bool pathfinder::breadthfirstalorithum()
+bool Pathfinder::breadthfirstalorithum()
 {
     while (openlist.size()!=0)
     {
@@ -93,7 +96,7 @@ bool pathfinder::breadthfirstalorithum()
     return false;
 }
 
-void pathfinder::breadthfirstAddNode(int index, std::shared_ptr<Node> parent)
+void Pathfinder::breadthfirstAddNode(int index, std::shared_ptr<Node> parent)
 {
     if(!createdNoteIndex.contains(index))
     {
@@ -107,7 +110,7 @@ void pathfinder::breadthfirstAddNode(int index, std::shared_ptr<Node> parent)
     }
 }
 
-bool pathfinder::calcPath_BreadthFirst()
+bool Pathfinder::calcPath_BreadthFirst()
 {
     //stay in while loop, until the goal is found or the openlist is empty
     while (!breadthfirstalorithum() && openlist.size()) {}

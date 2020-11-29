@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -21,12 +22,13 @@ class Ui_Widget
 public:
     QVBoxLayout *verticalLayout_2;
     QVBoxLayout *verticalLayout;
+    QLineEdit *lineEdit;
 
     void setupUi(QWidget *Widget)
     {
         if (Widget->objectName().isEmpty())
             Widget->setObjectName(QString::fromUtf8("Widget"));
-        Widget->resize(800, 800);
+        Widget->resize(598, 521);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -38,6 +40,11 @@ public:
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
 
         verticalLayout_2->addLayout(verticalLayout);
+
+        lineEdit = new QLineEdit(Widget);
+        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
+
+        verticalLayout_2->addWidget(lineEdit);
 
 
         retranslateUi(Widget);
