@@ -1,4 +1,6 @@
 #include "tenemy.h"
+#include <QFont>
+#include <QColor>
 
 TEnemy::TEnemy(int xPos, int yPos) : QGraphicsTextItem()
 {
@@ -9,4 +11,11 @@ TEnemy::TEnemy(int xPos, int yPos) : QGraphicsTextItem()
 QRectF TEnemy::boundingRect() const
 {
     return QRectF(0,0,20,20);
+}
+
+void TEnemy::indicateDead(bool isDead)
+{
+    if(isDead){
+        setDefaultTextColor(QColorConstants::Red);
+    }
 }

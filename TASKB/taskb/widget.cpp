@@ -20,18 +20,10 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
     QGraphicsView *view = new QGraphicsView(this);
-    World *world = new World();
-    world->createWorld("://images/worldmap.png",10,10,0.25);
-
-    std::vector<std::unique_ptr<Tile>> tiles = world->getTiles();
-    std::shared_ptr<Protagonist> protagonist = world->getProtagonist();
-    std::vector<std::unique_ptr<Enemy>> enemies = world->getEnemies();
-    std::vector<std::unique_ptr<Tile>> healthpacks = world->getHealthPacks();
-
-    TextScene *scene = new TextScene(this, tiles,protagonist, enemies, healthpacks);
-    view->setScene(scene);
+    Controller *controller = new Controller();
+    controller->createScene(this);
+    controller->addSceneToView(*view);
     ui->verticalLayout->addWidget(view);
-    connect(protagonist.get(),&Protagonist::posChanged,scene,&TextScene::redrawProtagonist);
 
     //auto completion
     QStringList commandtList;
@@ -39,11 +31,10 @@ Widget::Widget(QWidget *parent)
     QCompleter *completer = new QCompleter(commandtList, this);
     ui->lineEdit->setCompleter(completer);
 
-    Controller *c = new Controller(protagonist);
-    clist["right"]=std::make_unique<MoveRight>(c);
-    clist["left"]=std::make_unique<MoveLeft>(c);
-    clist["up"]=std::make_unique<MoveUp>(c);
-    clist["down"]=std::make_unique<MoveDown>(c);
+    clist["right"]=std::make_unique<MoveRight>(controller);
+    clist["left"]=std::make_unique<MoveLeft>(controller);
+    clist["up"]=std::make_unique<MoveUp>(controller);
+    clist["down"]=std::make_unique<MoveDown>(controller);
 }
 
 Widget::~Widget()

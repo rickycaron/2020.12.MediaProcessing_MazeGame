@@ -9,8 +9,7 @@ class TEnemy : public QGraphicsTextItem
 public:
     TEnemy(int xPos, int yPos);
     QRectF boundingRect() const;
-
-signals:
+    void indicateDead(bool isDead);
 
 };
 

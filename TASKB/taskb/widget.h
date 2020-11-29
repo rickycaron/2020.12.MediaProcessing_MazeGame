@@ -25,7 +25,6 @@ private slots:
     void on_lineEdit_editingFinished();
 private:
     Ui::Widget *ui;
-    //std::vector<std::unique_ptr<Command>> clist;
     std::map<QString,std::shared_ptr<Command>> clist;
 };
 #endif // WIDGET_H

@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    attack.cpp \
     command.cpp \
     commandcontroller.cpp \
     controller.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
+    attack.h \
     command.h \
     commandcontroller.h \
     controller.h \
