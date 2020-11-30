@@ -1,6 +1,6 @@
 #include "moveright.h"
 
-MoveRight::MoveRight(Controller *con):Command(con)
+MoveRight::MoveRight(std::shared_ptr<Controller> con):Command(con)
 {
     setName("move right");
 }

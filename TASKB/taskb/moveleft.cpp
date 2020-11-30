@@ -1,6 +1,6 @@
 #include "moveleft.h"
 
-MoveLeft::MoveLeft(Controller *con):Command(con)
+MoveLeft::MoveLeft(std::shared_ptr<Controller> con):Command(con)
 {
     setName("move left");
 }

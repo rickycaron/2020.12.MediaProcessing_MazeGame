@@ -6,7 +6,7 @@
 class MoveDown : public Command
 {
 public:
-    explicit MoveDown(Controller *con);
+    explicit MoveDown(std::shared_ptr<Controller> con);
     void excute() const override;
 };
 

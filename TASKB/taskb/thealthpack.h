@@ -9,8 +9,12 @@ class THealthpack : public QGraphicsTextItem
 public:
     THealthpack(int xPos, int yPos);
     QRectF boundingRect() const;
-
-signals:
+    bool getIsEmpty() const;
+    void setIsEmpty(bool value);
+public slots:
+    void emptyContent();
+private:
+    bool isEmpty;
 
 };
 

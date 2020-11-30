@@ -18,6 +18,7 @@ SOURCES += \
     moveleft.cpp \
     moveright.cpp \
     moveup.cpp \
+    take.cpp \
     tenemy.cpp \
     textscene.cpp \
     thealthpack.cpp \
@@ -34,6 +35,7 @@ HEADERS += \
     moveleft.h \
     moveright.h \
     moveup.h \
+    take.h \
     tenemy.h \
     textscene.h \
     thealthpack.h \

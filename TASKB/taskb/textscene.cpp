@@ -59,6 +59,23 @@ int TextScene::detectEnemy()
     return index;
 }
 
+int TextScene::detectHealthpack()
+{
+    int index = -1;
+    for (int i=0; i<healthpackQlist.size(); i++) {
+        if(protagonistView->collidesWithItem(healthpackQlist[i],Qt::IntersectsItemShape)&&!healthpackQlist[i]->getIsEmpty()){
+            index = i;
+            break;
+        }
+    }
+    return index;
+}
+
+void TextScene::redrawHealthpack(int index)
+{
+    healthpackQlist[index]->emptyContent();
+}
+
 void TextScene::redrawProtagonist(int xPos, int yPos)
 {
     protagonistView->setPos(20*xPos,20*yPos);

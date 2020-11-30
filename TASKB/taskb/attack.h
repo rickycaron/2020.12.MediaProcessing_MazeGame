@@ -6,7 +6,7 @@
 class Attack : public Command
 {
 public:
-    explicit Attack(Controller *con);
+    explicit Attack(std::shared_ptr<Controller> con);
     void excute() const override;
 };
 

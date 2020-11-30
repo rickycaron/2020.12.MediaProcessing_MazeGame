@@ -27,9 +27,11 @@ Controller::Controller()
 
 void Controller::createScene(QWidget *parent)
 {
+    //scene = std::make_shared<TextScene>(parent, tiles, protagonist, enemies, healthpacks);
     scene = new TextScene(parent, tiles, protagonist, enemies, healthpacks);
 }
 
+//void Controller::addSceneToView(std::shared_ptr<QGraphicsView> view)
 void Controller::addSceneToView(QGraphicsView &view)
 {
     view.setScene(scene);
@@ -41,6 +43,7 @@ void Controller::moveRight()
     qDebug()<<"move right";
     consumeEnergy();
     detectEnemy();
+    detectHealthpack();
 }
 
 void Controller::moveLeft()
@@ -49,6 +52,7 @@ void Controller::moveLeft()
     qDebug()<<"move left";
     consumeEnergy();
     detectEnemy();
+    detectHealthpack();
 }
 
 void Controller::moveUp()
@@ -57,6 +61,7 @@ void Controller::moveUp()
     qDebug()<<"move up";
     consumeEnergy();
     detectEnemy();
+    detectHealthpack();
 }
 
 void Controller::moveDown()
@@ -65,6 +70,7 @@ void Controller::moveDown()
     qDebug()<<"move down";
     consumeEnergy();
     detectEnemy();
+    detectHealthpack();
 }
 
 void Controller::consumeEnergy()
@@ -80,9 +86,27 @@ void Controller::attack()
     if(index==-1){
         qDebug()<<"No enemy.";
     }else{
-        enemies[index]->setDefeated(true);
-        protagonist->setHealth(protagonist->getHealth()-enemies[index]->getValue());
-        qDebug()<<"Attack an enemy, enemy strength: "<<enemies[index]->getValue()<<"health: "<<protagonist->getHealth();
+        if(enemies[index]->getDefeated()){
+            qDebug()<<"The enemy is already dead";
+        }else{
+            enemies[index]->setDefeated(true);
+            protagonist->setHealth(protagonist->getHealth()-enemies[index]->getValue());
+            protagonist->setEnergy(0);
+            qDebug()<<"Attack an enemy, enemy strength:"<<enemies[index]->getValue()<<", health:"<<protagonist->getHealth();
+        }
+    }
+}
+
+void Controller::take()
+{
+    int index = scene->detectHealthpack();
+    if(index==-1){
+        qDebug()<<"No healthpack.";
+    }else{
+        protagonist->setHealth(protagonist->getHealth()+healthpacks[index]->getValue());
+        qDebug()<<"Take a healthpack, content:"<<healthpacks[index]->getValue()<<", health:"<<protagonist->getHealth();
+        healthpacks[index]->setValue(0);
+        scene->redrawHealthpack(index);
     }
 }
 
@@ -90,5 +114,12 @@ void Controller::detectEnemy()
 {
     if(scene->detectEnemy()!=-1){
         qDebug()<<"There is an enemy.";
+    }
+}
+
+void Controller::detectHealthpack()
+{
+    if(scene->detectHealthpack()!=-1){
+        qDebug()<<"There is a healthpack.";
     }
 }

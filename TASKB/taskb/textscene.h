@@ -18,8 +18,9 @@ public:
     void printProtagonist(const std::shared_ptr<Protagonist> &protagonist);
     void printEnemies(const std::vector<std::shared_ptr<Enemy>> &enemies);
     void printHealthpacks(const std::vector<std::shared_ptr<Tile>> &healthpacks);
-    //int getTileIndex();
     int detectEnemy();
+    int detectHealthpack();
+    void redrawHealthpack(int index);
 public slots:
     void redrawProtagonist(int xPos, int yPos);
 private:

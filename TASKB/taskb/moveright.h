@@ -6,7 +6,7 @@
 class MoveRight : public Command
 {
 public:
-    explicit MoveRight(Controller *con);
+    explicit MoveRight(std::shared_ptr<Controller> con);
     void excute() const override;
 };
 

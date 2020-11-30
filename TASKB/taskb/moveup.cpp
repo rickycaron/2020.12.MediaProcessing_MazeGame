@@ -1,6 +1,6 @@
 #include "moveup.h"
 
-MoveUp::MoveUp(Controller *con):Command(con)
+MoveUp::MoveUp(std::shared_ptr<Controller> con):Command(con)
 {
     setName("move up");
 }

@@ -1,12 +1,14 @@
 #include "command.h"
 
-Command::Command(Controller *con)
+//Command::Command(Controller *con)
+Command::Command(std::shared_ptr<Controller> con)
 {
     controller = con;
     name="default command";
 }
 
-Controller *Command::getController() const
+//Controller *Command::getController() const
+std::shared_ptr<Controller> Command::getController() const
 {
     return controller;
 }

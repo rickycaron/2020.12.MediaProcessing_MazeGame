@@ -9,6 +9,7 @@ class Controller
 public:
     Controller();
     void createScene(QWidget *parent);
+    //void addSceneToView(std::shared_ptr<QGraphicsView> view);
     void addSceneToView(QGraphicsView &view);
     void moveRight();
     void moveLeft();
@@ -16,9 +17,12 @@ public:
     void moveDown();
     void consumeEnergy();
     void attack();
+    void take();
     void detectEnemy();
+    void detectHealthpack();
 private:
     TextScene *scene;
+    //std::shared_ptr<TextScene> scene;
     std::unique_ptr<World> world;
     std::shared_ptr<Protagonist> protagonist;
     std::vector<std::shared_ptr<Tile>> tiles;
