@@ -9,6 +9,9 @@ Controller::Controller()
 
     protagonist = world->getProtagonist();
 
+    row=world->getRows();
+    col=world->getCols();
+
     std::vector<std::unique_ptr<Tile>> tempTiles = world->getTiles();
     for(unsigned int i=0; i<tempTiles.size(); i++){
         tiles.emplace_back(std::move(tempTiles[i]));
@@ -91,4 +94,29 @@ void Controller::detectEnemy()
     if(scene->detectEnemy()!=-1){
         qDebug()<<"There is an enemy.";
     }
+}
+
+std::vector<std::shared_ptr<Tile> > Controller::getTiles() const
+{
+    return tiles;
+}
+
+int Controller::getRow() const
+{
+    return row;
+}
+
+int Controller::getCol() const
+{
+    return col;
+}
+
+std::shared_ptr<Protagonist> Controller::getProtagonist() const
+{
+    return protagonist;
+}
+
+std::vector<std::shared_ptr<Tile> > Controller::getHealthpacks() const
+{
+    return healthpacks;
 }
