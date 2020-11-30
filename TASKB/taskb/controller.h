@@ -15,9 +15,10 @@ public:
     void moveLeft();
     void moveUp();
     void moveDown();
-    void consumeEnergy();
     void attack();
     void take();
+    void gotoXY(int x, int y);
+    void consumeEnergy();
     void detectEnemy();
     void detectHealthpack();
 

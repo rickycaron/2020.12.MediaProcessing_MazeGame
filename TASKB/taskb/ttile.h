@@ -11,8 +11,11 @@ public:
     TTile(int xPos, int yPos);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    bool getPassable() const;
+    void setPassable(bool value);
 
-signals:
+private:
+    bool passable;
 
 };
 

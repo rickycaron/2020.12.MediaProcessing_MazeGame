@@ -5,7 +5,7 @@ Controller::Controller()
 {
     //world = new World();
     world = std::make_unique<World>();
-    world->createWorld("://images/worldmap.png",10,10,0.25);
+    world->createWorld(":/images/worldmap4.png",10,10,0.25);
 
     protagonist = world->getProtagonist();
     maxEH = protagonist->getEnergy();
@@ -113,6 +113,11 @@ void Controller::take()
         healthpacks[index]->setValue(0);
         scene->redrawHealthpack(index);
     }
+}
+
+void Controller::gotoXY(int x, int y)
+{
+    protagonist->setPos(x,y);
 }
 
 void Controller::detectEnemy()

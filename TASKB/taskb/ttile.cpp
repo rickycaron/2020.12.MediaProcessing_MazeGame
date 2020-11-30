@@ -22,3 +22,13 @@ void TTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     delete mPen;
     QGraphicsTextItem::paint(painter,option,widget);
 }
+
+bool TTile::getPassable() const
+{
+    return passable;
+}
+
+void TTile::setPassable(bool value)
+{
+    passable = value;
+}

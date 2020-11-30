@@ -13,6 +13,7 @@ SOURCES += \
     command.cpp \
     commandcontroller.cpp \
     controller.cpp \
+    gotoxy.cpp \
     main.cpp \
     movedown.cpp \
     moveleft.cpp \
@@ -34,6 +35,7 @@ HEADERS += \
     command.h \
     commandcontroller.h \
     controller.h \
+    gotoxy.h \
     movedown.h \
     moveleft.h \
     moveright.h \

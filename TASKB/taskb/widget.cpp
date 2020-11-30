@@ -44,6 +44,8 @@ Widget::Widget(QWidget *parent)
     commandList["down"]=std::make_unique<MoveDown>(controller);
     commandList["attack"]=std::make_unique<Attack>(controller);
     commandList["take"]=std::make_unique<Take>(controller);
+
+    ui->lineEdit->setInputMask("go to 0,0");
 }
 
 Widget::~Widget()
@@ -54,21 +56,24 @@ Widget::~Widget()
 void Widget::on_lineEdit_editingFinished()
 {
     QString text = ui->lineEdit->text();
-    if(text.compare("help")==0){
-        QString hintText = "Hint: ";
-        for (int i=0; i<editList.size()-1; i++) {
-            hintText.append(editList[i]);
-            hintText.append(", ");
-        }
-        hintText.append(editList[editList.size()-1]);
-        hint->setText(hintText);
-    }else{
-        if(commandList.count(text)==1){
-            hint->setText(" ");
-            commandList[text]->excute();
-        }else{
-            hint->setText("Can't find this command.");
-        }
-    }
+
+
+
+//    if(text.compare("help")==0){
+//        QString hintText = "Hint: ";
+//        for (int i=0; i<editList.size()-1; i++) {
+//            hintText.append(editList[i]);
+//            hintText.append(", ");
+//        }
+//        hintText.append(editList[editList.size()-1]);
+//        hint->setText(hintText);
+//    }else{
+//        if(commandList.count(text)==1){
+//            hint->setText(" ");
+//            commandList[text]->excute();
+//        }else{
+//            hint->setText("Can't find this command.");
+//        }
+//    }
 }
 
