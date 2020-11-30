@@ -10,6 +10,7 @@ Node::Node(std::shared_ptr<Tile> tile, std::shared_ptr<Node> pre)
 {
     this->tile = tile;
     this->pre = pre;
+    //calculateDistance();
 }
 
 std::shared_ptr<Node> Node::getPre() const
@@ -40,4 +41,15 @@ double Node::getDistance() const
 void Node::setDistance(double value)
 {
     distance = value;
+}
+
+void Node::calculateDistance()
+{
+    if(pre!=nullptr && tile!= nullptr)
+    {
+        double xDistance = tile->getXPos() - pre->getTile()->getXPos();
+        double yDistance = tile->getYPos() - pre->getTile()->getYPos();
+        distance=sqrt( pow( xDistance ,2) + pow( yDistance ,2) );
+        setDistance(distance);
+    }
 }

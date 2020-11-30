@@ -18,6 +18,7 @@ public:
 
     double getDistance() const;
     void setDistance(double value);
+    void calculateDistance();
 
 private:
     std::shared_ptr<Tile> tile;

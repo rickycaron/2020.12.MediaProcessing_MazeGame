@@ -31,6 +31,8 @@ public:
     void initialze(const std::shared_ptr<Tile> &p,const std::shared_ptr<Tile> goal);
 
     bool calcPath_BreadthFirst();
+    bool calcPath_BestFirst();
+
 private:
     int row=0;
     int column=0;
@@ -39,12 +41,20 @@ private:
     void initializePathfinder(int startx, int starty, int endx, int endy);
     void clearAllContainer();
     bool reachingGoal();
+    double calEuclideanDistance(double x1, double y1, double x2, double y2);
+    //static bool distanncecomp(std::shared_ptr<Node> node1, std::shared_ptr<Node> node2);
+    static bool distanncecomp(std::shared_ptr<Node> node1, std::shared_ptr<Node> node2)
+    {
+        return node1->getDistance() < node2->getDistance();
+    }
+
+    std::shared_ptr<Node> findMinDistanceNode();
 
     bool breadthfirstalorithum();
     void breadthfirstAddNode(int index,std::shared_ptr<Node>parent);
 
-    bool breadthfirstalorithum();
-    void breadthfirstAddNode(int index,std::shared_ptr<Node>parent);
+    bool bestfirstalorithum();
+    void bestfirstAddNode(int index,std::shared_ptr<Node>parent);
     
 };
 
