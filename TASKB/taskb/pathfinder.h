@@ -42,6 +42,10 @@ private:
 
     bool breadthfirstalorithum();
     void breadthfirstAddNode(int index,std::shared_ptr<Node>parent);
+
+    bool breadthfirstalorithum();
+    void breadthfirstAddNode(int index,std::shared_ptr<Node>parent);
+    
 };
 
 #endif // PATHFINDER_H
