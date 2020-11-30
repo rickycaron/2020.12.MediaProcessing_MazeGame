@@ -25,12 +25,19 @@ int main(int argc, char *argv[])
     std::cout<<"openlist size:"<<pathfinder->openlist.size()<<std::endl;
     std::cout<<"solution size:"<<pathfinder->solution.size()<<std::endl;
 
-    if(pathfinder->calcPath_BreadthFirst())
+//    if(pathfinder->calcPath_BreadthFirst())
+//    {
+//        std::cout<<"Path is found ahaha"<<std::endl;
+//        pathfinder->showsolutionpath();
+//    }else{
+//        std::cout<<"Path is not found..."<<std::endl;
+//    }
+    if(pathfinder->calcPath_BestFirst())
     {
-        std::cout<<"Path is found ahaha"<<std::endl;
+        std::cout<<"Path best first is found ahaha"<<std::endl;
         pathfinder->showsolutionpath();
     }else{
-        std::cout<<"Path is not found..."<<std::endl;
+        std::cout<<"Path best first is not found..."<<std::endl;
     }
 
     std::cout<<"closedlist size:"<<pathfinder->closedlist.size()<<std::endl;

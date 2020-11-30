@@ -194,19 +194,19 @@ bool Pathfinder::bestfirstalorithum()
             //right
             if(tile->getXPos()<column-1){
                 int index = (column)*(tile->getYPos()) + tile->getXPos() + 1;
-                breadthfirstAddNode(index, parent);
+                bestfirstAddNode(index, parent);
             }//left
             if(tile->getXPos()>0){
                 auto index = (column)*(tile->getYPos()) + tile->getXPos() - 1;
-                breadthfirstAddNode(index, parent);
+                bestfirstAddNode(index, parent);
             }//down
             if(tile->getYPos()<row-1){
                 int index = (tile->getYPos() +1)*(column) + tile->getXPos();
-                breadthfirstAddNode(index, parent);
+                bestfirstAddNode(index, parent);
             }//up
             if(tile->getYPos()>0){
                 int index = (tile->getYPos() -1)*(column) + tile->getXPos();
-                breadthfirstAddNode(index, parent);
+                bestfirstAddNode(index, parent);
             }
 
             //4.push successorNode in to closed
@@ -237,12 +237,12 @@ void Pathfinder::bestfirstAddNode(int index, std::shared_ptr<Node> parent)
 bool Pathfinder::calcPath_BestFirst()
 {
     //stay in while loop, until the goal is found or the openlist is empty
-    while (!breadthfirstalorithum() && openlist.size()) {}
+    while (!bestfirstalorithum() && openlist.size()) {}
 
     //when there are still nodes left in the op
     if(openlist.size())
     {
-        qDebug("Path is found!!!");
+        qDebug("Path best first is found!!!");
         while (currentNode->getPre()!=nullptr)
         {
             moveCost += 1+currentNode->getTile()->getValue();
@@ -254,7 +254,7 @@ bool Pathfinder::calcPath_BestFirst()
         //now the currentNode is the startPoint node, we are on this node now
     }else
     {
-        qDebug("BreathFirst: Path is not found in the end!!!!");
+        qDebug("BestFirst: Path is not found in the end!!!!");
         return false;
     }
     return true;
