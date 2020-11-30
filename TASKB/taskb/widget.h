@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QLabel>
 #include "world.h"
 
 QT_BEGIN_NAMESPACE
@@ -25,6 +26,8 @@ private slots:
     void on_lineEdit_editingFinished();
 private:
     Ui::Widget *ui;
+    QLabel *hint;
+    QStringList editList;
     std::map<QString,std::shared_ptr<Command>> commandList;
 };
 #endif // WIDGET_H

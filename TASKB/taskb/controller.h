@@ -19,9 +19,7 @@ public:
     void attack();
     void take();
     void detectEnemy();
-<<<<<<< HEAD
     void detectHealthpack();
-=======
 
     std::vector<std::shared_ptr<Tile> > getTiles() const;
     int getRow() const;
@@ -29,7 +27,6 @@ public:
     std::shared_ptr<Protagonist> getProtagonist() const;
     std::vector<std::shared_ptr<Tile> > getHealthpacks() const;
 
->>>>>>> c793e2a1da0b28bb50dd3bad3880aa293f89d105
 private:
     TextScene *scene;
     //std::shared_ptr<TextScene> scene;
@@ -37,6 +34,7 @@ private:
     int row = 0;
     int col = 0;
     std::shared_ptr<Protagonist> protagonist;
+    float maxEH;
     std::vector<std::shared_ptr<Tile>> tiles;
     std::vector<std::shared_ptr<Enemy>> enemies;
     std::vector<std::shared_ptr<Tile>> healthpacks;

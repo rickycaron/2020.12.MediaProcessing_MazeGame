@@ -22,16 +22,19 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
     QGraphicsView *view = new QGraphicsView(this);
-    //std::shared_ptr<QGraphicsView> view = std::make_unique<QGraphicsView>(this);
-    //Controller *controller = new Controller();
+    hint = new QLabel(this);
+    hint->setText(" ");
+//    std::shared_ptr<QGraphicsView> view = std::make_unique<QGraphicsView>(this);
+//    Controller *controller = new Controller();
+
     std::shared_ptr<Controller> controller = std::make_shared<Controller>();
     controller->createScene(this);
     controller->addSceneToView(*view);
     ui->verticalLayout->addWidget(view);
+    ui->verticalLayout->addWidget(hint);
 
     //auto completion
-    QStringList editList;
-    editList<<"right"<<"left"<<"up"<<"down"<<"goto"<<"attack"<<"take"<<"help";
+    editList<<"right"<<"left"<<"up"<<"down"<<"goto x y"<<"attack"<<"take"<<"help";
     QCompleter *completer = new QCompleter(editList, this);
     ui->lineEdit->setCompleter(completer);
 
@@ -51,10 +54,21 @@ Widget::~Widget()
 void Widget::on_lineEdit_editingFinished()
 {
     QString text = ui->lineEdit->text();
-    if(commandList.count(text)==1){
-        commandList[text]->excute();
+    if(text.compare("help")==0){
+        QString hintText = "Hint: ";
+        for (int i=0; i<editList.size()-1; i++) {
+            hintText.append(editList[i]);
+            hintText.append(", ");
+        }
+        hintText.append(editList[editList.size()-1]);
+        hint->setText(hintText);
     }else{
-        qDebug()<<"Can't find command";
+        if(commandList.count(text)==1){
+            hint->setText(" ");
+            commandList[text]->excute();
+        }else{
+            hint->setText("Can't find this command.");
+        }
     }
 }
 

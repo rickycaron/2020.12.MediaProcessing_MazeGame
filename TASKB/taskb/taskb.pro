@@ -18,13 +18,10 @@ SOURCES += \
     moveleft.cpp \
     moveright.cpp \
     moveup.cpp \
-<<<<<<< HEAD
-    take.cpp \
-=======
     node.cpp \
     pathfinder.cpp \
     point.cpp \
->>>>>>> c793e2a1da0b28bb50dd3bad3880aa293f89d105
+    take.cpp \
     tenemy.cpp \
     textscene.cpp \
     thealthpack.cpp \
@@ -41,19 +38,17 @@ HEADERS += \
     moveleft.h \
     moveright.h \
     moveup.h \
-<<<<<<< HEAD
-    take.h \
-=======
     node.h \
     pathfinder.h \
     point.h \
->>>>>>> c793e2a1da0b28bb50dd3bad3880aa293f89d105
+    take.h \
     tenemy.h \
     textscene.h \
     thealthpack.h \
     tprotagonist.h \
     ttile.h \
     widget.h
+
 
 FORMS += \
     widget.ui
@@ -70,3 +65,6 @@ unix:!macx: LIBS += -L$$PWD/../world_v4/ -lworld
 
 INCLUDEPATH += $$PWD/../world_v4
 DEPENDPATH += $$PWD/../world_v4
+
+DISTFILES += \
+    taskb.pro.user

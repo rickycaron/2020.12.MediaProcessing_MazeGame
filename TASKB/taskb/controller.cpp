@@ -8,6 +8,7 @@ Controller::Controller()
     world->createWorld("://images/worldmap.png",10,10,0.25);
 
     protagonist = world->getProtagonist();
+    maxEH = protagonist->getEnergy();
 
     row=world->getRows();
     col=world->getCols();
@@ -94,8 +95,9 @@ void Controller::attack()
         }else{
             enemies[index]->setDefeated(true);
             protagonist->setHealth(protagonist->getHealth()-enemies[index]->getValue());
-            protagonist->setEnergy(0);
-            qDebug()<<"Attack an enemy, enemy strength:"<<enemies[index]->getValue()<<", health:"<<protagonist->getHealth();
+            protagonist->setEnergy(maxEH);
+            qDebug()<<"Attack an enemy, enemy strength:"<<enemies[index]->getValue();
+            qDebug()<<"Energy:"<<protagonist->getEnergy()<<", health:"<<protagonist->getHealth();
         }
     }
 }
@@ -120,13 +122,14 @@ void Controller::detectEnemy()
     }
 }
 
-<<<<<<< HEAD
 void Controller::detectHealthpack()
 {
     if(scene->detectHealthpack()!=-1){
         qDebug()<<"There is a healthpack.";
     }
-=======
+}
+
+
 std::vector<std::shared_ptr<Tile> > Controller::getTiles() const
 {
     return tiles;
@@ -150,5 +153,4 @@ std::shared_ptr<Protagonist> Controller::getProtagonist() const
 std::vector<std::shared_ptr<Tile> > Controller::getHealthpacks() const
 {
     return healthpacks;
->>>>>>> c793e2a1da0b28bb50dd3bad3880aa293f89d105
 }

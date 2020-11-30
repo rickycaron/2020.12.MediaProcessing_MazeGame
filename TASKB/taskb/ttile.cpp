@@ -19,5 +19,6 @@ void TTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     mPen->setStyle(Qt::DashLine);
     painter->setPen(*mPen);
     painter->drawRect(boundingRect());
+    delete mPen;
     QGraphicsTextItem::paint(painter,option,widget);
 }
