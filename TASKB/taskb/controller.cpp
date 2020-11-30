@@ -9,6 +9,9 @@ Controller::Controller()
 
     protagonist = world->getProtagonist();
 
+    row=world->getRows();
+    col=world->getCols();
+
     std::vector<std::unique_ptr<Tile>> tempTiles = world->getTiles();
     for(unsigned int i=0; i<tempTiles.size(); i++){
         tiles.emplace_back(std::move(tempTiles[i]));
@@ -117,9 +120,35 @@ void Controller::detectEnemy()
     }
 }
 
+<<<<<<< HEAD
 void Controller::detectHealthpack()
 {
     if(scene->detectHealthpack()!=-1){
         qDebug()<<"There is a healthpack.";
     }
+=======
+std::vector<std::shared_ptr<Tile> > Controller::getTiles() const
+{
+    return tiles;
+}
+
+int Controller::getRow() const
+{
+    return row;
+}
+
+int Controller::getCol() const
+{
+    return col;
+}
+
+std::shared_ptr<Protagonist> Controller::getProtagonist() const
+{
+    return protagonist;
+}
+
+std::vector<std::shared_ptr<Tile> > Controller::getHealthpacks() const
+{
+    return healthpacks;
+>>>>>>> c793e2a1da0b28bb50dd3bad3880aa293f89d105
 }
