@@ -7,5 +7,5 @@ Attack::Attack(Controller *con):Command(con)
 
 void Attack::excute() const
 {
-
+    getController()->attack();
 }

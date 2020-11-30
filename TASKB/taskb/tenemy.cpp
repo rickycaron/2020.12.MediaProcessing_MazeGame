@@ -13,9 +13,7 @@ QRectF TEnemy::boundingRect() const
     return QRectF(0,0,20,20);
 }
 
-void TEnemy::indicateDead(bool isDead)
+void TEnemy::indicateDead()
 {
-    if(isDead){
-        setDefaultTextColor(QColorConstants::Red);
-    }
+    setDefaultTextColor(QColorConstants::Red);
 }

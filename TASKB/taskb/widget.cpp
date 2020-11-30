@@ -7,12 +7,12 @@
 #include <QDebug>
 #include <QCompleter>
 #include "textscene.h"
-
+#include "controller.h"
 #include "moveright.h"
 #include "moveleft.h"
 #include "moveup.h"
 #include "movedown.h"
-#include "controller.h"
+#include "attack.h"
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -27,7 +27,7 @@ Widget::Widget(QWidget *parent)
 
     //auto completion
     QStringList commandtList;
-    commandtList<<"up"<<"right"<<"down"<<"left"<<"goto"<<"attack"<<"take"<<"help";
+    commandtList<<"right"<<"left"<<"up"<<"down"<<"goto"<<"attack"<<"take"<<"help";
     QCompleter *completer = new QCompleter(commandtList, this);
     ui->lineEdit->setCompleter(completer);
 
@@ -35,6 +35,7 @@ Widget::Widget(QWidget *parent)
     clist["left"]=std::make_unique<MoveLeft>(controller);
     clist["up"]=std::make_unique<MoveUp>(controller);
     clist["down"]=std::make_unique<MoveDown>(controller);
+    clist["attack"]=std::make_unique<Attack>(controller);
 }
 
 Widget::~Widget()

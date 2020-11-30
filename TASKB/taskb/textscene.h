@@ -22,7 +22,6 @@ public:
     int detectEnemy();
 public slots:
     void redrawProtagonist(int xPos, int yPos);
-    void redrawEnemy(const std::vector<std::shared_ptr<Enemy> > &enemies);
 private:
     QList<TTile *> tileQlist;
     TProtagonist *protagonistView;

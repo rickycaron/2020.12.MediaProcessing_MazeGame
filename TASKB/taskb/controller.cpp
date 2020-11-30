@@ -19,7 +19,7 @@ Controller::Controller()
         enemies.emplace_back(std::move(tempEnemies[i]));
     }
 
-        std::vector<std::unique_ptr<Tile>> tempHealthpacks = world->getHealthPacks();
+    std::vector<std::unique_ptr<Tile>> tempHealthpacks = world->getHealthPacks();
     for(unsigned int i=0; i<tempHealthpacks.size(); i++){
         healthpacks.emplace_back(std::move(tempHealthpacks[i]));
     }
@@ -28,7 +28,6 @@ Controller::Controller()
 void Controller::createScene(QWidget *parent)
 {
     scene = new TextScene(parent, tiles, protagonist, enemies, healthpacks);
-    //parent->connect()
 }
 
 void Controller::addSceneToView(QGraphicsView &view)
@@ -82,6 +81,8 @@ void Controller::attack()
         qDebug()<<"No enemy.";
     }else{
         enemies[index]->setDefeated(true);
+        protagonist->setHealth(protagonist->getHealth()-enemies[index]->getValue());
+        qDebug()<<"Attack an enemy, enemy strength: "<<enemies[index]->getValue()<<"health: "<<protagonist->getHealth();
     }
 }
 

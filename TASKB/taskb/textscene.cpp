@@ -9,6 +9,9 @@ TextScene::TextScene(QObject *parent, const std::vector<std::shared_ptr<Tile>> &
     printEnemies(enemies);
     printHealthpacks(healthpacks);
     parent->connect(protagonist.get(),&Protagonist::posChanged,this,&TextScene::redrawProtagonist);
+    for (unsigned int i=0; i<enemies.size(); i++) {
+        parent->connect(enemies[i].get(),&Enemy::dead,enemyQlist[i],&TEnemy::indicateDead);
+    }
 }
 
 void TextScene::printTiles(const std::vector<std::shared_ptr<Tile>> &tiles)
@@ -59,11 +62,4 @@ int TextScene::detectEnemy()
 void TextScene::redrawProtagonist(int xPos, int yPos)
 {
     protagonistView->setPos(20*xPos,20*yPos);
-}
-
-void TextScene::redrawEnemy(const std::vector<std::shared_ptr<Enemy> > &enemies)
-{
-    for (int i=0; i<enemyQlist.size(); i++) {
-        enemyQlist[i]->indicateDead(enemies[i]->getDefeated());
-    }
 }
