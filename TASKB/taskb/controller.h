@@ -21,21 +21,22 @@ public:
     void consumeEnergy();
     void detectEnemy();
     void detectHealthpack();
+    bool checkXBoundary(int xPos);
+    bool checkYBoundary(int yPos);
 
-    std::vector<std::shared_ptr<Tile> > getTiles() const;
     int getRow() const;
     int getCol() const;
     std::shared_ptr<Protagonist> getProtagonist() const;
+    std::vector<std::shared_ptr<Tile> > getTiles() const;
     std::vector<std::shared_ptr<Tile> > getHealthpacks() const;
 
 private:
     TextScene *scene;
-    //std::shared_ptr<TextScene> scene;
-    std::unique_ptr<World> world;
+    float maxEH;
     int row = 0;
     int col = 0;
+    std::unique_ptr<World> world;
     std::shared_ptr<Protagonist> protagonist;
-    float maxEH;
     std::vector<std::shared_ptr<Tile>> tiles;
     std::vector<std::shared_ptr<Enemy>> enemies;
     std::vector<std::shared_ptr<Tile>> healthpacks;

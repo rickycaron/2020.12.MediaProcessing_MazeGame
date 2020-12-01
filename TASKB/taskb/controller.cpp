@@ -3,9 +3,11 @@
 
 Controller::Controller()
 {
-    //world = new World();
     world = std::make_unique<World>();
     world->createWorld(":/images/worldmap.png",10,10,0.25);
+
+    row = world->getRows();
+    col = world->getCols();
 
     protagonist = world->getProtagonist();
     maxEH = protagonist->getEnergy();
@@ -28,11 +30,9 @@ Controller::Controller()
 
 void Controller::createScene(QWidget *parent)
 {
-    //scene = std::make_shared<TextScene>(parent, tiles, protagonist, enemies, healthpacks);
     scene = new TextScene(parent, tiles, protagonist, enemies, healthpacks);
 }
 
-//void Controller::addSceneToView(std::shared_ptr<QGraphicsView> view)
 void Controller::addSceneToView(QGraphicsView &view)
 {
     view.setScene(scene);
@@ -40,38 +40,54 @@ void Controller::addSceneToView(QGraphicsView &view)
 
 void Controller::moveRight()
 {
-    protagonist->setXPos(protagonist->getXPos()+1);
-    qDebug()<<"move right";
-    consumeEnergy();
-    detectEnemy();
-    detectHealthpack();
+    if(!checkXBoundary(protagonist->getXPos()+1)){
+        protagonist->setXPos(protagonist->getXPos()+1);
+        qDebug()<<"move right";
+        consumeEnergy();
+        detectEnemy();
+        detectHealthpack();
+    }else{
+        qDebug()<<"at boundary!";
+    }
 }
 
 void Controller::moveLeft()
 {
-    protagonist->setXPos(protagonist->getXPos()-1);
-    qDebug()<<"move left";
-    consumeEnergy();
-    detectEnemy();
-    detectHealthpack();
+    if(!checkXBoundary(protagonist->getXPos()-1)){
+        protagonist->setXPos(protagonist->getXPos()-1);
+        qDebug()<<"move left";
+        consumeEnergy();
+        detectEnemy();
+        detectHealthpack();
+    }else{
+        qDebug()<<"at boundary!";
+    }
 }
 
 void Controller::moveUp()
 {
-    protagonist->setYPos(protagonist->getYPos()-1);
-    qDebug()<<"move up";
-    consumeEnergy();
-    detectEnemy();
-    detectHealthpack();
+    if(!checkYBoundary(protagonist->getYPos()-1)){
+        protagonist->setYPos(protagonist->getYPos()-1);
+        qDebug()<<"move up";
+        consumeEnergy();
+        detectEnemy();
+        detectHealthpack();
+    }else{
+        qDebug()<<"at boundary!";
+    }
 }
 
 void Controller::moveDown()
 {
-    protagonist->setYPos(protagonist->getYPos()+1);
-    qDebug()<<"move down";
-    consumeEnergy();
-    detectEnemy();
-    detectHealthpack();
+    if(!checkYBoundary(protagonist->getYPos()+1)){
+        protagonist->setYPos(protagonist->getYPos()+1);
+        qDebug()<<"move down";
+        consumeEnergy();
+        detectEnemy();
+        detectHealthpack();
+    }else{
+        qDebug()<<"at boundary!";
+    }
 }
 
 void Controller::consumeEnergy()
@@ -114,7 +130,11 @@ void Controller::take()
 
 void Controller::gotoXY(int x, int y)
 {
-    protagonist->setPos(x,y);
+    if(checkXBoundary(x)||checkYBoundary(y)){
+        qDebug()<<"outside the world!";
+    }else{
+        protagonist->setPos(x,y);
+    }
 }
 
 void Controller::detectEnemy()
@@ -131,10 +151,22 @@ void Controller::detectHealthpack()
     }
 }
 
-
-std::vector<std::shared_ptr<Tile> > Controller::getTiles() const
+bool Controller::checkXBoundary(int xPos)
 {
-    return tiles;
+    if(xPos>col-1||xPos<0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool Controller::checkYBoundary(int yPos)
+{
+    if(yPos>row-1||yPos<0){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 int Controller::getRow() const
@@ -150,6 +182,11 @@ int Controller::getCol() const
 std::shared_ptr<Protagonist> Controller::getProtagonist() const
 {
     return protagonist;
+}
+
+std::vector<std::shared_ptr<Tile> > Controller::getTiles() const
+{
+    return tiles;
 }
 
 std::vector<std::shared_ptr<Tile> > Controller::getHealthpacks() const
