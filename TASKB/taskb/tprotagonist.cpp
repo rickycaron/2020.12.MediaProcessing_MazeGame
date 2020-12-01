@@ -15,7 +15,7 @@ QRectF TProtagonist::boundingRect() const
     return QRectF(0,0,20,20);
 }
 
-//void GProtagonist::moveRight()
+//void TProtagonist::moveRight()
 //{
 //    xAnimation->stop();
 //    xAnimation->setStartValue(x());
@@ -25,7 +25,7 @@ QRectF TProtagonist::boundingRect() const
 //    xAnimation->start();
 //}
 
-//void GProtagonist::moveLeft()
+//void TProtagonist::moveLeft()
 //{
 //    xAnimation->stop();
 //    xAnimation->setStartValue(x());
@@ -35,7 +35,7 @@ QRectF TProtagonist::boundingRect() const
 //    xAnimation->start();
 //}
 
-//void GProtagonist::moveUp()
+//void TProtagonist::moveUp()
 //{
 //    xAnimation->stop();
 //    yAnimation->setStartValue(y());
@@ -45,7 +45,7 @@ QRectF TProtagonist::boundingRect() const
 //    yAnimation->start();
 //}
 
-//void GProtagonist::moveDown()
+//void TProtagonist::moveDown()
 //{
 //    xAnimation->stop();
 //    yAnimation->setStartValue(y());
@@ -55,23 +55,23 @@ QRectF TProtagonist::boundingRect() const
 //    yAnimation->start();
 //}
 
-//qreal GProtagonist::x() const
+//qreal TProtagonist::x() const
 //{
 //    return m_x;
 //}
 
-//qreal GProtagonist::y() const
+//qreal TProtagonist::y() const
 //{
 //    return m_y;
 //}
 
-//void GProtagonist::setX(qreal x)
+//void TProtagonist::setX(qreal x)
 //{
 //    m_x = x;
 //    setPos(QPointF(20*x,pos().y()));
 //}
 
-//void GProtagonist::setY(qreal y)
+//void TProtagonist::setY(qreal y)
 //{
 //    m_y = y;
 //    setPos(QPointF(pos().x(),20*y));

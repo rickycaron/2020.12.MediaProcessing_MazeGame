@@ -1,16 +1,37 @@
 #include "textscene.h"
 #include <QDebug>
 
-TextScene::TextScene(QObject *parent, const std::vector<std::shared_ptr<Tile>> &tiles, const std::shared_ptr<Protagonist> &protagonist,
-                     const std::vector<std::shared_ptr<Enemy> > &enemies, const std::vector<std::shared_ptr<Tile> > &healthpacks): QGraphicsScene(parent)
+//TextScene::TextScene(QObject *parent, const std::vector<std::shared_ptr<Tile>> &tiles, const std::shared_ptr<Protagonist> &protagonist,
+//                     const std::vector<std::shared_ptr<Enemy> > &enemies, const std::vector<std::shared_ptr<Tile> > &healthpacks): QGraphicsScene(parent)
+//{
+//    printTiles(tiles);
+//    printProtagonist(protagonist);
+//    printEnemies(enemies);
+//    printHealthpacks(healthpacks);
+//    parent->connect(protagonist.get(),&Protagonist::posChanged,this,&TextScene::redrawProtagonist);
+//    for (unsigned int i=0; i<enemies.size(); i++) {
+//        parent->connect(enemies[i].get(),&Enemy::dead,enemyQlist[i],&TEnemy::indicateDead);
+//    }
+//}
+
+TextScene::TextScene(QObject *parent, const std::vector<std::shared_ptr<Tile> > &tiles, const std::shared_ptr<Protagonist> &protagonist, const std::vector<std::shared_ptr<Enemy> > &normalEnemies, const std::vector<std::shared_ptr<PEnemy> > &pEnemies, const std::vector<std::shared_ptr<Tile> > &healthpacks)
+    :QGraphicsScene(parent)
 {
     printTiles(tiles);
     printProtagonist(protagonist);
-    printEnemies(enemies);
+    printEnemies(normalEnemies,pEnemies);
     printHealthpacks(healthpacks);
-    parent->connect(protagonist.get(),&Protagonist::posChanged,this,&TextScene::redrawProtagonist);
-    for (unsigned int i=0; i<enemies.size(); i++) {
-        parent->connect(enemies[i].get(),&Enemy::dead,enemyQlist[i],&TEnemy::indicateDead);
+    connect(protagonist.get(),&Protagonist::posChanged,this,&TextScene::redrawProtagonist);
+
+    for(int i=0; i<normalEnemyQlist.size(); i++){
+        connect(normalEnemies[i].get(),&Enemy::dead,normalEnemyQlist[i],&TEnemy::indicateDead);
+        connect(protagonist.get(),&Protagonist::posChanged,normalEnemyQlist[i],&TEnemy::checkCollide);
+        connect(normalEnemyQlist[i],&TEnemy::collide,this,&TextScene::collideEnemy);
+    }
+    for (int i=0; i<pEnemyQlist.size(); i++) {
+        connect(pEnemies[i].get(),&Enemy::dead,pEnemyQlist[i],&TEnemy::indicateDead);
+        connect(protagonist.get(),&Protagonist::posChanged,pEnemyQlist[i],&TEnemy::checkCollide);
+        connect(pEnemyQlist[i],&TEnemy::collide,this,&TextScene::collideEnemy);
     }
 }
 
@@ -34,11 +55,16 @@ void TextScene::printProtagonist(const std::shared_ptr<Protagonist> &protagonist
     this->addItem(protagonistView);
 }
 
-void TextScene::printEnemies(const std::vector<std::shared_ptr<Enemy> > &enemies)
+void TextScene::printEnemies(const std::vector<std::shared_ptr<Enemy> > &normalEnemies, const std::vector<std::shared_ptr<PEnemy>> &pEnemies)
 {
-    for(unsigned int i=0;i<enemies.size();i++){
-        TEnemy * enemy = new TEnemy(enemies[i]->getXPos(),enemies[i]->getYPos());
-        enemyQlist.append(enemy);
+    for(unsigned int i=0;i<normalEnemies.size();i++){
+        TEnemy * enemy = new TEnemy(normalEnemies[i]->getXPos(),normalEnemies[i]->getYPos(),i,false);
+        normalEnemyQlist.append(enemy);
+        this->addItem(enemy);
+    }
+    for(unsigned int i=0;i<pEnemies.size();i++){
+        TEnemy * enemy = new TEnemy(pEnemies[i]->getXPos(),pEnemies[i]->getYPos(),i,true);
+        pEnemyQlist.append(enemy);
         this->addItem(enemy);
     }
 }
@@ -50,18 +76,6 @@ void TextScene::printHealthpacks(const std::vector<std::shared_ptr<Tile> > &heal
         healthpackQlist.append(healthpack);
         this->addItem(healthpack);
     }
-}
-
-int TextScene::detectEnemy()
-{
-    int index = -1;
-    for (int i=0; i<enemyQlist.size(); i++) {
-        if(protagonistView->collidesWithItem(enemyQlist[i],Qt::IntersectsItemShape)){
-            index = i;
-            break;
-        }
-    }
-    return index;
 }
 
 int TextScene::detectHealthpack()
@@ -84,4 +98,30 @@ void TextScene::redrawHealthpack(int index)
 void TextScene::redrawProtagonist(int xPos, int yPos)
 {
     protagonistView->setPos(20*xPos,20*yPos);
+}
+
+void TextScene::collideEnemy(int i, bool isP)
+{
+    enemyIndex = i;
+    isPEnemy = isP;
+}
+
+bool TextScene::getIsPEnemy() const
+{
+    return isPEnemy;
+}
+
+void TextScene::setIsPEnemy(bool value)
+{
+    isPEnemy = value;
+}
+
+int TextScene::getEnemyIndex() const
+{
+    return enemyIndex;
+}
+
+void TextScene::setEnemyIndex(int value)
+{
+    enemyIndex = value;
 }

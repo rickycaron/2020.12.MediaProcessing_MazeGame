@@ -29,7 +29,7 @@ Widget::Widget(QWidget *parent)
 //    std::shared_ptr<QGraphicsView> view = std::make_unique<QGraphicsView>(this);
 //    Controller *controller = new Controller();
 
-    std::shared_ptr<Controller> controller = std::make_shared<Controller>();
+    std::shared_ptr<Controller> controller = std::make_shared<Controller>(this);
     controller->createScene(this);
     controller->addSceneToView(*view);
     ui->verticalLayout->addWidget(view);

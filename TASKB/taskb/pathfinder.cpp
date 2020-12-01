@@ -105,8 +105,8 @@ void Pathfinder::generateSolution()
         //screen->addPathStep(destination.getTile()->getXPos(),destination.getTile()->getYPos());
         currentNode=currentNode->getPre();
     }
-    moveCost += 1+currentNode->getTile()->getValue();
-    solution.push(currentNode->getTile());
+    //moveCost += 1+currentNode->getTile()->getValue();
+    //solution.push(currentNode->getTile());
     //now the currentNode is the startPoint node, we are on this node now
 }
 

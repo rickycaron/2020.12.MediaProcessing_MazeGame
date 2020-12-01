@@ -1,10 +1,11 @@
 #include "controller.h"
 #include <QDebug>
+#include <QTimer>
 
-Controller::Controller()
+Controller::Controller(QObject *parent):QObject(parent)
 {
     world = std::make_unique<World>();
-    world->createWorld(":/images/worldmap.png",10,10,0.25);
+    world->createWorld(":/images/worldmap.png",10,10,0.5);
 
     row = world->getRows();
     col = world->getCols();
@@ -19,7 +20,12 @@ Controller::Controller()
 
     std::vector<std::unique_ptr<Enemy>> tempEnemies = world->getEnemies();
     for(unsigned int i=0; i<tempEnemies.size(); i++){
-        enemies.emplace_back(std::move(tempEnemies[i]));
+        std::shared_ptr<Enemy> e = std::move(tempEnemies[i]);
+        if(dynamic_cast<PEnemy*>(e.get())){
+            pEnemies.emplace_back(std::dynamic_pointer_cast<PEnemy>(e));
+        }else{
+            normalEnemies.emplace_back(e);
+        }
     }
 
     std::vector<std::unique_ptr<Tile>> tempHealthpacks = world->getHealthPacks();
@@ -32,7 +38,7 @@ Controller::Controller()
 
 void Controller::createScene(QWidget *parent)
 {
-    scene = new TextScene(parent, tiles, protagonist, enemies, healthpacks);
+    scene = new TextScene(parent, tiles, protagonist, normalEnemies, pEnemies, healthpacks);
 }
 
 void Controller::addSceneToView(QGraphicsView &view)
@@ -101,20 +107,34 @@ void Controller::consumeEnergy()
 
 void Controller::attack()
 {
-    int index = scene->detectEnemy();
-    if(index==-1){
-        qDebug()<<"No enemy.";
-    }else{
-        if(enemies[index]->getDefeated()){
-            qDebug()<<"The enemy is already dead";
-        }else{
-            enemies[index]->setDefeated(true);
-            protagonist->setHealth(protagonist->getHealth()-enemies[index]->getValue());
-            protagonist->setEnergy(maxEH);
-            qDebug()<<"Attack an enemy, enemy strength:"<<enemies[index]->getValue();
-            qDebug()<<"Energy:"<<protagonist->getEnergy()<<", health:"<<protagonist->getHealth();
+    if(enemyIndex!=-1){
+        if(isPEnemy){
+            if(!pEnemies[enemyIndex]->getDefeated()){
+                pEnemies[enemyIndex]->setDefeated(true);
+                protagonist->setHealth(protagonist->getHealth()-pEnemies[enemyIndex]->getValue());
+                qDebug()<<"Attack a poison enemy, enemy strength:"<<pEnemies[enemyIndex]->getValue();
+                protagonist->setEnergy(maxEH);
+            }
+            else{
+                qDebug()<<"This enemy is already dead.";
+            }
+        }
+        else{
+            if(!normalEnemies[enemyIndex]->getDefeated()){
+                normalEnemies[enemyIndex]->setDefeated(true);
+                protagonist->setHealth(protagonist->getHealth()-normalEnemies[enemyIndex]->getValue());
+                qDebug()<<"Attack a normal enemy, enemy strength:"<<normalEnemies[enemyIndex]->getValue();
+                protagonist->setEnergy(maxEH);
+            }
+            else{
+                qDebug()<<"This enemy is already dead.";
+            }
         }
     }
+    else{
+        qDebug()<<"No enemy.";
+    }
+    qDebug()<<"Energy:"<<protagonist->getEnergy()<<", health:"<<protagonist->getHealth();
 }
 
 void Controller::take()
@@ -130,25 +150,51 @@ void Controller::take()
     }
 }
 
+void Controller::move()
+{
+    if(!path.isEmpty()){
+        std::shared_ptr<Tile> nextTile = path.pop();
+        protagonist->setPos(nextTile->getXPos(),nextTile->getYPos());
+        consumeEnergy();
+        QTimer::singleShot(1000, this, &Controller::move);
+    }else{
+        qDebug()<<"Finish!";
+    }
+}
+
 void Controller::gotoXY(int x, int y)
 {
     if(checkXBoundary(x)||checkYBoundary(y)){
         qDebug()<<"outside the world!";
     }else{
-        protagonist->setPos(x,y);
-        //pathfinder
-        auto path = pathfinder->findpath(protagonist->getXPos(),protagonist->getYPos(),x,y);
-        while(!path.isEmpty()){
-            qDebug()<<path.pop()->getXPos()<<path.pop()->getYPos();
-        }
+        path = pathfinder->findpath(protagonist->getXPos(),protagonist->getYPos(),x,y);
+        move();
+//        while(!path.isEmpty()){
+//            std::shared_ptr<Tile> nextTile = path.pop();
+//            //move(nextTile->getXPos(),nextTile->getYPos());
+//            qDebug()<<"x="<<nextTile->getXPos()<<", y="<<nextTile->getYPos();
+//        }
+        //protagonist->setPos(x,y);
     }
 }
 
+
 void Controller::detectEnemy()
 {
-    if(scene->detectEnemy()!=-1){
-        qDebug()<<"There is an enemy.";
+    if(scene->getEnemyIndex()!=-1){
+        if(scene->getIsPEnemy()){
+            qDebug()<<"Here is a poison enemy.";
+            isPEnemy = true;
+        }else{
+            qDebug()<<"Here is a normal enemy.";
+        }
+        enemyIndex = scene->getEnemyIndex();
+    }else{
+        qDebug()<<"No enemy.";
+        isPEnemy = false;
+        enemyIndex = -1;
     }
+    scene->setEnemyIndex(-1);
 }
 
 void Controller::detectHealthpack()
