@@ -20,7 +20,7 @@ class Widget : public QWidget
 public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
-    void buildWorld();
+    void checkString(QString &s);
 
 private slots:
     void on_lineEdit_editingFinished();

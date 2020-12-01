@@ -14,6 +14,8 @@
 #include "movedown.h"
 #include "attack.h"
 #include "take.h"
+#include "gotoxy.h"
+#include "help.h"
 #include <memory>
 
 Widget::Widget(QWidget *parent)
@@ -34,8 +36,9 @@ Widget::Widget(QWidget *parent)
     ui->verticalLayout->addWidget(hint);
 
     //auto completion
-    editList<<"right"<<"left"<<"up"<<"down"<<"goto x y"<<"attack"<<"take"<<"help";
+    editList<<"right"<<"left"<<"up"<<"down"<<"go to "<<"attack"<<"take"<<"help";
     QCompleter *completer = new QCompleter(editList, this);
+    completer->setCompletionMode(QCompleter::InlineCompletion);
     ui->lineEdit->setCompleter(completer);
 
     commandList["right"]=std::make_unique<MoveRight>(controller);
@@ -44,8 +47,8 @@ Widget::Widget(QWidget *parent)
     commandList["down"]=std::make_unique<MoveDown>(controller);
     commandList["attack"]=std::make_unique<Attack>(controller);
     commandList["take"]=std::make_unique<Take>(controller);
-
-    ui->lineEdit->setInputMask("go to 0,0");
+    commandList["goto"]=std::make_unique<GotoXY>(controller);
+    commandList["help"]=std::make_unique<Help>(controller,editList,hint);
 }
 
 Widget::~Widget()
@@ -53,27 +56,40 @@ Widget::~Widget()
     delete ui;
 }
 
+void Widget::checkString(QString &s)
+{
+    s.remove("go to ");
+    QStringList list = s.split(QLatin1Char(','), Qt::SkipEmptyParts);
+    if(list.size()!=2){
+        hint->setText("invalid input");
+    }else{
+        bool ok=true;
+        int x=list[0].toInt(&ok);
+        int y=list[1].toInt(&ok);
+        if(ok){
+            hint->setText(" ");
+            qDebug()<<"x="<<x<<", y="<<y;
+            commandList["goto"]->setDestination(x,y);
+            commandList["goto"]->excute();
+        }else{
+            hint->setText("invalid input");
+        }
+    }
+}
+
 void Widget::on_lineEdit_editingFinished()
 {
     QString text = ui->lineEdit->text();
-
-
-
-//    if(text.compare("help")==0){
-//        QString hintText = "Hint: ";
-//        for (int i=0; i<editList.size()-1; i++) {
-//            hintText.append(editList[i]);
-//            hintText.append(", ");
-//        }
-//        hintText.append(editList[editList.size()-1]);
-//        hint->setText(hintText);
-//    }else{
-//        if(commandList.count(text)==1){
-//            hint->setText(" ");
-//            commandList[text]->excute();
-//        }else{
-//            hint->setText("Can't find this command.");
-//        }
-//    }
+    if(text.contains("go to ",Qt::CaseSensitive)){
+        checkString(text);
+    }else{
+        if(commandList.count(text)==1){
+            hint->setText(" ");
+            commandList[text]->excute();
+        }
+        else{
+            hint->setText("Can't find this command.");
+        }
+    }
 }
 

@@ -1,10 +1,11 @@
 #include "ttile.h"
 #include <QPainter>
 
-TTile::TTile(int xPos, int yPos):QGraphicsTextItem()
+TTile::TTile(int xPos, int yPos, bool ispassable):QGraphicsTextItem()
 {
     setPlainText(" ");
     setPos(QPointF(20*xPos,20*yPos));
+    setPassable(ispassable);
 }
 
 QRectF TTile::boundingRect() const
@@ -20,6 +21,10 @@ void TTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     painter->setPen(*mPen);
     painter->drawRect(boundingRect());
     delete mPen;
+    if(!getPassable()){
+        painter->setBrush(Qt::SolidPattern);
+        painter->drawRect(boundingRect());
+    }
     QGraphicsTextItem::paint(painter,option,widget);
 }
 

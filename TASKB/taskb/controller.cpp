@@ -5,13 +5,10 @@ Controller::Controller()
 {
     //world = new World();
     world = std::make_unique<World>();
-    world->createWorld(":/images/worldmap4.png",10,10,0.25);
+    world->createWorld(":/images/worldmap.png",10,10,0.25);
 
     protagonist = world->getProtagonist();
     maxEH = protagonist->getEnergy();
-
-    row=world->getRows();
-    col=world->getCols();
 
     std::vector<std::unique_ptr<Tile>> tempTiles = world->getTiles();
     for(unsigned int i=0; i<tempTiles.size(); i++){

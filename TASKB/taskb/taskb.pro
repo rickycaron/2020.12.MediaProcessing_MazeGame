@@ -14,6 +14,7 @@ SOURCES += \
     commandcontroller.cpp \
     controller.cpp \
     gotoxy.cpp \
+    help.cpp \
     main.cpp \
     movedown.cpp \
     moveleft.cpp \
@@ -36,6 +37,7 @@ HEADERS += \
     commandcontroller.h \
     controller.h \
     gotoxy.h \
+    help.h \
     movedown.h \
     moveleft.h \
     moveright.h \
@@ -63,10 +65,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     resource.qrc
 
-unix:!macx: LIBS += -L$$PWD/../world_v4/ -lworld
 
-INCLUDEPATH += $$PWD/../world_v4
-DEPENDPATH += $$PWD/../world_v4
 
 DISTFILES += \
     taskb.pro.user
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../world_v4/ -lworl
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../world_v4/ -lworld
+
+INCLUDEPATH += $$PWD/../world_v4
+DEPENDPATH += $$PWD/../world_v4

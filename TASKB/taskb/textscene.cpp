@@ -17,7 +17,12 @@ TextScene::TextScene(QObject *parent, const std::vector<std::shared_ptr<Tile>> &
 void TextScene::printTiles(const std::vector<std::shared_ptr<Tile>> &tiles)
 {
     for(unsigned int i=0;i<tiles.size();i++){
-        TTile *tile = new TTile(tiles[i]->getXPos(),tiles[i]->getYPos());
+        TTile *tile;
+        if(tiles[i]->getValue()>100){
+            tile = new TTile(tiles[i]->getXPos(),tiles[i]->getYPos(),false);
+        }else{
+            tile = new TTile(tiles[i]->getXPos(),tiles[i]->getYPos(),true);
+        }
         tileQlist.append(tile);
         this->addItem(tile);
     }

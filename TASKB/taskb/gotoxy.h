@@ -8,10 +8,10 @@ class GotoXY : public Command
 public:
     explicit GotoXY(std::shared_ptr<Controller> con);
     void excute() const override;
-    void setDestination(int x, int y);
+    void setDestination(int x, int y) override;
 private:
-    int xPos;
-    int yPos;
+    int xPos{-1};
+    int yPos{-1};
 };
 
 #endif // GOTOXY_H

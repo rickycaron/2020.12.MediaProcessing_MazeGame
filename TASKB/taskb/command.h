@@ -10,6 +10,7 @@ public:
     //explicit Command(Controller *con);
     explicit Command(std::shared_ptr<Controller> con);
     virtual void excute() const = 0;
+    virtual void setDestination(int x, int y);
     //Controller *getController() const;
     std::shared_ptr<Controller> getController() const;
 
