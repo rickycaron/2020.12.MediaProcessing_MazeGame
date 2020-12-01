@@ -49,6 +49,11 @@ Widget::Widget(QWidget *parent)
     commandList["take"]=std::make_unique<Take>(controller);
     commandList["goto"]=std::make_unique<GotoXY>(controller);
     commandList["help"]=std::make_unique<Help>(controller,editList,hint);
+
+    ui->energyBar->setValue(100);
+    ui->healthBar->setValue(100);
+    connect(controller->getProtagonist().get(),&Protagonist::energyChanged,ui->energyBar,&QProgressBar::setValue);
+    connect(controller->getProtagonist().get(),&Protagonist::healthChanged,ui->healthBar,&QProgressBar::setValue);
 }
 
 Widget::~Widget()
@@ -92,4 +97,3 @@ void Widget::on_lineEdit_editingFinished()
         }
     }
 }
-
