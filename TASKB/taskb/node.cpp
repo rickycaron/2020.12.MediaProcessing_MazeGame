@@ -53,3 +53,34 @@ void Node::calculateDistance()
         setDistance(distance);
     }
 }
+
+double Node::getGivenCost() const
+{
+    return givenCost;
+}
+
+void Node::setGivenCost(double value)
+{
+    givenCost = value;
+}
+
+double Node::getHeuristicCost() const
+{
+    return heuristicCost;
+}
+
+void Node::setHeuristicCost(double value)
+{
+    heuristicCost = value;
+}
+
+void Node::updateGivenCost(double newGivenCost)
+{
+    givenCost = newGivenCost;
+    finalCost = givenCost + heuristicCost;
+}
+
+double Node::getFinalCost() const
+{
+    return finalCost;
+}

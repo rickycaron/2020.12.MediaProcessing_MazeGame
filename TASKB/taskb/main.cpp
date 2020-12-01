@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
 //    std::shared_ptr<Controller> controller=std::make_shared<Controller>();
 //    std::cout<<"rows: "<<controller->getCol()<<", columns: "<<controller->getRow()<<std::endl;
-//    std::shared_ptr<Pathfinder> pathfinder=std::make_shared<Pathfinder>(controller->getRow(),controller->getCol(),controller->getTiles());
+
 
 //    //for(unsigned i=0; i< pathfinder->tiles.size();i++){std::cout<<pathfinder->tiles.at(i)->getValue()<<std::endl;}
 //    std::cout<<pathfinder->tiles.size()<<std::endl;

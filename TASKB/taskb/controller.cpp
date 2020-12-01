@@ -26,6 +26,8 @@ Controller::Controller()
     for(unsigned int i=0; i<tempHealthpacks.size(); i++){
         healthpacks.emplace_back(std::move(tempHealthpacks[i]));
     }
+
+    pathfinder=std::make_shared<Pathfinder>(row,col,tiles);
 }
 
 void Controller::createScene(QWidget *parent)
@@ -134,6 +136,11 @@ void Controller::gotoXY(int x, int y)
         qDebug()<<"outside the world!";
     }else{
         protagonist->setPos(x,y);
+        //pathfinder
+        auto path = pathfinder->findpath(protagonist->getXPos(),protagonist->getYPos(),x,y);
+        while(!path.isEmpty()){
+            qDebug()<<path.pop()->getXPos()<<path.pop()->getYPos();
+        }
     }
 }
 

@@ -20,10 +20,24 @@ public:
     void setDistance(double value);
     void calculateDistance();
 
+    double getGivenCost() const;
+    void setGivenCost(double value);
+
+    double getHeuristicCost() const;
+    void setHeuristicCost(double value);
+
+    void updateGivenCost(double newGivenCost);//update the givenCost and final Cost
+
+    double getFinalCost() const;
+
 private:
     std::shared_ptr<Tile> tile;
     std::shared_ptr<Node> pre;
-    double distance = std::numeric_limits<double>::infinity();
+    //double distance = std::numeric_limits<double>::infinity();
+    double distance = 0;//it is the final cost in Dijkstra and A* algorithum
+    double givenCost = 0.0;//the cost from the start point
+    double heuristicCost = 0.0;// the distance to the goal
+    double finalCost = 0.0;//the sum pf givenCost and finalCost
 };
 
 #endif // NODE_H

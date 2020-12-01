@@ -1,6 +1,6 @@
 #ifndef PATHFINDER_H
 #define PATHFINDER_H
-
+#include <QVectorIterator>
 #include <memory>
 #include <list>
 #include <vector>
@@ -27,17 +27,23 @@ public:
     Point goalPoint;
     Point nearbyPoint;
     void showsolutionpath();
+    void showAllContainers();
 
     void initialze(const std::shared_ptr<Tile> &p,const std::shared_ptr<Tile> goal);
 
     bool calcPath_BreadthFirst();
     bool calcPath_BestFirst();
+    bool calcPath_Dijkstra();
+    bool calcPath_Astar();
+
+    QStack<std::shared_ptr<Tile>> findpath(const std::shared_ptr<Tile> &p,int x, int y);
+    QStack<std::shared_ptr<Tile>> findpath(int sx,int sy,int x, int y);
+
 
 private:
     int row=0;
     int column=0;
     float moveCost=0;
-
     void initializePathfinder(int startx, int starty, int endx, int endy);
     void clearAllContainer();
     bool reachingGoal();
@@ -47,14 +53,30 @@ private:
     {
         return node1->getDistance() < node2->getDistance();
     }
-
     std::shared_ptr<Node> findMinDistanceNode();
+    void generateSolution();
+    std::list<std::shared_ptr<Node>>::iterator findOldNote(int index);
+    std::list<std::shared_ptr<Node>>::iterator findOldNoteinOpenlist(int index, bool & isInOpenlist);
+    std::list<std::shared_ptr<Node>>::iterator findOldNoteinClosedlist(int index, bool & isInClosedlist);
+    bool isNodeInOpenlist(int index);
+    bool isNoteInClosedlist(int index);
+    std::shared_ptr<Node> findMinFinalCostNode();
+    static bool finalCostcomp(std::shared_ptr<Node> node1, std::shared_ptr<Node> node2)
+    {
+        return node1->getFinalCost() < node2->getFinalCost();
+    }
 
     bool breadthfirstalorithum();
     void breadthfirstAddNode(int index,std::shared_ptr<Node>parent);
 
     bool bestfirstalorithum();
     void bestfirstAddNode(int index,std::shared_ptr<Node>parent);
+
+    bool dijkstraalorithum();
+    void dijkstraAddNode(int index,std::shared_ptr<Node>parent);
+
+    bool aStaralorithum();
+    void aStarAddNode(int index,std::shared_ptr<Node>parent);
     
 };
 

@@ -3,6 +3,7 @@
 #include <QGraphicsView>
 #include "textscene.h"
 #include "world.h"
+#include "pathfinder.h"
 
 class Controller
 {
@@ -40,6 +41,7 @@ private:
     std::vector<std::shared_ptr<Tile>> tiles;
     std::vector<std::shared_ptr<Enemy>> enemies;
     std::vector<std::shared_ptr<Tile>> healthpacks;
+    std::shared_ptr<Pathfinder> pathfinder;
 };
 
 #endif // CONTROLLER_H
