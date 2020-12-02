@@ -4,7 +4,7 @@
 #include <QGraphicsView>
 #include <QObject>
 #include"myqscene.h"
-
+#include<QKeyEvent>
 class MyQView : public QGraphicsView
 {
 
@@ -16,15 +16,21 @@ public:
      int detectEnemy();
      int detectHealthPack();
      //function of view only
+ signals:
+    void mouseClickSignal(QPoint point);
+    void keyPressSignal(int index);
 
-
-protected:
-    void mousePressEvent(QMouseEvent * event);
 private:
     int scale;
     MyQScene* qScene;
-signals:
-    void mouseClickSignal(QPoint point);
+
+
+    // QWidget interface
+
+
+    // QWidget interface
+protected:
+    void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // MYQVIEW_H

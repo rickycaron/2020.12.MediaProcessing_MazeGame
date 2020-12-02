@@ -21,7 +21,12 @@ int MyQView::detectHealthPack()
 {
 
 }
-void MyQView::mousePressEvent(QMouseEvent *event)
-{
 
+
+void MyQView::keyPressEvent(QKeyEvent *event)
+{
+//    qDebug()<<"key is pressed1";
+    int index =1121;
+    emit keyPressSignal(index);
+    QGraphicsView::keyPressEvent(event);
 }

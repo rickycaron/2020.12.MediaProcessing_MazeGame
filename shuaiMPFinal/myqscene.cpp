@@ -28,7 +28,7 @@ void MyQScene::printTiles(const std::vector<std::shared_ptr<Tile> > &tiles)
 void MyQScene::printProtagonist(const std::shared_ptr<Protagonist> &protagonist)
 {
 
-    protagonistView = new QProtagonist(protagonist->getXPos(),protagonist->getYPos());
+    protagonistView = new QProtagonist(protagonist->getXPos(),protagonist->getYPos(),scale);
 
     this->addItem(protagonistView);
 }
@@ -36,7 +36,7 @@ void MyQScene::printProtagonist(const std::shared_ptr<Protagonist> &protagonist)
 void MyQScene::printEnemies(const std::vector<std::shared_ptr<Enemy> > &enemies)
 {
     for(unsigned int i=0;i<enemies.size();i++){
-        QEnemy * enemy = new QEnemy(enemies[i]->getXPos(),enemies[i]->getYPos());
+        QEnemy * enemy = new QEnemy(enemies[i]->getXPos(),enemies[i]->getYPos(),scale);
         enemyQlist.append(enemy);
         this->addItem(enemy);
     }
@@ -45,7 +45,7 @@ void MyQScene::printEnemies(const std::vector<std::shared_ptr<Enemy> > &enemies)
 void MyQScene::printHealthpacks(const std::vector<std::shared_ptr<Tile> > &healthpacks)
 {
     for(unsigned int i=0;i<healthpacks.size();i++){
-        QHealthPack * healthpack = new QHealthPack(healthpacks[i]->getXPos(),healthpacks[i]->getYPos());
+        QHealthPack * healthpack = new QHealthPack(healthpacks[i]->getXPos(),healthpacks[i]->getYPos(),scale);
         healthpackQlist.append(healthpack);
         this->addItem(healthpack);
     }

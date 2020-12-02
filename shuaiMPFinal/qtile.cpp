@@ -20,7 +20,8 @@ void QTile::draw()
         value=0;
     }
 
-    QColor color(value*255,value*255,value*255);
+//    QColor color(value*255,value*255,value*255);
+    QColor color(value*100,value*255,value*100);
 
     QBrush* brush = new QBrush(color);
     setBrush(*brush);

@@ -8,7 +8,7 @@ class QHealthPack : public QGraphicsPixmapItem
 {
 
 public:
-     QHealthPack(int xPos,int yPos);
+     QHealthPack(int xPos,int yPos,int scale);
 
 };
 

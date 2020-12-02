@@ -6,7 +6,7 @@
 class QProtagonist : public QGraphicsPixmapItem
 {
 public:
-     QProtagonist(int xpos,int yPos);
+     QProtagonist(int xPos,int yPos,int scale);
 
 
 };

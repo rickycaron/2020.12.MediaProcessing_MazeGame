@@ -43,3 +43,6 @@ unix:!macx: LIBS += -L$$PWD/../worldLib/ -lworld
 
 INCLUDEPATH += $$PWD/../worldLib
 DEPENDPATH += $$PWD/../worldLib
+
+RESOURCES += \
+    res.qrc

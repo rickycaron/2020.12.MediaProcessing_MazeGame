@@ -1,5 +1,6 @@
 #include "controller.h"
-
+#include<QtDebug>
+#include<QKeyEvent>
 //control flow: controller->model->view
 Controller::Controller(std::shared_ptr<Model> model, QGraphicsView* view)
 {
@@ -12,6 +13,7 @@ Controller::Controller(std::shared_ptr<Model> model, MyQView* view)
     this->model = model;
     this->view = view;
     createScene(20);
+    QObject::connect(this->view,SIGNAL(keyPressSignal(int)),this,SLOT(on_keyPressSlot(int)));
 
 }
 
@@ -81,4 +83,9 @@ int Controller::detectEnemy()
 int Controller::detectHealthPack()
 {
     return view->detectHealthPack();
+}
+
+void Controller::on_keyPressSlot(int index)
+{
+    qDebug()<<"key is pressed and the index is" << index;
 }

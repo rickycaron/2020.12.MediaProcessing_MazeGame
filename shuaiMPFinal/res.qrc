@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/protagonist.png</file>
+        <file>images/healthPack.png</file>
+        <file>images/enemy.png</file>
+    </qresource>
+</RCC>

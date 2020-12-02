@@ -61,14 +61,11 @@ SOURCES       = ../shuaiMPFinal/controller.cpp \
 		../shuaiMPFinal/qenemy.cpp \
 		../shuaiMPFinal/qhealthpack.cpp \
 		../shuaiMPFinal/qprotagonist.cpp \
-		../shuaiMPFinal/qtile.cpp moc_controller.cpp \
+		../shuaiMPFinal/qtile.cpp qrc_res.cpp \
+		moc_controller.cpp \
 		moc_mainwindow.cpp \
 		moc_myqscene.cpp \
-		moc_myqview.cpp \
-		moc_qenemy.cpp \
-		moc_qhealthpack.cpp \
-		moc_qprotagonist.cpp \
-		moc_qtile.cpp
+		moc_myqview.cpp
 OBJECTS       = controller.o \
 		main.o \
 		mainwindow.o \
@@ -79,14 +76,11 @@ OBJECTS       = controller.o \
 		qhealthpack.o \
 		qprotagonist.o \
 		qtile.o \
+		qrc_res.o \
 		moc_controller.o \
 		moc_mainwindow.o \
 		moc_myqscene.o \
-		moc_myqview.o \
-		moc_qenemy.o \
-		moc_qhealthpack.o \
-		moc_qprotagonist.o \
-		moc_qtile.o
+		moc_myqview.o
 DIST          = ../../../../Qt15.1/5.15.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt15.1/5.15.1/gcc_64/mkspecs/common/unix.conf \
 		../../../../Qt15.1/5.15.1/gcc_64/mkspecs/common/linux.conf \
@@ -536,7 +530,8 @@ Makefile: ../shuaiMPFinal/shuaiMPFinal.pro ../../../../Qt15.1/5.15.1/gcc_64/mksp
 		../../../../Qt15.1/5.15.1/gcc_64/mkspecs/features/exceptions.prf \
 		../../../../Qt15.1/5.15.1/gcc_64/mkspecs/features/yacc.prf \
 		../../../../Qt15.1/5.15.1/gcc_64/mkspecs/features/lex.prf \
-		../shuaiMPFinal/shuaiMPFinal.pro
+		../shuaiMPFinal/shuaiMPFinal.pro \
+		../shuaiMPFinal/res.qrc
 	$(QMAKE) -o Makefile ../shuaiMPFinal/shuaiMPFinal.pro -spec linux-clang CONFIG+=debug CONFIG+=qml_debug
 ../../../../Qt15.1/5.15.1/gcc_64/mkspecs/features/spec_pre.prf:
 ../../../../Qt15.1/5.15.1/gcc_64/mkspecs/common/unix.conf:
@@ -749,6 +744,7 @@ Makefile: ../shuaiMPFinal/shuaiMPFinal.pro ../../../../Qt15.1/5.15.1/gcc_64/mksp
 ../../../../Qt15.1/5.15.1/gcc_64/mkspecs/features/yacc.prf:
 ../../../../Qt15.1/5.15.1/gcc_64/mkspecs/features/lex.prf:
 ../shuaiMPFinal/shuaiMPFinal.pro:
+../shuaiMPFinal/res.qrc:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../shuaiMPFinal/shuaiMPFinal.pro -spec linux-clang CONFIG+=debug CONFIG+=qml_debug
 
@@ -763,6 +759,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents ../shuaiMPFinal/res.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../../Qt15.1/5.15.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../shuaiMPFinal/controller.h ../shuaiMPFinal/mainwindow.h ../shuaiMPFinal/model.h ../shuaiMPFinal/myqscene.h ../shuaiMPFinal/myqview.h ../shuaiMPFinal/qenemy.h ../shuaiMPFinal/qhealthpack.h ../shuaiMPFinal/qprotagonist.h ../shuaiMPFinal/qtile.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../shuaiMPFinal/controller.cpp ../shuaiMPFinal/main.cpp ../shuaiMPFinal/mainwindow.cpp ../shuaiMPFinal/model.cpp ../shuaiMPFinal/myqscene.cpp ../shuaiMPFinal/myqview.cpp ../shuaiMPFinal/qenemy.cpp ../shuaiMPFinal/qhealthpack.cpp ../shuaiMPFinal/qprotagonist.cpp ../shuaiMPFinal/qtile.cpp $(DISTDIR)/
@@ -790,17 +787,25 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_res.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_res.cpp
+qrc_res.cpp: ../shuaiMPFinal/res.qrc \
+		../../../../Qt15.1/5.15.1/gcc_64/bin/rcc \
+		../shuaiMPFinal/images/protagonist.png \
+		../shuaiMPFinal/images/healthPack.png \
+		../shuaiMPFinal/images/enemy.png
+	/home/shuai/Qt15.1/5.15.1/gcc_64/bin/rcc -name res ../shuaiMPFinal/res.qrc -o qrc_res.cpp
+
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: ../../../../Qt15.1/5.15.1/gcc_64/mkspecs/features/data/dummy.cpp
 	clang++ -pipe -g -std=gnu++1z -Wall -Wextra -dM -E -o moc_predefs.h ../../../../Qt15.1/5.15.1/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_controller.cpp moc_mainwindow.cpp moc_myqscene.cpp moc_myqview.cpp moc_qenemy.cpp moc_qhealthpack.cpp moc_qprotagonist.cpp moc_qtile.cpp
+compiler_moc_header_make_all: moc_controller.cpp moc_mainwindow.cpp moc_myqscene.cpp moc_myqview.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_controller.cpp moc_mainwindow.cpp moc_myqscene.cpp moc_myqview.cpp moc_qenemy.cpp moc_qhealthpack.cpp moc_qprotagonist.cpp moc_qtile.cpp
+	-$(DEL_FILE) moc_controller.cpp moc_mainwindow.cpp moc_myqscene.cpp moc_myqview.cpp
 moc_controller.cpp: ../shuaiMPFinal/controller.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QObject \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobject.h \
@@ -1314,386 +1319,6 @@ moc_myqview.cpp: ../shuaiMPFinal/myqview.h \
 		../../../../Qt15.1/5.15.1/gcc_64/bin/moc
 	/home/shuai/Qt15.1/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/shuai/Desktop/MPShuai/mp20-team-a6-fa/build-shuaiMPFinal-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/home/shuai/Qt15.1/5.15.1/gcc_64/mkspecs/linux-clang -I/home/shuai/Desktop/MPShuai/mp20-team-a6-fa/shuaiMPFinal -I/home/shuai/Desktop/MPShuai/mp20-team-a6-fa/worldLib -I/home/shuai/Qt15.1/5.15.1/gcc_64/include -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtWidgets -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtGui -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/include/clang/6.0.0/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../shuaiMPFinal/myqview.h -o moc_myqview.cpp
 
-moc_qenemy.cpp: ../shuaiMPFinal/qenemy.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QObject \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobject.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qnamespace.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qglobal.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qconfig.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qtcore-config.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsystemdetection.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qprocessordetection.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcompilerdetection.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qtypeinfo.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsysinfo.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qlogging.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qflags.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qatomic.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qbasicatomic.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qgenericatomic.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qatomic_cxx11.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qatomic_msvc.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qglobalstatic.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmutex.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qnumeric.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qversiontagging.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstring.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qchar.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qbytearray.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qrefcount.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qarraydata.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringliteral.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringalgorithms.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringview.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringbuilder.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qlist.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qalgorithms.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qiterator.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qhashfunctions.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qpair.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qvector.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcontainertools_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qpoint.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qbytearraylist.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringlist.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qregexp.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringmatcher.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcoreevent.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qscopedpointer.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmetatype.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qvarlengtharray.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobject_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsitem.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtguiglobal.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtgui-config.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qvariant.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmap.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qdebug.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qhash.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qtextstream.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qiodevice.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qlocale.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qshareddata.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qset.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcontiguouscache.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsharedpointer.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qrect.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmargins.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsize.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpainterpath.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qmatrix.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpolygon.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qregion.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qwindowdefs.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qwindowdefs_win.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qdatastream.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qline.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtransform.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpixmap.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpaintdevice.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qcolor.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qrgb.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qrgba64.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qimage.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpixelformat.h \
-		moc_predefs.h \
-		../../../../Qt15.1/5.15.1/gcc_64/bin/moc
-	/home/shuai/Qt15.1/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/shuai/Desktop/MPShuai/mp20-team-a6-fa/build-shuaiMPFinal-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/home/shuai/Qt15.1/5.15.1/gcc_64/mkspecs/linux-clang -I/home/shuai/Desktop/MPShuai/mp20-team-a6-fa/shuaiMPFinal -I/home/shuai/Desktop/MPShuai/mp20-team-a6-fa/worldLib -I/home/shuai/Qt15.1/5.15.1/gcc_64/include -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtWidgets -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtGui -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/include/clang/6.0.0/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../shuaiMPFinal/qenemy.h -o moc_qenemy.cpp
-
-moc_qhealthpack.cpp: ../shuaiMPFinal/qhealthpack.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QObject \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobject.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qnamespace.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qglobal.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qconfig.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qtcore-config.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsystemdetection.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qprocessordetection.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcompilerdetection.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qtypeinfo.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsysinfo.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qlogging.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qflags.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qatomic.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qbasicatomic.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qgenericatomic.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qatomic_cxx11.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qatomic_msvc.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qglobalstatic.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmutex.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qnumeric.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qversiontagging.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstring.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qchar.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qbytearray.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qrefcount.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qarraydata.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringliteral.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringalgorithms.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringview.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringbuilder.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qlist.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qalgorithms.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qiterator.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qhashfunctions.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qpair.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qvector.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcontainertools_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qpoint.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qbytearraylist.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringlist.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qregexp.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringmatcher.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcoreevent.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qscopedpointer.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmetatype.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qvarlengtharray.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobject_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsitem.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtguiglobal.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtgui-config.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qvariant.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmap.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qdebug.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qhash.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qtextstream.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qiodevice.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qlocale.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qshareddata.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qset.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcontiguouscache.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsharedpointer.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qrect.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmargins.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsize.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpainterpath.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qmatrix.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpolygon.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qregion.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qwindowdefs.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qwindowdefs_win.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qdatastream.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qline.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtransform.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpixmap.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpaintdevice.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qcolor.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qrgb.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qrgba64.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qimage.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpixelformat.h \
-		moc_predefs.h \
-		../../../../Qt15.1/5.15.1/gcc_64/bin/moc
-	/home/shuai/Qt15.1/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/shuai/Desktop/MPShuai/mp20-team-a6-fa/build-shuaiMPFinal-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/home/shuai/Qt15.1/5.15.1/gcc_64/mkspecs/linux-clang -I/home/shuai/Desktop/MPShuai/mp20-team-a6-fa/shuaiMPFinal -I/home/shuai/Desktop/MPShuai/mp20-team-a6-fa/worldLib -I/home/shuai/Qt15.1/5.15.1/gcc_64/include -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtWidgets -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtGui -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/include/clang/6.0.0/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../shuaiMPFinal/qhealthpack.h -o moc_qhealthpack.cpp
-
-moc_qprotagonist.cpp: ../shuaiMPFinal/qprotagonist.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QObject \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobject.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qnamespace.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qglobal.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qconfig.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qtcore-config.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsystemdetection.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qprocessordetection.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcompilerdetection.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qtypeinfo.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsysinfo.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qlogging.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qflags.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qatomic.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qbasicatomic.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qgenericatomic.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qatomic_cxx11.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qatomic_msvc.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qglobalstatic.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmutex.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qnumeric.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qversiontagging.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstring.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qchar.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qbytearray.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qrefcount.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qarraydata.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringliteral.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringalgorithms.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringview.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringbuilder.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qlist.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qalgorithms.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qiterator.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qhashfunctions.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qpair.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qvector.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcontainertools_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qpoint.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qbytearraylist.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringlist.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qregexp.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringmatcher.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcoreevent.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qscopedpointer.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmetatype.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qvarlengtharray.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobject_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsitem.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtguiglobal.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtgui-config.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qvariant.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmap.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qdebug.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qhash.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qtextstream.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qiodevice.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qlocale.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qshareddata.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qset.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcontiguouscache.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsharedpointer.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qrect.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmargins.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsize.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpainterpath.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qmatrix.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpolygon.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qregion.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qwindowdefs.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qwindowdefs_win.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qdatastream.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qline.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtransform.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpixmap.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpaintdevice.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qcolor.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qrgb.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qrgba64.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qimage.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpixelformat.h \
-		moc_predefs.h \
-		../../../../Qt15.1/5.15.1/gcc_64/bin/moc
-	/home/shuai/Qt15.1/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/shuai/Desktop/MPShuai/mp20-team-a6-fa/build-shuaiMPFinal-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/home/shuai/Qt15.1/5.15.1/gcc_64/mkspecs/linux-clang -I/home/shuai/Desktop/MPShuai/mp20-team-a6-fa/shuaiMPFinal -I/home/shuai/Desktop/MPShuai/mp20-team-a6-fa/worldLib -I/home/shuai/Qt15.1/5.15.1/gcc_64/include -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtWidgets -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtGui -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/include/clang/6.0.0/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../shuaiMPFinal/qprotagonist.h -o moc_qprotagonist.cpp
-
-moc_qtile.cpp: ../shuaiMPFinal/qtile.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsRectItem \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsitem.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtguiglobal.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qglobal.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qconfig.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qtcore-config.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsystemdetection.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qprocessordetection.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcompilerdetection.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qtypeinfo.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsysinfo.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qlogging.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qflags.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qatomic.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qbasicatomic.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qgenericatomic.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qatomic_cxx11.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qatomic_msvc.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qglobalstatic.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmutex.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qnumeric.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qversiontagging.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtgui-config.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobject.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qnamespace.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstring.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qchar.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qbytearray.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qrefcount.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qarraydata.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringliteral.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringalgorithms.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringview.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringbuilder.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qlist.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qalgorithms.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qiterator.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qhashfunctions.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qpair.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qvector.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcontainertools_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qpoint.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qbytearraylist.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringlist.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qregexp.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstringmatcher.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcoreevent.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qscopedpointer.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmetatype.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qvarlengtharray.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobject_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qvariant.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmap.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qdebug.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qhash.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qtextstream.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qiodevice.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qlocale.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qshareddata.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qset.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcontiguouscache.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsharedpointer.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qrect.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmargins.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qsize.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpainterpath.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qmatrix.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpolygon.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qregion.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qwindowdefs.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qwindowdefs_win.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qdatastream.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qline.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtransform.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpixmap.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpaintdevice.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qcolor.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qrgb.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qrgba64.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qimage.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpixelformat.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QObject \
-		moc_predefs.h \
-		../../../../Qt15.1/5.15.1/gcc_64/bin/moc
-	/home/shuai/Qt15.1/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/shuai/Desktop/MPShuai/mp20-team-a6-fa/build-shuaiMPFinal-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/home/shuai/Qt15.1/5.15.1/gcc_64/mkspecs/linux-clang -I/home/shuai/Desktop/MPShuai/mp20-team-a6-fa/shuaiMPFinal -I/home/shuai/Desktop/MPShuai/mp20-team-a6-fa/worldLib -I/home/shuai/Qt15.1/5.15.1/gcc_64/include -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtWidgets -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtGui -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/include/clang/6.0.0/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../shuaiMPFinal/qtile.h -o moc_qtile.cpp
-
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
@@ -1711,7 +1336,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
@@ -1844,7 +1469,8 @@ controller.o: ../shuaiMPFinal/controller.cpp ../shuaiMPFinal/controller.h \
 		../shuaiMPFinal/qenemy.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		../shuaiMPFinal/qprotagonist.h \
-		../shuaiMPFinal/qhealthpack.h
+		../shuaiMPFinal/qhealthpack.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QtDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o controller.o ../shuaiMPFinal/controller.cpp
 
 main.o: ../shuaiMPFinal/main.cpp ../shuaiMPFinal/mainwindow.h \
@@ -2126,39 +1752,7 @@ mainwindow.o: ../shuaiMPFinal/mainwindow.cpp ../shuaiMPFinal/mainwindow.h \
 		../shuaiMPFinal/controller.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QList \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QDebug \
-		ui_mainwindow.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QVariant \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QApplication \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qeventloop.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QHBoxLayout \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qlayout.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgridlayout.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QLineEdit \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qlineedit.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtextcursor.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtextformat.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QMenuBar \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qmenubar.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qmenu.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qaction.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qactiongroup.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QProgressBar \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qprogressbar.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QPushButton \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qpushbutton.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QSpacerItem \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QStatusBar \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qstatusbar.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QVBoxLayout \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QWidget
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../shuaiMPFinal/mainwindow.cpp
 
 model.o: ../shuaiMPFinal/model.cpp ../shuaiMPFinal/model.h \
@@ -2238,7 +1832,7 @@ model.o: ../shuaiMPFinal/model.cpp ../shuaiMPFinal/model.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qdatastream.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qiodevice.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qline.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QtDebug \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QDebug \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qdebug.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qhash.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmap.h \
@@ -2356,7 +1950,8 @@ myqscene.o: ../shuaiMPFinal/myqscene.cpp ../shuaiMPFinal/myqscene.h \
 		../shuaiMPFinal/qenemy.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		../shuaiMPFinal/qprotagonist.h \
-		../shuaiMPFinal/qhealthpack.h
+		../shuaiMPFinal/qhealthpack.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QtDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o myqscene.o ../shuaiMPFinal/myqscene.cpp
 
 myqview.o: ../shuaiMPFinal/myqview.cpp ../shuaiMPFinal/myqview.h \
@@ -2485,14 +2080,15 @@ myqview.o: ../shuaiMPFinal/myqview.cpp ../shuaiMPFinal/myqview.h \
 		../shuaiMPFinal/qenemy.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		../shuaiMPFinal/qprotagonist.h \
-		../shuaiMPFinal/qhealthpack.h
+		../shuaiMPFinal/qhealthpack.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QtDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o myqview.o ../shuaiMPFinal/myqview.cpp
 
 qenemy.o: ../shuaiMPFinal/qenemy.cpp ../shuaiMPFinal/qenemy.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QObject \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobject.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qnamespace.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsitem.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtguiglobal.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qglobal.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qconfig.h \
@@ -2514,6 +2110,11 @@ qenemy.o: ../shuaiMPFinal/qenemy.cpp ../shuaiMPFinal/qenemy.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmutex.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qnumeric.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtgui-config.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobject.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qnamespace.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstring.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qchar.h \
@@ -2542,12 +2143,6 @@ qenemy.o: ../shuaiMPFinal/qenemy.cpp ../shuaiMPFinal/qenemy.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qvarlengtharray.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcontainerfwd.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobject_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsitem.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtguiglobal.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtgui-config.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qvariant.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmap.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qdebug.h \
@@ -2675,10 +2270,10 @@ qhealthpack.o: ../shuaiMPFinal/qhealthpack.cpp ../shuaiMPFinal/qhealthpack.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qhealthpack.o ../shuaiMPFinal/qhealthpack.cpp
 
 qprotagonist.o: ../shuaiMPFinal/qprotagonist.cpp ../shuaiMPFinal/qprotagonist.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QObject \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobject.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobjectdefs.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qnamespace.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsitem.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtguiglobal.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qglobal.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qconfig.h \
@@ -2700,6 +2295,11 @@ qprotagonist.o: ../shuaiMPFinal/qprotagonist.cpp ../shuaiMPFinal/qprotagonist.h 
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmutex.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qnumeric.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtgui-config.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobject.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qnamespace.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qstring.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qchar.h \
@@ -2728,12 +2328,6 @@ qprotagonist.o: ../shuaiMPFinal/qprotagonist.cpp ../shuaiMPFinal/qprotagonist.h 
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qvarlengtharray.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcontainerfwd.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qobject_impl.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsitem.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtguiglobal.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtgui-config.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qvariant.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qmap.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qdebug.h \
@@ -2857,8 +2451,14 @@ qtile.o: ../shuaiMPFinal/qtile.cpp ../shuaiMPFinal/qtile.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qrgba64.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qimage.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpixelformat.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QObject
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/QBrush \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qbrush.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/QPen \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpen.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qtile.o ../shuaiMPFinal/qtile.cpp
+
+qrc_res.o: qrc_res.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_res.o qrc_res.cpp
 
 moc_controller.o: moc_controller.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_controller.o moc_controller.cpp
@@ -2871,18 +2471,6 @@ moc_myqscene.o: moc_myqscene.cpp
 
 moc_myqview.o: moc_myqview.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_myqview.o moc_myqview.cpp
-
-moc_qenemy.o: moc_qenemy.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_qenemy.o moc_qenemy.cpp
-
-moc_qhealthpack.o: moc_qhealthpack.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_qhealthpack.o moc_qhealthpack.cpp
-
-moc_qprotagonist.o: moc_qprotagonist.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_qprotagonist.o moc_qprotagonist.cpp
-
-moc_qtile.o: moc_qtile.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_qtile.o moc_qtile.cpp
 
 ####### Install
 
