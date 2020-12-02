@@ -24,7 +24,11 @@ public:
 
 private slots:
     void on_lineEdit_editingFinished();
-
+    void getEnegyValue(int enegy);
+    void getHealthValue(int health);
+signals:
+    void energyChanged(int enegy);
+    void healthChanged(int health);
 private:
     Ui::Widget *ui;
     QLabel *hint;

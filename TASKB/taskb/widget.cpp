@@ -52,8 +52,10 @@ Widget::Widget(QWidget *parent)
 
     ui->energyBar->setValue(100);
     ui->healthBar->setValue(100);
-    connect(controller->getProtagonist().get(),&Protagonist::energyChanged,ui->energyBar,&QProgressBar::setValue);
-    connect(controller->getProtagonist().get(),&Protagonist::healthChanged,ui->healthBar,&QProgressBar::setValue);
+    connect(controller->getProtagonist().get(),&Protagonist::energyChanged,this,&Widget::getEnegyValue);
+    connect(controller->getProtagonist().get(),&Protagonist::healthChanged,this,&Widget::getHealthValue);
+    connect(this,&Widget::energyChanged,ui->energyBar,&QProgressBar::setValue);
+    connect(this,&Widget::healthChanged,ui->healthBar,&QProgressBar::setValue);
 }
 
 Widget::~Widget()
@@ -95,5 +97,23 @@ void Widget::on_lineEdit_editingFinished()
         else{
             hint->setText("Can't find this command.");
         }
+    }
+}
+
+void Widget::getEnegyValue(int enegy)
+{
+    if(enegy<0){
+        emit energyChanged(0);
+    }else{
+        emit energyChanged(enegy);
+    }
+}
+
+void Widget::getHealthValue(int health)
+{
+    if(health<0){
+        emit healthChanged(0);
+    }else{
+        emit healthChanged(health);
     }
 }

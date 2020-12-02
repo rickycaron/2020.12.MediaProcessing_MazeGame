@@ -23,6 +23,7 @@ public:
     void printHealthpacks(const std::vector<std::shared_ptr<Tile>> &healthpacks);
     int detectHealthpack();
     void redrawHealthpack(int index);
+    void redrawState(float poisonLevel);
     int getEnemyIndex() const;
     void setEnemyIndex(int value);
 
@@ -30,7 +31,7 @@ public:
     void setIsPEnemy(bool value);
 
 public slots:
-    void redrawProtagonist(int xPos, int yPos);
+    void redrawPosition(int xPos, int yPos);
     void collideEnemy(int i, bool isP);
 private:
     QList<TTile *> tileQlist;

@@ -12,6 +12,8 @@ Controller::Controller(QObject *parent):QObject(parent)
 
     protagonist = world->getProtagonist();
     maxEH = protagonist->getEnergy();
+    connect(protagonist.get(),&Protagonist::energyChanged,this,&Controller::gameover);
+    connect(protagonist.get(),&Protagonist::healthChanged,this,&Controller::gameover);
 
     std::vector<std::unique_ptr<Tile>> tempTiles = world->getTiles();
     for(unsigned int i=0; i<tempTiles.size(); i++){
@@ -37,6 +39,7 @@ Controller::Controller(QObject *parent):QObject(parent)
 
     for(unsigned int i=0;i<pEnemies.size();i++){
         connect(pEnemies[i].get(),&PEnemy::poisonLevelUpdated,this,&Controller::getPoisonLevel);
+        connect(pEnemies[i].get(),&PEnemy::dead,this,&Controller::resetPoisonLevel);
     }
 }
 
@@ -52,7 +55,7 @@ void Controller::addSceneToView(QGraphicsView &view)
 
 void Controller::moveRight()
 {
-    if(!checkXBoundary(protagonist->getXPos()+1)){
+    if(!isOutside(protagonist->getXPos()+1,protagonist->getYPos())){
         protagonist->setXPos(protagonist->getXPos()+1);
         //qDebug()<<"move right";
         consumeEnergy();
@@ -65,7 +68,7 @@ void Controller::moveRight()
 
 void Controller::moveLeft()
 {
-    if(!checkXBoundary(protagonist->getXPos()-1)){
+    if(!isOutside(protagonist->getXPos()-1,protagonist->getYPos())){
         protagonist->setXPos(protagonist->getXPos()-1);
         //qDebug()<<"move left";
         consumeEnergy();
@@ -78,7 +81,7 @@ void Controller::moveLeft()
 
 void Controller::moveUp()
 {
-    if(!checkYBoundary(protagonist->getYPos()-1)){
+    if(!isOutside(protagonist->getXPos(),protagonist->getYPos()-1)){
         protagonist->setYPos(protagonist->getYPos()-1);
         //qDebug()<<"move up";
         consumeEnergy();
@@ -91,7 +94,7 @@ void Controller::moveUp()
 
 void Controller::moveDown()
 {
-    if(!checkYBoundary(protagonist->getYPos()+1)){
+    if(!isOutside(protagonist->getXPos(),protagonist->getYPos()+1)){
         protagonist->setYPos(protagonist->getYPos()+1);
         //qDebug()<<"move down";
         consumeEnergy();
@@ -109,6 +112,25 @@ void Controller::consumeEnergy()
     qDebug()<<"Energy: "<<protagonist->getEnergy()<<",Health: "<<protagonist->getHealth();
 }
 
+void Controller::getPoisoned()
+{
+    if(xposP-1<=protagonist->getXPos()&&protagonist->getXPos()<=xposP+1&&yposP-1<=protagonist->getYPos()&&protagonist->getYPos()<=yposP+1&&poisonLevel>0){
+        //qDebug()<<"get poisoned "<<poisonLevel;
+        protagonist->setHealth(protagonist->getHealth()-poisonLevel);
+        scene->redrawState(poisonLevel);
+        QTimer::singleShot(3000, this, &Controller::getPoisoned);
+    }else{
+        scene->redrawState(0);
+    }
+}
+
+void Controller::gameover(int checkvalue)
+{
+    if(checkvalue<=0){
+        qDebug()<<"Game over!";
+    }
+}
+
 void Controller::attack()
 {
     if(enemyIndex!=-1){
@@ -116,10 +138,13 @@ void Controller::attack()
             //if(!pEnemies[enemyIndex]->getDefeated()){
             if(pEnemies[enemyIndex]->getPoisonLevel()!=0){
                 //pEnemies[enemyIndex]->setDefeated(true);
+                xposP=pEnemies[enemyIndex]->getXPos();
+                yposP=pEnemies[enemyIndex]->getYPos();
                 pEnemies[enemyIndex]->poison();
                 protagonist->setHealth(protagonist->getHealth()-pEnemies[enemyIndex]->getValue());
                 qDebug()<<"Attack a poison enemy, enemy strength:"<<pEnemies[enemyIndex]->getValue();
                 protagonist->setEnergy(maxEH);
+                getPoisoned();
             }
             else{
                 qDebug()<<"This enemy is already dead.";
@@ -140,7 +165,6 @@ void Controller::attack()
     else{
         qDebug()<<"No enemy.";
     }
-    qDebug()<<"Energy:"<<protagonist->getEnergy()<<", health:"<<protagonist->getHealth();
 }
 
 void Controller::take()
@@ -172,12 +196,19 @@ void Controller::move()
 
 void Controller::getPoisonLevel(float p)
 {
-    qDebug()<<"poisonLevel = "<<p;
+    poisonLevel=p;
+}
+
+void Controller::resetPoisonLevel()
+{
+    poisonLevel=0;
+    xposP=-1;
+    yposP=-1;
 }
 
 void Controller::gotoXY(int x, int y)
 {
-    if(checkXBoundary(x)||checkYBoundary(y)){
+    if(isOutside(x,y)){
         qDebug()<<"outside the world!";
     }else{
         path = pathfinder->findpath(protagonist->getXPos(),protagonist->getYPos(),x,y);
@@ -211,22 +242,13 @@ void Controller::detectHealthpack()
     }
 }
 
-bool Controller::checkXBoundary(int xPos)
+bool Controller::isOutside(int x, int y)
 {
-    if(xPos>col-1||xPos<0){
-        return true;
-    }else{
-        return false;
+    bool isoutside=false;
+    if(x>col-1||x<0||y>row-1||y<0){
+        isoutside=true;
     }
-}
-
-bool Controller::checkYBoundary(int yPos)
-{
-    if(yPos>row-1||yPos<0){
-        return true;
-    }else{
-        return false;
-    }
+    return isoutside;
 }
 
 int Controller::getRow() const

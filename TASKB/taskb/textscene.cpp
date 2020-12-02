@@ -21,7 +21,7 @@ TextScene::TextScene(QObject *parent, const std::vector<std::shared_ptr<Tile> > 
     printProtagonist(protagonist);
     printEnemies(normalEnemies,pEnemies);
     printHealthpacks(healthpacks);
-    connect(protagonist.get(),&Protagonist::posChanged,this,&TextScene::redrawProtagonist);
+    connect(protagonist.get(),&Protagonist::posChanged,this,&TextScene::redrawPosition);
 
     for(int i=0; i<normalEnemyQlist.size(); i++){
         connect(normalEnemies[i].get(),&Enemy::dead,normalEnemyQlist[i],&TEnemy::indicateDead);
@@ -38,6 +38,7 @@ TextScene::TextScene(QObject *parent, const std::vector<std::shared_ptr<Tile> > 
             for(int m=y-1;m<=y+1;m++){
                 if(n>=0&&n<col&&m>=0&&m<row){
                     connect(pEnemies[i].get(),&PEnemy::poisonLevelUpdated,tileQlist[m*col+n],&TTile::getPolluted);
+                    connect(pEnemies[i].get(),&PEnemy::dead,tileQlist[m*col+n],&TTile::clean);
                 }
             }
         }
@@ -61,6 +62,8 @@ void TextScene::printTiles(const std::vector<std::shared_ptr<Tile>> &tiles)
 void TextScene::printProtagonist(const std::shared_ptr<Protagonist> &protagonist)
 {
     protagonistView = new TProtagonist(protagonist->getXPos(),protagonist->getYPos());
+    connect(protagonist.get(),&Protagonist::energyChanged,protagonistView,&TProtagonist::checkState);
+    connect(protagonist.get(),&Protagonist::healthChanged,protagonistView,&TProtagonist::checkState);
     this->addItem(protagonistView);
 }
 
@@ -104,9 +107,14 @@ void TextScene::redrawHealthpack(int index)
     healthpackQlist[index]->emptyContent();
 }
 
-void TextScene::redrawProtagonist(int xPos, int yPos)
+void TextScene::redrawPosition(int xPos, int yPos)
 {
     protagonistView->setPos(20*xPos,20*yPos);
+}
+
+void TextScene::redrawState(float poisonLevel)
+{
+    protagonistView->getPoisoned(poisonLevel);
 }
 
 void TextScene::collideEnemy(int i, bool isP)

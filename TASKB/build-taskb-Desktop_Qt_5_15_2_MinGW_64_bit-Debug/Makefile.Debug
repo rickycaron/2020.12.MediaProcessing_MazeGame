@@ -3210,7 +3210,8 @@ debug/ttile.o: ../taskb/ttile.cpp ../taskb/ttile.h \
 		C:/Qt/5.15.2/mingw81_64/include/QtGui/QPainter \
 		C:/Qt/5.15.2/mingw81_64/include/QtGui/qpainter.h \
 		C:/Qt/5.15.2/mingw81_64/include/QtGui/qtextoption.h \
-		C:/Qt/5.15.2/mingw81_64/include/QtGui/qpen.h
+		C:/Qt/5.15.2/mingw81_64/include/QtGui/qpen.h \
+		C:/Qt/5.15.2/mingw81_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/ttile.o ../taskb/ttile.cpp
 
 debug/widget.o: ../taskb/widget.cpp ../taskb/widget.h \

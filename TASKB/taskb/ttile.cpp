@@ -1,5 +1,6 @@
 #include "ttile.h"
 #include <QPainter>
+#include <QDebug>
 
 TTile::TTile(int xPos, int yPos, bool ispassable):QGraphicsTextItem()
 {
@@ -42,5 +43,11 @@ void TTile::getPolluted(int poisonLevel)
 {
     //QPainter painter;
     pollutedLevel=poisonLevel;
+    update(boundingRect());
+}
+
+void TTile::clean()
+{
+    pollutedLevel=0;
     update(boundingRect());
 }

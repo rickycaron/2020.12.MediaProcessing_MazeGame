@@ -23,9 +23,7 @@ public:
     void consumeEnergy();
     void detectEnemy();
     void detectHealthpack();
-    bool checkXBoundary(int xPos);
-    bool checkYBoundary(int yPos);
-
+    bool isOutside(int x, int y);
     int getRow() const;
     int getCol() const;
     std::shared_ptr<Protagonist> getProtagonist() const;
@@ -34,6 +32,10 @@ public:
 private slots:
     void move();
     void getPoisonLevel(float p);
+    void resetPoisonLevel();
+    void getPoisoned();
+    void gameover(int checkvalue);
+    //void win();
 private:
     TextScene *scene;
     float maxEH;
@@ -41,6 +43,9 @@ private:
     int col = 0;
     int enemyIndex{-1};
     bool isPEnemy{false};
+    float poisonLevel;
+    int xposP;
+    int yposP;
     std::unique_ptr<World> world;
     std::shared_ptr<Protagonist> protagonist;
     std::vector<std::shared_ptr<Tile>> tiles;
