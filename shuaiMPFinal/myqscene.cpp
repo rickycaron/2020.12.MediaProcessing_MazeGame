@@ -30,6 +30,11 @@ void MyQScene::printProtagonist(const std::shared_ptr<Protagonist> &protagonist)
 
     protagonistView = new QProtagonist(protagonist->getXPos(),protagonist->getYPos(),scale);
 
+    connect(protagonist.get(),&Protagonist::posChanged,[=](int x,int y){
+        protagonistView->reSetPos(x,y);
+});
+
+
     this->addItem(protagonistView);
 }
 

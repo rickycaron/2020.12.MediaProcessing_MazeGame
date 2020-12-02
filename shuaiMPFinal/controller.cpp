@@ -88,4 +88,22 @@ int Controller::detectHealthPack()
 void Controller::on_keyPressSlot(int index)
 {
     qDebug()<<"key is pressed and the index is" << index;
+
+    switch (index) {
+    case 0:
+        moveUp();
+        break;
+    case 1:
+        moveDown();
+        break;
+    case 2:
+        moveLeft();
+        break;
+    case 3:
+        moveRight();
+        break;
+
+    }
+
+
 }

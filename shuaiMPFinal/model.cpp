@@ -90,14 +90,14 @@ void Model::moveLeft()
 
 void Model::moveUp()
 {
-    protagonist->setYPos(protagonist->getYPos()+scale);
+    protagonist->setYPos(protagonist->getYPos()-scale);
     qDebug()<<"Move up";
     consumeEnergy();
 }
 
 void Model::moveDown()
 {
-    protagonist->setYPos(protagonist->getYPos()-scale);
+    protagonist->setYPos(protagonist->getYPos()+scale);
     qDebug()<<"Move down";
     consumeEnergy();
 }

@@ -26,7 +26,21 @@ int MyQView::detectHealthPack()
 void MyQView::keyPressEvent(QKeyEvent *event)
 {
 //    qDebug()<<"key is pressed1";
-    int index =1121;
-    emit keyPressSignal(index);
+
+    switch (event->key()) {
+    case Qt::Key_Up:
+        emit keyPressSignal(0);
+        break;
+    case Qt::Key_Down:
+        emit keyPressSignal(1);
+        break;
+    case Qt::Key_Left:
+        emit keyPressSignal(2);
+        break;
+    case Qt::Key_Right:
+        emit keyPressSignal(3);
+        break;
+
+    }
     QGraphicsView::keyPressEvent(event);
 }
