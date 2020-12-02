@@ -19,6 +19,7 @@ void TTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     mPen->setWidth(1);
     mPen->setStyle(Qt::DashLine);
     painter->setPen(*mPen);
+    painter->setBrush(QBrush(QColor(100,100,100,pollutedLevel)));
     if(!getPassable()){
         painter->setBrush(Qt::SolidPattern);
     }
@@ -39,7 +40,7 @@ void TTile::setPassable(bool value)
 
 void TTile::getPolluted(int poisonLevel)
 {
-    QPainter painter;
-    painter.setBrush(QBrush(QColor(100,100,100,255-poisonLevel)));
-    painter.drawRect(boundingRect());
+    //QPainter painter;
+    pollutedLevel=poisonLevel;
+    update(boundingRect());
 }

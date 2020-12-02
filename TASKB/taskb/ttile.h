@@ -17,6 +17,7 @@ public slots:
     void getPolluted(int poisonLevel);
 private:
     bool passable;
+    int pollutedLevel;
 
 };
 
