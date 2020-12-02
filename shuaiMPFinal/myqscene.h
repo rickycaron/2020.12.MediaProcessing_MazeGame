@@ -1,0 +1,39 @@
+#ifndef MYQSCENE_H
+#define MYQSCENE_H
+
+#include <QGraphicsScene>
+#include <QObject>
+#include"model.h"
+#include"qtile.h"
+#include"qenemy.h"
+#include"qprotagonist.h"
+#include"qhealthpack.h"
+
+
+class MyQScene : public QGraphicsScene
+{
+    Q_OBJECT
+public:
+    MyQScene(QObject *parent, const std::vector<std::shared_ptr<Tile>> &tiles, const std::shared_ptr<Protagonist> &protagonist,
+              const std::vector<std::shared_ptr<Enemy>> &enemies, const std::vector<std::shared_ptr<Tile>> &healthpacks);
+    void printTiles(const std::vector<std::shared_ptr<Tile>> &tiles);
+    void printProtagonist(const std::shared_ptr<Protagonist> &protagonist);
+    void printEnemies(const std::vector<std::shared_ptr<Enemy>> &enemies);
+    void printHealthpacks(const std::vector<std::shared_ptr<Tile>> &healthpacks);
+    int detectEnemy();
+    int detectHealthpack();
+    void redrawHealthpack(int index);
+public slots:
+    void redrawProtagonist(int xPos, int yPos);
+private:
+QList<QTile *> tileQlist;
+QProtagonist *protagonistView;
+QList<QEnemy *> enemyQlist;
+QList<QHealthPack *> healthpackQlist;
+};
+
+#endif // MYQSCENE_H
+
+
+
+
