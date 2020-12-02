@@ -15,6 +15,11 @@ QRectF TProtagonist::boundingRect() const
     return QRectF(0,0,20,20);
 }
 
+void TProtagonist::getPoisoned()
+{
+    setDefaultTextColor(QColorConstants::Blue);
+}
+
 //void TProtagonist::moveRight()
 //{
 //    xAnimation->stop();

@@ -8,7 +8,7 @@
 
 class TProtagonist : public QGraphicsTextItem
 {
-//    Q_OBJECT
+    Q_OBJECT
 //    Q_PROPERTY(qreal x READ x WRITE setX)
 //    Q_PROPERTY(qreal y READ y WRITE setY)
 public:
@@ -21,7 +21,8 @@ public:
 //    qreal x() const;
 //    qreal y() const;
 
-//public slots:
+public slots:
+    void getPoisoned();
 //    void setX(qreal x);
 //    void setY(qreal y);
 

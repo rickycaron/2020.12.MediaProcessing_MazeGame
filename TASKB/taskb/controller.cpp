@@ -5,7 +5,7 @@
 Controller::Controller(QObject *parent):QObject(parent)
 {
     world = std::make_unique<World>();
-    world->createWorld(":/images/worldmap.png",10,10,0.5);
+    world->createWorld(":/images/worldmap.png",15,5,0.5);
 
     row = world->getRows();
     col = world->getCols();
@@ -34,11 +34,15 @@ Controller::Controller(QObject *parent):QObject(parent)
     }
 
     pathfinder=std::make_shared<Pathfinder>(row,col,tiles);
+
+    for(unsigned int i=0;i<pEnemies.size();i++){
+        connect(pEnemies[i].get(),&PEnemy::poisonLevelUpdated,this,&Controller::getPoisonLevel);
+    }
 }
 
 void Controller::createScene(QWidget *parent)
 {
-    scene = new TextScene(parent, tiles, protagonist, normalEnemies, pEnemies, healthpacks);
+    scene = new TextScene(parent, tiles, protagonist, normalEnemies, pEnemies, healthpacks, row, col);
 }
 
 void Controller::addSceneToView(QGraphicsView &view)
@@ -50,7 +54,7 @@ void Controller::moveRight()
 {
     if(!checkXBoundary(protagonist->getXPos()+1)){
         protagonist->setXPos(protagonist->getXPos()+1);
-        qDebug()<<"move right";
+        //qDebug()<<"move right";
         consumeEnergy();
         detectEnemy();
         detectHealthpack();
@@ -63,7 +67,7 @@ void Controller::moveLeft()
 {
     if(!checkXBoundary(protagonist->getXPos()-1)){
         protagonist->setXPos(protagonist->getXPos()-1);
-        qDebug()<<"move left";
+        //qDebug()<<"move left";
         consumeEnergy();
         detectEnemy();
         detectHealthpack();
@@ -76,7 +80,7 @@ void Controller::moveUp()
 {
     if(!checkYBoundary(protagonist->getYPos()-1)){
         protagonist->setYPos(protagonist->getYPos()-1);
-        qDebug()<<"move up";
+        //qDebug()<<"move up";
         consumeEnergy();
         detectEnemy();
         detectHealthpack();
@@ -89,7 +93,7 @@ void Controller::moveDown()
 {
     if(!checkYBoundary(protagonist->getYPos()+1)){
         protagonist->setYPos(protagonist->getYPos()+1);
-        qDebug()<<"move down";
+        //qDebug()<<"move down";
         consumeEnergy();
         detectEnemy();
         detectHealthpack();
@@ -109,8 +113,10 @@ void Controller::attack()
 {
     if(enemyIndex!=-1){
         if(isPEnemy){
-            if(!pEnemies[enemyIndex]->getDefeated()){
-                pEnemies[enemyIndex]->setDefeated(true);
+            //if(!pEnemies[enemyIndex]->getDefeated()){
+            if(pEnemies[enemyIndex]->getPoisonLevel()!=0){
+                //pEnemies[enemyIndex]->setDefeated(true);
+                pEnemies[enemyIndex]->poison();
                 protagonist->setHealth(protagonist->getHealth()-pEnemies[enemyIndex]->getValue());
                 qDebug()<<"Attack a poison enemy, enemy strength:"<<pEnemies[enemyIndex]->getValue();
                 protagonist->setEnergy(maxEH);
@@ -156,10 +162,17 @@ void Controller::move()
         std::shared_ptr<Tile> nextTile = path.pop();
         protagonist->setPos(nextTile->getXPos(),nextTile->getYPos());
         consumeEnergy();
+        detectEnemy();
+        detectHealthpack();
         QTimer::singleShot(1000, this, &Controller::move);
     }else{
         qDebug()<<"Finish!";
     }
+}
+
+void Controller::getPoisonLevel(float p)
+{
+    qDebug()<<"poisonLevel = "<<p;
 }
 
 void Controller::gotoXY(int x, int y)
@@ -169,12 +182,6 @@ void Controller::gotoXY(int x, int y)
     }else{
         path = pathfinder->findpath(protagonist->getXPos(),protagonist->getYPos(),x,y);
         move();
-//        while(!path.isEmpty()){
-//            std::shared_ptr<Tile> nextTile = path.pop();
-//            //move(nextTile->getXPos(),nextTile->getYPos());
-//            qDebug()<<"x="<<nextTile->getXPos()<<", y="<<nextTile->getYPos();
-//        }
-        //protagonist->setPos(x,y);
     }
 }
 
@@ -190,7 +197,7 @@ void Controller::detectEnemy()
         }
         enemyIndex = scene->getEnemyIndex();
     }else{
-        qDebug()<<"No enemy.";
+        //qDebug()<<"No enemy.";
         isPEnemy = false;
         enemyIndex = -1;
     }

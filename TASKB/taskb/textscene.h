@@ -16,7 +16,7 @@ public:
 //              const std::vector<std::shared_ptr<Enemy>> &enemies, const std::vector<std::shared_ptr<Tile>> &healthpacks);
     TextScene(QObject *parent, const std::vector<std::shared_ptr<Tile>> &tiles, const std::shared_ptr<Protagonist> &protagonist,
               const std::vector<std::shared_ptr<Enemy>> &normalEnemies, const std::vector<std::shared_ptr<PEnemy>> &pEnemies,
-              const std::vector<std::shared_ptr<Tile>> &healthpacks);
+              const std::vector<std::shared_ptr<Tile>> &healthpacks, int row, int col);
     void printTiles(const std::vector<std::shared_ptr<Tile>> &tiles);
     void printProtagonist(const std::shared_ptr<Protagonist> &protagonist);
     void printEnemies(const std::vector<std::shared_ptr<Enemy>> &normalEnemies, const std::vector<std::shared_ptr<PEnemy>> &pEnemies);

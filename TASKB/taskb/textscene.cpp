@@ -14,7 +14,7 @@
 //    }
 //}
 
-TextScene::TextScene(QObject *parent, const std::vector<std::shared_ptr<Tile> > &tiles, const std::shared_ptr<Protagonist> &protagonist, const std::vector<std::shared_ptr<Enemy> > &normalEnemies, const std::vector<std::shared_ptr<PEnemy> > &pEnemies, const std::vector<std::shared_ptr<Tile> > &healthpacks)
+TextScene::TextScene(QObject *parent, const std::vector<std::shared_ptr<Tile> > &tiles, const std::shared_ptr<Protagonist> &protagonist, const std::vector<std::shared_ptr<Enemy> > &normalEnemies, const std::vector<std::shared_ptr<PEnemy> > &pEnemies, const std::vector<std::shared_ptr<Tile> > &healthpacks, int row, int col)
     :QGraphicsScene(parent)
 {
     printTiles(tiles);
@@ -32,6 +32,15 @@ TextScene::TextScene(QObject *parent, const std::vector<std::shared_ptr<Tile> > 
         connect(pEnemies[i].get(),&Enemy::dead,pEnemyQlist[i],&TEnemy::indicateDead);
         connect(protagonist.get(),&Protagonist::posChanged,pEnemyQlist[i],&TEnemy::checkCollide);
         connect(pEnemyQlist[i],&TEnemy::collide,this,&TextScene::collideEnemy);
+        int x = pEnemies[i]->getXPos();
+        int y = pEnemies[i]->getYPos();
+        for(int n=x-1;n<=x+1;n++){
+            for(int m=y-1;m<=y+1;m++){
+                if(n>=0&&n<col&&m>=0&&m<row){
+                    connect(pEnemies[i].get(),&PEnemy::poisonLevelUpdated,tileQlist[m*col+n],&TTile::getPolluted);
+                }
+            }
+        }
     }
 }
 

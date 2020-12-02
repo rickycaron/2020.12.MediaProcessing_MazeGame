@@ -33,6 +33,7 @@ public:
     std::vector<std::shared_ptr<Tile> > getHealthpacks() const;
 private slots:
     void move();
+    void getPoisonLevel(float p);
 private:
     TextScene *scene;
     float maxEH;

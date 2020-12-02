@@ -73,3 +73,8 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../world_v4/ -lworld
 
 INCLUDEPATH += $$PWD/../world_v4
 DEPENDPATH += $$PWD/../world_v4
+
+unix:!macx: LIBS += -L$$PWD/../world_v4/ -lworl
+
+INCLUDEPATH += $$PWD/../world_v4
+DEPENDPATH += $$PWD/../world_v4

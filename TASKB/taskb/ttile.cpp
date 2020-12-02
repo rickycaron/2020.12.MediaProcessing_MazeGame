@@ -19,12 +19,11 @@ void TTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     mPen->setWidth(1);
     mPen->setStyle(Qt::DashLine);
     painter->setPen(*mPen);
-    painter->drawRect(boundingRect());
-    delete mPen;
     if(!getPassable()){
         painter->setBrush(Qt::SolidPattern);
-        painter->drawRect(boundingRect());
     }
+    painter->drawRect(boundingRect());
+    delete mPen;
     QGraphicsTextItem::paint(painter,option,widget);
 }
 
@@ -36,4 +35,11 @@ bool TTile::getPassable() const
 void TTile::setPassable(bool value)
 {
     passable = value;
+}
+
+void TTile::getPolluted(int poisonLevel)
+{
+    QPainter painter;
+    painter.setBrush(QBrush(QColor(100,100,100,255-poisonLevel)));
+    painter.drawRect(boundingRect());
 }
