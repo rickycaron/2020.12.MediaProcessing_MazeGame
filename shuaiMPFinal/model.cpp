@@ -74,7 +74,7 @@ void Model::moveRight()
 {
     //After a movement,three things needed:
     //1.update energy //2.detect energy //3.detectpack
-    protagonist->setXPos(protagonist->getXPos()+scale);
+    protagonist->setXPos(protagonist->getXPos()+1);
     qDebug()<<"Move right";
     consumeEnergy();
 //  detectEnemy();  //implementation in controller, cause it is detected by view
@@ -83,21 +83,22 @@ void Model::moveRight()
 
 void Model::moveLeft()
 {
-    protagonist->setXPos(protagonist->getXPos()-scale);
+    protagonist->setXPos(protagonist->getXPos()-1);
     qDebug()<<"Move left";
     consumeEnergy();
 }
 
 void Model::moveUp()
 {
-    protagonist->setYPos(protagonist->getYPos()-scale);
+    protagonist->setYPos(protagonist->getYPos()-1);
+//    qDebug()<< "position now is" << xPos <<yPos;
     qDebug()<<"Move up";
     consumeEnergy();
 }
 
 void Model::moveDown()
 {
-    protagonist->setYPos(protagonist->getYPos()+scale);
+    protagonist->setYPos(protagonist->getYPos()+1);
     qDebug()<<"Move down";
     consumeEnergy();
 }
