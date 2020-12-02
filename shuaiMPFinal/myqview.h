@@ -12,7 +12,7 @@ class MyQView : public QGraphicsView
 public:
      MyQView(QWidget *parent = nullptr);
      void createScene( const std::vector<std::shared_ptr<Tile>> &tiles, const std::shared_ptr<Protagonist> &protagonist,
-                       const std::vector<std::shared_ptr<Enemy>> &enemies, const std::vector<std::shared_ptr<Tile>> &healthpacks);
+                       const std::vector<std::shared_ptr<Enemy>> &enemies, const std::vector<std::shared_ptr<Tile>> &healthpacks,int scale);
      int detectEnemy();
      int detectHealthPack();
      //function of view only
@@ -21,6 +21,7 @@ public:
 protected:
     void mousePressEvent(QMouseEvent * event);
 private:
+    int scale;
     MyQScene* qScene;
 signals:
     void mouseClickSignal(QPoint point);

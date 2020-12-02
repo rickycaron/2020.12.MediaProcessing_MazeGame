@@ -10,9 +10,7 @@ Model::Model(QString fileName,int scale)
     world->createWorld("/home/shuai/Desktop/libfinal/" + fileName + ".png",22,22,0.25);
 
     this->scale= scale;
-
-    qDebug()<< "successfully excute3"<<this->scale ;
-
+    readData();
 
 }
 

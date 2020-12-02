@@ -11,8 +11,7 @@ Controller::Controller(std::shared_ptr<Model> model, MyQView* view)
 
     this->model = model;
     this->view = view;
-    createScene();
-    qDebug()<< "successfully 222222222222222";
+    createScene(20);
 
 }
 
@@ -65,11 +64,11 @@ void Controller::take()
     model->take(index);
 }
 
-void Controller::createScene()
+void Controller::createScene(int scale)
 {
+
     view->createScene(model->getTiles(),model->getProtagonist()
-                      ,model->getEnemies(),model->getHealthpacks());
-    qDebug()<< "successfully 66666666666666";
+                      ,model->getEnemies(),model->getHealthpacks(),scale);
 
 }
 

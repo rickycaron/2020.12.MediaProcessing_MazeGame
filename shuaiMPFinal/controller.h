@@ -1,4 +1,4 @@
-#ifndef CONTROLLER_H
+﻿#ifndef CONTROLLER_H
 #define CONTROLLER_H
 #include<QObject>
 #include<memory>
@@ -22,7 +22,7 @@ public:
     void attack();
     void take();
     //controller+view
-    void createScene();
+    void createScene(int);
     int detectEnemy();
     int detectHealthPack();
 

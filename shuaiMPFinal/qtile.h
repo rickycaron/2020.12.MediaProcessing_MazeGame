@@ -7,7 +7,14 @@ class QTile : public QGraphicsRectItem
 {
 
 public:
-     QTile(int xPos,int ypos);
+     QTile(int xPos,int ypos,float value,int scale);
+
+private:
+     int xPos;
+     int yPos;
+     float value;
+     int scale;
+     void draw();
 
 };
 

@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->verticalLayout1->addWidget(qView);
      model = std::make_shared<Model>(QString("worldmap"),2);
      myController = std::make_shared<Controller>(model,qView);
-     qDebug()<< "successfully excute";
 }
 
 MainWindow::~MainWindow()

@@ -15,7 +15,7 @@ class MyQScene : public QGraphicsScene
     Q_OBJECT
 public:
     MyQScene(QObject *parent, const std::vector<std::shared_ptr<Tile>> &tiles, const std::shared_ptr<Protagonist> &protagonist,
-              const std::vector<std::shared_ptr<Enemy>> &enemies, const std::vector<std::shared_ptr<Tile>> &healthpacks);
+              const std::vector<std::shared_ptr<Enemy>> &enemies, const std::vector<std::shared_ptr<Tile>> &healthpacks,int scale);
     void printTiles(const std::vector<std::shared_ptr<Tile>> &tiles);
     void printProtagonist(const std::shared_ptr<Protagonist> &protagonist);
     void printEnemies(const std::vector<std::shared_ptr<Enemy>> &enemies);
@@ -26,6 +26,7 @@ public:
 public slots:
     void redrawProtagonist(int xPos, int yPos);
 private:
+    int scale=1;
 QList<QTile *> tileQlist;
 QProtagonist *protagonistView;
 QList<QEnemy *> enemyQlist;

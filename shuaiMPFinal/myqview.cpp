@@ -5,12 +5,11 @@ MyQView::MyQView(QWidget *parent) : QGraphicsView(parent)
 
 }
 
-void MyQView::createScene(const std::vector<std::shared_ptr<Tile> > &tiles, const std::shared_ptr<Protagonist> &protagonist, const std::vector<std::shared_ptr<Enemy> > &enemies, const std::vector<std::shared_ptr<Tile> > &healthpacks)
+void MyQView::createScene(const std::vector<std::shared_ptr<Tile> > &tiles, const std::shared_ptr<Protagonist> &protagonist, const std::vector<std::shared_ptr<Enemy> > &enemies, const std::vector<std::shared_ptr<Tile> > &healthpacks,int scale)
 {
-
-   qScene = new MyQScene(this, tiles, protagonist, enemies,healthpacks);
-   qDebug()<< "successfully 55555555555555555555555555";
-
+    this-> scale = scale;
+   qScene = new MyQScene(this, tiles, protagonist, enemies,healthpacks,scale);
+   setScene(qScene);
 }
 
 int MyQView::detectEnemy()
