@@ -35,9 +35,44 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QProgressBar" name="progressBar">
+       <widget class="QProgressBar" name="healthBar">
+        <property name="styleSheet">
+         <string notr="true">QProgressBar{
+border: 1px solid grey;
+border-radius: 5px;
+text-align: center;
+}
+QProgressBar::chunk{
+background-color: rgb(255, 0, 0);
+}
+</string>
+        </property>
         <property name="value">
          <number>24</number>
+        </property>
+        <property name="format">
+         <string>%p</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QProgressBar" name="energyBar">
+        <property name="styleSheet">
+         <string notr="true">QProgressBar{
+border: 1px solid grey;
+border-radius: 5px;
+text-align: center;
+}
+QProgressBar::chunk{
+background-color: rgb(114, 159, 207);
+}
+</string>
+        </property>
+        <property name="value">
+         <number>24</number>
+        </property>
+        <property name="format">
+         <string>%p</string>
         </property>
        </widget>
       </item>

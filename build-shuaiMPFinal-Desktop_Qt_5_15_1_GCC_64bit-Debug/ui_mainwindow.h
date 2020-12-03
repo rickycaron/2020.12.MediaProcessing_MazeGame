@@ -32,7 +32,8 @@ public:
     QVBoxLayout *verticalLayout1;
     QSpacerItem *horizontalSpacer;
     QVBoxLayout *verticalLayout_2;
-    QProgressBar *progressBar;
+    QProgressBar *healthBar;
+    QProgressBar *energyBar;
     QLineEdit *lineEdit;
     QPushButton *pushButton_3;
     QPushButton *pushButton;
@@ -60,11 +61,35 @@ public:
 
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        progressBar = new QProgressBar(centralwidget);
-        progressBar->setObjectName(QString::fromUtf8("progressBar"));
-        progressBar->setValue(24);
+        healthBar = new QProgressBar(centralwidget);
+        healthBar->setObjectName(QString::fromUtf8("healthBar"));
+        healthBar->setStyleSheet(QString::fromUtf8("QProgressBar{\n"
+"border: 1px solid grey;\n"
+"border-radius: 5px;\n"
+"text-align: center;\n"
+"}\n"
+"QProgressBar::chunk{\n"
+"background-color: rgb(255, 0, 0);\n"
+"}\n"
+""));
+        healthBar->setValue(24);
 
-        verticalLayout_2->addWidget(progressBar);
+        verticalLayout_2->addWidget(healthBar);
+
+        energyBar = new QProgressBar(centralwidget);
+        energyBar->setObjectName(QString::fromUtf8("energyBar"));
+        energyBar->setStyleSheet(QString::fromUtf8("QProgressBar{\n"
+"border: 1px solid grey;\n"
+"border-radius: 5px;\n"
+"text-align: center;\n"
+"}\n"
+"QProgressBar::chunk{\n"
+"background-color: rgb(114, 159, 207);\n"
+"}\n"
+""));
+        energyBar->setValue(24);
+
+        verticalLayout_2->addWidget(energyBar);
 
         lineEdit = new QLineEdit(centralwidget);
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
@@ -106,6 +131,8 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        healthBar->setFormat(QCoreApplication::translate("MainWindow", "%p", nullptr));
+        energyBar->setFormat(QCoreApplication::translate("MainWindow", "%p", nullptr));
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "SwitchView", nullptr));
         pushButton->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
         pushButton_2->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));

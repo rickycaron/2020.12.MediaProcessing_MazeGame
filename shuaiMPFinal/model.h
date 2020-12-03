@@ -8,6 +8,7 @@
 //into what we can use with view and controller
 class Model :public QObject
 {
+    Q_OBJECT
 public:
     Model(QString,int);
     //Getter for controller using
@@ -17,6 +18,7 @@ public:
     std::shared_ptr<Protagonist> getProtagonist() const;
     std::vector<std::shared_ptr<Tile> > getHealthpacks() const;
     std::vector<std::shared_ptr<Enemy> > getEnemies() const;
+    std::vector<std::shared_ptr<PEnemy> > getPEnemies() const;
     //Setter for manapulation from controller
     void moveRight();
     void moveLeft();
@@ -25,19 +27,31 @@ public:
     void consumeEnergy();
     void attack(int);
     void take(int);
+    bool setIsChangable(bool);
+    bool getIsChangable();
+
+
 
 private:
     float maxEH;
     int scale=0;
     int row = 0;
     int col = 0;
+    bool isChangable =true;
+    enum type{NONE=-1,ENEMY=0,PENEMY,HEALTHPACK};
 //    float maxEH;
     bool readData();
     std::unique_ptr<World> world;
     std::shared_ptr<Protagonist> protagonist;
     std::vector<std::shared_ptr<Tile>> tiles;
-    std::vector<std::shared_ptr<Enemy>> enemies;
+    std::vector<std::shared_ptr<Enemy>> normalEnemies;
+    std::vector<std::shared_ptr<PEnemy>> pEnemies;
     std::vector<std::shared_ptr<Tile>> healthpacks;
+
+signals:
+    void detectedSignal(int type, int index);
+//private slots :
+//    int detectEnemy(int,int);
 
 };
 

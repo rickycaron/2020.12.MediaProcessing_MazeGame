@@ -28,17 +28,59 @@ bool Model::readData()
 
         std::vector<std::unique_ptr<Enemy>> tempEnemies = world->getEnemies();
         for(unsigned int i=0; i<tempEnemies.size(); i++){
-            enemies.emplace_back(std::move(tempEnemies[i]));
+            std::shared_ptr<Enemy> e = std::move(tempEnemies[i]);
+            if(dynamic_cast<PEnemy*>(e.get())){
+                pEnemies.emplace_back(std::dynamic_pointer_cast<PEnemy>(e));
+                connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
+                    if(x==e->getXPos()&&y==e->getYPos()){
+                        qDebug()<< "there is an posional enermy";
+                        emit detectedSignal(PENEMY,i);
+                    }
+                    emit detectedSignal(-1,i);
+            });
+
+            }else{
+                normalEnemies.emplace_back(e);
+                connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
+                    if(x==e->getXPos()&&y==e->getYPos()){
+                        qDebug()<< "there is an normal enermy";
+                        emit detectedSignal(ENEMY,i);
+                    }
+                    emit detectedSignal(NONE,i);
+
+            });
+            }
         }
 
         std::vector<std::unique_ptr<Tile>> tempHealthpacks = world->getHealthPacks();
         for(unsigned int i=0; i<tempHealthpacks.size(); i++){
-            healthpacks.emplace_back(std::move(tempHealthpacks[i]));
+            std::shared_ptr<Tile> e = std::move(tempHealthpacks[i]);
+            healthpacks.emplace_back(e);
+            connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
+                if(x==e->getXPos()&&y==e->getYPos()){
+                    qDebug()<< "there is an health pack";
+                    emit detectedSignal(HEALTHPACK,i);
+                }
+                emit detectedSignal(NONE,i);
+
+        });
         }
-        if(row==0||col==0||protagonist==NULL||tiles.size()==0||enemies.size()==0||healthpacks.size()==0){
+        if(row==0||col==0||protagonist==NULL||tiles.size()==0||normalEnemies.size()==0||pEnemies.size()==0||healthpacks.size()==0){
             return false;
         }
         return true;
+}
+
+
+bool Model::setIsChangable(bool status)
+{
+    isChangable = status;
+    return isChangable;
+}
+
+bool Model::getIsChangable()
+{
+    return isChangable;
 }
 //Implementation of getter
 int Model::getRow() const
@@ -67,7 +109,12 @@ std::vector<std::shared_ptr<Tile> > Model::getHealthpacks() const
 
 std::vector<std::shared_ptr<Enemy> > Model::getEnemies() const
 {
-    return enemies;
+    return normalEnemies;
+}
+
+std::vector<std::shared_ptr<PEnemy> > Model::getPEnemies() const
+{
+    return pEnemies;
 }
 
 void Model::moveRight()
@@ -117,13 +164,13 @@ void Model::attack(int index)
     if(index==-1){
         qDebug()<<"No enemy.";
     }else{
-        if(enemies[index]->getDefeated()){
+        if(normalEnemies[index]->getDefeated()){
             qDebug()<<"The enemy is already dead";
         }else{
-            enemies[index]->setDefeated(true);
-            protagonist->setHealth(protagonist->getHealth()-enemies[index]->getValue());
+            normalEnemies[index]->setDefeated(true);
+            protagonist->setHealth(protagonist->getHealth()-normalEnemies[index]->getValue());
             protagonist->setEnergy(maxEH); //return back
-            qDebug()<<"Attack an enemy, enemy strength:"<<enemies[index]->getValue();
+            qDebug()<<"Attack an enemy, enemy strength:"<<normalEnemies[index]->getValue();
             qDebug()<<"Energy:"<<protagonist->getEnergy()<<", health:"<<protagonist->getHealth();
         }
     }

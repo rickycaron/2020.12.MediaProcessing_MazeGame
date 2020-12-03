@@ -13,9 +13,13 @@ MainWindow::MainWindow(QWidget *parent)
     qView  = new MyQView(this);
 
 
-    ui->verticalLayout1->addWidget(qView);
+     ui->verticalLayout1->addWidget(qView);
      model = std::make_shared<Model>(QString("worldmap"),2);
      myController = std::make_shared<Controller>(model,qView);
+     ui->energyBar->setValue(100);
+     ui->healthBar->setValue(100);
+     connect(model->getProtagonist().get(),&Protagonist::energyChanged,ui->energyBar,&QProgressBar::setValue);
+     connect(model->getProtagonist().get(),&Protagonist::healthChanged,ui->healthBar,&QProgressBar::setValue);
 }
 
 MainWindow::~MainWindow()

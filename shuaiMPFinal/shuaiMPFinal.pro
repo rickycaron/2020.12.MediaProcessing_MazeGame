@@ -17,6 +17,7 @@ SOURCES += \
     myqview.cpp \
     qenemy.cpp \
     qhealthpack.cpp \
+    qpenemy.cpp \
     qprotagonist.cpp \
     qtile.cpp
 
@@ -28,6 +29,7 @@ HEADERS += \
     myqview.h \
     qenemy.h \
     qhealthpack.h \
+    qpenemy.h \
     qprotagonist.h \
     qtile.h
 
