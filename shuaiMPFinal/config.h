@@ -7,6 +7,12 @@
 #define PROTAGONIST_LEFT_IMAGE ":/images/protagonistLeft.png"
 #define PROTAGONIST_RIGHT_IMAGE ":/images/protagonistRight.png"
 
+
+#define PENEMY_IMAGE ":/images/penemy%1.png"
+
+
+
+
 enum Direction{UP=0,DOWN,LEFT,RIGHT};
 
 

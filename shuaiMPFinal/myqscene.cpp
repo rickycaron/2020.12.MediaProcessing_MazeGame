@@ -1,6 +1,6 @@
 #include "myqscene.h"
 #include<QtDebug>
-
+#include<QTimer>
 MyQScene::MyQScene(QObject *parent, const std::vector<std::shared_ptr<Tile>> &tiles, const std::shared_ptr<Protagonist> &protagonist,
                    const std::vector<std::shared_ptr<Enemy>> &enemies,const std::vector<std::shared_ptr<PEnemy>> &penemies ,const std::vector<std::shared_ptr<Tile>> &healthpacks,int scale)
     :QGraphicsScene(parent)
@@ -55,6 +55,13 @@ void MyQScene::printPEnemies(const std::vector<std::shared_ptr<PEnemy> > &penemi
         QPEnemy * enemy = new QPEnemy(penemies[i]->getXPos(),penemies[i]->getYPos(),scale,this);
         penemyQlist.append(enemy);
         this->addItem(enemy);
+        //Timer setting
+       auto animationPEnemyTimer = new QTimer(this);
+        connect(animationPEnemyTimer,&QTimer::timeout,[=]{
+           enemy->animationPEnemy();
+        });
+        animationPEnemyTimer->start(300);
+
     }
 }
 

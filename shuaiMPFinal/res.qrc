@@ -2,10 +2,13 @@
     <qresource prefix="/">
         <file>images/healthPack.png</file>
         <file>images/enemy.png</file>
-        <file>images/penemy.png</file>
         <file>images/protagonistDown.png</file>
         <file>images/protagonistLeft.png</file>
         <file>images/protagonistRight.png</file>
         <file>images/protagonistUp.png</file>
+        <file>images/penemy1.png</file>
+        <file>images/penemy2.png</file>
+        <file>images/penemy3.png</file>
+        <file>images/penemy4.png</file>
     </qresource>
 </RCC>
