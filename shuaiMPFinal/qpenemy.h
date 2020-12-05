@@ -8,6 +8,8 @@ class QPEnemy : public QEnemy
 public:
     QPEnemy(int,int,int,QObject *);
     void animationPEnemy();
+    void setGrave();
+
 private:
     int scale;
     int imgCurrentIndex =0;

@@ -12,10 +12,7 @@ class Controller :public QObject
 {
     Q_OBJECT
 public:
-    enum axis{X=0,Y=1};
-    enum type{NONE=-1,ENEMY=0,PENEMY,HEALTHPACK};
-    enum sign{POSITIVE=1,NEGATIVE=-1};
-    enum direction{UP=0,DOWN,LEFT,RIGHT,TAKE,ATTACK};
+
     Controller(std::shared_ptr<Model>,QGraphicsView*);
     Controller(std::shared_ptr<Model>,MyQView*,QObject *parent);
     //controller+model

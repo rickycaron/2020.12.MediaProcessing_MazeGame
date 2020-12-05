@@ -9,11 +9,15 @@
 
 
 #define PENEMY_IMAGE ":/images/penemy%1.png"
+#define ENEMY_IMAGE ":/images/enemy.png"
+
+#define GRAVE_IMAGE "://images/grave.png"
 
 
-
-
-enum Direction{UP=0,DOWN,LEFT,RIGHT};
+enum axis{X=0,Y=1};
+enum type{NONE=-1,ENEMY=0,PENEMY,HEALTHPACK};
+enum sign{POSITIVE=1,NEGATIVE=-1};
+enum direction{UP=0,DOWN,LEFT,RIGHT,TAKE,ATTACK};
 
 
 #endif // CONFIG_H

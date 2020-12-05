@@ -128,10 +128,14 @@ void Controller::attack()
     if(this->detectedType==ENEMY){
         int index = this->detectedEnemyIndex;
            model->attack(index);
+           view ->getCurrentScene()->setDeath(ENEMY,index);
+
     }
     if(this->detectedType==PENEMY){
         int index = this->detectedPEnemyIndex;
            model->attack(index);
+//           view ->getCurrentScene()->setDeath(PENEMY,index);
+
     }
 //    if(this->detectedType==PENEMY){
 //        int index = this->detectedPEnemyIndex;

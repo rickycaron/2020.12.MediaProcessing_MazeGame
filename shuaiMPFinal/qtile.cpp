@@ -12,6 +12,13 @@ QTile::QTile(int xPos, int yPos,float value,int scale,QObject *parent):QGraphics
     draw();
 }
 
+void QTile::poisonTile()
+{
+    QColor poisonColor(128,0,128);
+    QBrush brush(poisonColor);
+    setBrush(brush);
+}
+
 void QTile::draw()
 {
 

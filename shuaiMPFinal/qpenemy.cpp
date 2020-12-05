@@ -24,3 +24,9 @@ void QPEnemy::animationPEnemy()
         imgCurrentIndex=0;
     }
 }
+
+void QPEnemy::setGrave()
+{
+    QPixmap image(GRAVE_IMAGE);
+    setPixmap(image.scaled(scale, scale));
+}

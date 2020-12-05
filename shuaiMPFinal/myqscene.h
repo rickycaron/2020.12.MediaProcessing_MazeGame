@@ -9,6 +9,7 @@
 #include"qpenemy.h"
 #include"qprotagonist.h"
 #include"qhealthpack.h"
+#include"world.h"
 
 
 class MyQScene : public QGraphicsScene
@@ -26,6 +27,11 @@ public:
     int detectHealthpack();
     void redrawHealthpack(int index);
     void changeProtagonistImage(int);
+    void setDeath(int,int);
+
+signals:
+void poisonTile(int,int,int);
+
 public slots:
     void redrawProtagonist(int xPos, int yPos);
 private:

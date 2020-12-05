@@ -808,7 +808,8 @@ qrc_res.cpp: ../shuaiMPFinal/res.qrc \
 		../shuaiMPFinal/images/healthPack.png \
 		../shuaiMPFinal/images/protagonistLeft.png \
 		../shuaiMPFinal/images/enemy.png \
-		../shuaiMPFinal/images/penemy4.png
+		../shuaiMPFinal/images/penemy4.png \
+		../shuaiMPFinal/images/grave.png
 	/home/shuai/Qt15.1/5.15.1/gcc_64/bin/rcc -name res ../shuaiMPFinal/res.qrc -o qrc_res.cpp
 
 compiler_moc_predefs_make_all: moc_predefs.h
@@ -2348,7 +2349,8 @@ qenemy.o: ../shuaiMPFinal/qenemy.cpp ../shuaiMPFinal/qenemy.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qrgb.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qrgba64.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qimage.h \
-		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpixelformat.h
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpixelformat.h \
+		../shuaiMPFinal/config.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qenemy.o ../shuaiMPFinal/qenemy.cpp
 
 qhealthpack.o: ../shuaiMPFinal/qhealthpack.cpp ../shuaiMPFinal/qhealthpack.h \
@@ -2535,7 +2537,8 @@ qpenemy.o: ../shuaiMPFinal/qpenemy.cpp ../shuaiMPFinal/qpenemy.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qrgba64.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qimage.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qpixelformat.h \
-		../shuaiMPFinal/config.h
+		../shuaiMPFinal/config.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qpenemy.o ../shuaiMPFinal/qpenemy.cpp
 
 qprotagonist.o: ../shuaiMPFinal/qprotagonist.cpp ../shuaiMPFinal/qprotagonist.h \

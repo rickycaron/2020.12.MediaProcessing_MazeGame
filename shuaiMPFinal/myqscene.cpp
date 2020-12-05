@@ -23,6 +23,26 @@ void MyQScene::printTiles(const std::vector<std::shared_ptr<Tile> > &tiles)
         QTile *tile = new QTile(tiles[i]->getXPos(),tiles[i]->getYPos(),tiles[i]->getValue(),scale,this);
         tileQlist.append(tile);
         this->addItem(tile);
+        connect(this,&MyQScene::poisonTile,[=](int xPEPos,int yPEPos,int poisonLevel){
+            int tileXPos =tiles[i]->getXPos();
+            int tileYPos =tiles[i]->getYPos();
+
+            if(std::abs(xPEPos-tileXPos)<2 && std::abs(yPEPos-tileYPos)<2){
+                if(poisonLevel==0){
+                    tile->draw();
+                }
+                else{
+                  tile->poisonTile();
+                  QTimer::singleShot(400,this,[=]{
+                      //to achieve animation
+                      tile->draw();
+                  });
+                }
+
+            }
+
+
+        });
     }
 }
 
@@ -56,9 +76,16 @@ void MyQScene::printPEnemies(const std::vector<std::shared_ptr<PEnemy> > &penemi
         penemyQlist.append(enemy);
         this->addItem(enemy);
         //Timer setting
-       auto animationPEnemyTimer = new QTimer(this);
+        auto animationPEnemyTimer = new QTimer(this);
         connect(animationPEnemyTimer,&QTimer::timeout,[=]{
            enemy->animationPEnemy();
+        });
+        connect(penemies[i].get(),&PEnemy::dead,[=]{
+           animationPEnemyTimer->stop();
+           enemy->setGrave();
+        });
+        connect(penemies[i].get(),&PEnemy::poisonLevelUpdated,[=]{
+           emit poisonTile(penemies[i]->getXPos(),penemies[i]->getYPos(),penemies[i].get()->getPoisonLevel());
         });
         animationPEnemyTimer->start(300);
 
@@ -105,6 +132,23 @@ void MyQScene::changeProtagonistImage(int dir)
 
     }
 }
+
+void MyQScene::setDeath(int type,int index)
+{
+    switch (type) {
+    case ENEMY:{
+        enemyQlist[index]->setGrave();
+        break;
+    }
+    case PENEMY:{
+        penemyQlist[index]->setGrave();
+        break;
+    }
+
+    }
+}
+
+
 
 
 
