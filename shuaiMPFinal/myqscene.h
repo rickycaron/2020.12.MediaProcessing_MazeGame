@@ -1,6 +1,6 @@
 #ifndef MYQSCENE_H
 #define MYQSCENE_H
-
+#include "config.h"
 #include <QGraphicsScene>
 #include <QObject>
 #include"model.h"
@@ -25,6 +25,7 @@ public:
     int detectEnemy();
     int detectHealthpack();
     void redrawHealthpack(int index);
+    void changeProtagonistImage(int);
 public slots:
     void redrawProtagonist(int xPos, int yPos);
 private:

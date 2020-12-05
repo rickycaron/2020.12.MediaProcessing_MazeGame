@@ -16,4 +16,3 @@ bool QEnemy::collideDetecction(int xPos,int yPos )
         return true;
     }
 }
-

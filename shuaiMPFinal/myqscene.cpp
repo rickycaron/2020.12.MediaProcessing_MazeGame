@@ -73,6 +73,32 @@ void MyQScene::redrawHealthpack(int index)
     healthpackQlist[index]->usedHealthPack();
 }
 
+void MyQScene::changeProtagonistImage(int dir)
+{
+    switch (dir) {
+    case UP:{
+        protagonistView->reSetImg(UP);
+        break;
+    }
+
+    case DOWN:{
+        protagonistView->reSetImg(DOWN);
+        break;
+    }
+
+    case LEFT:{
+        protagonistView->reSetImg(LEFT);
+        break;
+    }
+
+    case RIGHT:{
+        protagonistView->reSetImg(RIGHT);
+        break;
+    }
+
+    }
+}
+
 
 
 void MyQScene::redrawProtagonist(int xPos, int yPos)

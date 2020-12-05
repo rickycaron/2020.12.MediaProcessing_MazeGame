@@ -295,7 +295,8 @@ DIST          = ../../../../Qt15.1/5.15.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt15.1/5.15.1/gcc_64/mkspecs/features/exceptions.prf \
 		../../../../Qt15.1/5.15.1/gcc_64/mkspecs/features/yacc.prf \
 		../../../../Qt15.1/5.15.1/gcc_64/mkspecs/features/lex.prf \
-		../shuaiMPFinal/shuaiMPFinal.pro ../shuaiMPFinal/controller.h \
+		../shuaiMPFinal/shuaiMPFinal.pro ../shuaiMPFinal/config.h \
+		../shuaiMPFinal/controller.h \
 		../shuaiMPFinal/mainwindow.h \
 		../shuaiMPFinal/model.h \
 		../shuaiMPFinal/myqscene.h \
@@ -767,7 +768,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../shuaiMPFinal/res.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../../Qt15.1/5.15.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../shuaiMPFinal/controller.h ../shuaiMPFinal/mainwindow.h ../shuaiMPFinal/model.h ../shuaiMPFinal/myqscene.h ../shuaiMPFinal/myqview.h ../shuaiMPFinal/qenemy.h ../shuaiMPFinal/qhealthpack.h ../shuaiMPFinal/qpenemy.h ../shuaiMPFinal/qprotagonist.h ../shuaiMPFinal/qtile.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../shuaiMPFinal/config.h ../shuaiMPFinal/controller.h ../shuaiMPFinal/mainwindow.h ../shuaiMPFinal/model.h ../shuaiMPFinal/myqscene.h ../shuaiMPFinal/myqview.h ../shuaiMPFinal/qenemy.h ../shuaiMPFinal/qhealthpack.h ../shuaiMPFinal/qpenemy.h ../shuaiMPFinal/qprotagonist.h ../shuaiMPFinal/qtile.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../shuaiMPFinal/controller.cpp ../shuaiMPFinal/main.cpp ../shuaiMPFinal/mainwindow.cpp ../shuaiMPFinal/model.cpp ../shuaiMPFinal/myqscene.cpp ../shuaiMPFinal/myqview.cpp ../shuaiMPFinal/qenemy.cpp ../shuaiMPFinal/qhealthpack.cpp ../shuaiMPFinal/qpenemy.cpp ../shuaiMPFinal/qprotagonist.cpp ../shuaiMPFinal/qtile.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../shuaiMPFinal/mainwindow.ui $(DISTDIR)/
 
@@ -798,9 +799,12 @@ compiler_rcc_clean:
 	-$(DEL_FILE) qrc_res.cpp
 qrc_res.cpp: ../shuaiMPFinal/res.qrc \
 		../../../../Qt15.1/5.15.1/gcc_64/bin/rcc \
-		../shuaiMPFinal/images/protagonist.png \
+		../shuaiMPFinal/images/protagonistDown.png \
+		../shuaiMPFinal/images/protagonistUp.png \
+		../shuaiMPFinal/images/protagonistRight.png \
 		../shuaiMPFinal/images/healthPack.png \
 		../shuaiMPFinal/images/penemy.png \
+		../shuaiMPFinal/images/protagonistLeft.png \
 		../shuaiMPFinal/images/enemy.png
 	/home/shuai/Qt15.1/5.15.1/gcc_64/bin/rcc -name res ../shuaiMPFinal/res.qrc -o qrc_res.cpp
 
@@ -934,6 +938,7 @@ moc_controller.cpp: ../shuaiMPFinal/controller.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtouchdevice.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsscene.h \
 		../shuaiMPFinal/myqscene.h \
+		../shuaiMPFinal/config.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsScene \
 		../shuaiMPFinal/qtile.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsRectItem \
@@ -1072,6 +1077,7 @@ moc_mainwindow.cpp: ../shuaiMPFinal/mainwindow.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsscene.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QObject \
 		../shuaiMPFinal/myqscene.h \
+		../shuaiMPFinal/config.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsScene \
 		../shuaiMPFinal/model.h \
 		../worldLib/world.h \
@@ -1180,6 +1186,7 @@ moc_model.cpp: ../shuaiMPFinal/model.h \
 	/home/shuai/Qt15.1/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/shuai/Desktop/MPShuai/mp20-team-a6-fa/build-shuaiMPFinal-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/home/shuai/Qt15.1/5.15.1/gcc_64/mkspecs/linux-clang -I/home/shuai/Desktop/MPShuai/mp20-team-a6-fa/shuaiMPFinal -I/home/shuai/Desktop/MPShuai/mp20-team-a6-fa/worldLib -I/home/shuai/Qt15.1/5.15.1/gcc_64/include -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtWidgets -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtGui -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/include/clang/6.0.0/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../shuaiMPFinal/model.h -o moc_model.cpp
 
 moc_myqscene.cpp: ../shuaiMPFinal/myqscene.h \
+		../shuaiMPFinal/config.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsScene \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsscene.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -1403,6 +1410,7 @@ moc_myqview.cpp: ../shuaiMPFinal/myqview.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsscene.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QObject \
 		../shuaiMPFinal/myqscene.h \
+		../shuaiMPFinal/config.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsScene \
 		../shuaiMPFinal/model.h \
 		../worldLib/world.h \
@@ -1564,6 +1572,7 @@ controller.o: ../shuaiMPFinal/controller.cpp ../shuaiMPFinal/controller.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtouchdevice.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsscene.h \
 		../shuaiMPFinal/myqscene.h \
+		../shuaiMPFinal/config.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsScene \
 		../shuaiMPFinal/qtile.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsRectItem \
@@ -1701,6 +1710,7 @@ main.o: ../shuaiMPFinal/main.cpp ../shuaiMPFinal/mainwindow.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsscene.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QObject \
 		../shuaiMPFinal/myqscene.h \
+		../shuaiMPFinal/config.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsScene \
 		../shuaiMPFinal/model.h \
 		../worldLib/world.h \
@@ -1851,6 +1861,7 @@ mainwindow.o: ../shuaiMPFinal/mainwindow.cpp ../shuaiMPFinal/mainwindow.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsscene.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QObject \
 		../shuaiMPFinal/myqscene.h \
+		../shuaiMPFinal/config.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsScene \
 		../shuaiMPFinal/model.h \
 		../worldLib/world.h \
@@ -2000,6 +2011,7 @@ model.o: ../shuaiMPFinal/model.cpp ../shuaiMPFinal/model.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o model.o ../shuaiMPFinal/model.cpp
 
 myqscene.o: ../shuaiMPFinal/myqscene.cpp ../shuaiMPFinal/myqscene.h \
+		../shuaiMPFinal/config.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsScene \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsscene.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -2222,6 +2234,7 @@ myqview.o: ../shuaiMPFinal/myqview.cpp ../shuaiMPFinal/myqview.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsscene.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QObject \
 		../shuaiMPFinal/myqscene.h \
+		../shuaiMPFinal/config.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsScene \
 		../shuaiMPFinal/model.h \
 		../worldLib/world.h \
@@ -2519,6 +2532,7 @@ qpenemy.o: ../shuaiMPFinal/qpenemy.cpp ../shuaiMPFinal/qpenemy.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qpenemy.o ../shuaiMPFinal/qpenemy.cpp
 
 qprotagonist.o: ../shuaiMPFinal/qprotagonist.cpp ../shuaiMPFinal/qprotagonist.h \
+		../shuaiMPFinal/config.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgraphicsitem.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \

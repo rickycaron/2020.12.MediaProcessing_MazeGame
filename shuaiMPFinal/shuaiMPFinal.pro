@@ -22,6 +22,7 @@ SOURCES += \
     qtile.cpp
 
 HEADERS += \
+    config.h \
     controller.h \
     mainwindow.h \
     model.h \

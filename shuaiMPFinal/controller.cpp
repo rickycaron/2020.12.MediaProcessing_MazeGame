@@ -65,6 +65,8 @@ void Controller::moveRight()
     if(!checkModel()) {return;}
     if(!checkBoundary(X,POSITIVE)){
      model->moveRight();
+     view->getCurrentScene()->changeProtagonistImage(RIGHT);
+
     }
    else{
         qDebug()<<"at boundary!";
@@ -80,6 +82,8 @@ void Controller::moveLeft()
     if(!checkModel()) {return;}
     if(!checkBoundary(X,NEGATIVE)){
         model->moveLeft();
+        view->getCurrentScene()->changeProtagonistImage(LEFT);
+
     }
    else{
         qDebug()<<"at boundary!";
@@ -92,7 +96,10 @@ void Controller::moveUp()
 {
     if(!checkModel()) {return;}
     if(!checkBoundary(Y,NEGATIVE)){
+        //Model part
         model->moveUp();
+        //View Part
+        view->getCurrentScene()->changeProtagonistImage(UP);
     }
    else{
         qDebug()<<"at boundary!";
@@ -106,18 +113,15 @@ void Controller::moveDown()
     if(!checkModel()) {return;}
     if(!checkBoundary(Y,POSITIVE)){
         model->moveDown();
+        view->getCurrentScene()->changeProtagonistImage(DOWN);
+
     }
    else{
         qDebug()<<"at boundary!";
     }
-//    detectEnemy();
-//    detectHealthPack();
+
 }
 
-//void Controller::consumeEnergy()
-//{
-//    model->consumeEnergy();
-//}
 
 void Controller::attack()
 {
@@ -144,8 +148,10 @@ void Controller::take()
 {
     if(this->detectedType==HEALTHPACK){
         int index = this->detectedHealthPack;
+        //Model part
           model->take(index);
             if(index!=-1){
+                //view part
                 view ->getCurrentScene()->redrawHealthpack(index);
             }
     }
@@ -265,5 +271,3 @@ void Controller::detected(int type,  int index)
     }
 
 }
-
-
