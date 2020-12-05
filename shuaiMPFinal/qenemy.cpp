@@ -1,7 +1,7 @@
 #include "qenemy.h"
 
 
-QEnemy::QEnemy(int xPos, int yPos,int scale)
+QEnemy::QEnemy(int xPos, int yPos,int scale,QObject *parent)
 {
     x=xPos;
     y=yPos;     //unit of position is folowiing value from model without scale effect

@@ -10,10 +10,11 @@ class MyQView : public QGraphicsView
 
     Q_OBJECT
 public:
-     MyQView(QWidget *parent = nullptr);
+     MyQView(QWidget *parent);
      void createScene( const std::vector<std::shared_ptr<Tile>> &tiles, const std::shared_ptr<Protagonist> &protagonist,
                        const std::vector<std::shared_ptr<Enemy>> &enemies,const std::vector<std::shared_ptr<PEnemy>> &penemies, const std::vector<std::shared_ptr<Tile>> &healthpacks,int scale);
      int detectEnemy();
+     MyQScene* getCurrentScene();
 //     int detectHealthPack();
      //function of view only
  signals:

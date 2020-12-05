@@ -2,13 +2,14 @@
 #include<QtDebug>
 #include<QKeyEvent>
 #include<QTimer>
+#include<cmath>
 //control flow: controller->model->view
 Controller::Controller(std::shared_ptr<Model> model, QGraphicsView* view)
 {
 
 }
 
-Controller::Controller(std::shared_ptr<Model> model, MyQView* view)
+Controller::Controller(std::shared_ptr<Model> model, MyQView* view,QObject *parent)
 {
     this->model = model;
     this->view = view;
@@ -17,15 +18,26 @@ Controller::Controller(std::shared_ptr<Model> model, MyQView* view)
     connect(model->getProtagonist().get(),&Protagonist::healthChanged,[=](int health){
         if(health<1){
          model->setIsChangable (false);
+         qDebug()<<"Game Over";
+         updateEnergyTimer->stop();
         }
         else{
+            qDebug()<<"Game Continue";
+
             model->setIsChangable (true);
         }
 });
     connect(model->getProtagonist().get(),&Protagonist::energyChanged,[=](int energy){
         if(energy<1){
-         model->setIsChangable (false);
-         qDebug()<<"Energy is not enough now, please take a rest ";
+            model->setIsChangable (false);
+            if(energy<0){
+                updateEnergyTimer->stop();
+                qDebug()<<"Game Over";
+            }
+
+            else{
+               qDebug()<<"Energy is not enough now, please take a rest ";
+            }
         }
         else{
             model->setIsChangable (true);
@@ -34,6 +46,8 @@ Controller::Controller(std::shared_ptr<Model> model, MyQView* view)
 
     QObject::connect(model.get(),SIGNAL(detectedSignal(int,int)),this,SLOT(detected(int,int)));
 
+
+    //Qtimer setting
     updateEnergyTimer = new QTimer(this);
     connect(updateEnergyTimer,&QTimer::timeout,[=]{
         float currentEnergy = model->getProtagonist()->getEnergy();
@@ -107,35 +121,34 @@ void Controller::moveDown()
 
 void Controller::attack()
 {
-    int index =-1;
-    //query firstly
-    switch (detectedType) {
-        case NONE:
-             index = -1 ;
-        case ENEMY:
-             index = detectedEnemyIndex ;
-        case PENEMY:
-             index = detectedPEnemyIndex ;
-        case HEALTHPACK:
-             index = detectedHealthPack ;
+    if(this->detectedType==ENEMY){
+        int index = this->detectedEnemyIndex;
+           model->attack(index);
+    }
+    if(this->detectedType==PENEMY){
+        int index = this->detectedPEnemyIndex;
+           model->attack(index);
+    }
+//    if(this->detectedType==PENEMY){
+//        int index = this->detectedPEnemyIndex;
+//          int outcome = model->take(index);
+//            if(outcome!=-1){
+//                view ->getCurrentScene()->redrawHealthpack(index);
+//            }
+//    }
 
-        }
-    //send query result to model
-    model->attack(index);
+
 }
 
 void Controller::take()
 {
-//    if(this->detectedType==HEALTHPACK){
-//        int index = this->detectedHealthPack;
-//            model->take(index);
-//             qDebug()<<"model take " ;
-//    }
-    qDebug()<<"detectedType is(take function) " << detectedType ;
-    qDebug()<<"healthpack index is " << detectedHealthPack ;
-
-    qDebug()<<"detectedType is " << HEALTHPACK ;
-
+    if(this->detectedType==HEALTHPACK){
+        int index = this->detectedHealthPack;
+          model->take(index);
+            if(index!=-1){
+                view ->getCurrentScene()->redrawHealthpack(index);
+            }
+    }
 
 }
 
@@ -173,23 +186,29 @@ bool Controller::checkModel()
 
 bool Controller::checkBoundary(int axis,int sign)
 {
+
     int col = model->getCol();
     int row = model->getRow();
+    int xPos =  model->getProtagonist()->getXPos();
+    int yPos =  model->getProtagonist()->getYPos();
     switch (axis) {
     case X: //X axis
         {
-        int xPos =  model->getProtagonist()->getXPos() + sign*1;
-        if(xPos>col-1||xPos<0){ return true;}
+        //next tile position
+        xPos = xPos + sign*1;
+        if(xPos>col-1||xPos<0) { return true;}
         return false;
         }
     case Y: //Y axis
-        {
-        int yPos =  model->getProtagonist()->getYPos() + sign*1;
+        {        
+        yPos = yPos + sign*1;
         if(yPos>row-1||yPos<0){ return true;}
         return false;
         }
     }
 }
+
+
 
 
 void Controller::on_keyPressSlot(int index)
@@ -212,9 +231,12 @@ void Controller::on_keyPressSlot(int index)
     case TAKE:
         take();
         break;
+    case ATTACK:
+        attack();
+        break;
 
     }
-    qDebug()<<"detectedType value is(key)  "<< this->detectedType;
+//    qDebug()<<"detectedType value is(key)  "<< this->detectedType;
 
 
 
@@ -225,29 +247,23 @@ void Controller::detected(int type,  int index)
 
     switch (type) {
     case ENEMY:
-        detectedType =ENEMY;
+        detectedType = ENEMY;
         this->detectedEnemyIndex =index;
     break;
     case PENEMY:
-        detectedType =PENEMY;
+        detectedType = PENEMY;
         this->detectedPEnemyIndex = index;
-        qDebug()<<"pEnemy detected slot triggered ";
-        qDebug()<<"detectedType value is(slot)  "<< detectedType;
         break;
     case HEALTHPACK:
-        detectedType =HEALTHPACK;
+        detectedType = HEALTHPACK;
         detectedHealthPack =index;
-        qDebug()<<"healthPack detected slot triggered ";
-        qDebug()<<"detectedType value is(slot)  "<< detectedType;
 
     break;
     case NONE:
-        detectedType =NONE;
-
- //        qDebug()<<"detected slot triggered ";
-
+        detectedType = NONE;
         break;
     }
-//    qDebug()<<"detectedType value is(slot2)  "<< detectedType;
 
 }
+
+

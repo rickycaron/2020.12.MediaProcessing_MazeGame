@@ -14,8 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 
      ui->verticalLayout1->addWidget(qView);
-     model = std::make_shared<Model>(QString("worldmap"),2);
-     myController = std::make_shared<Controller>(model,qView);
+     model = std::make_shared<Model>(QString("worldmap"),2,this);
+     myController = std::make_shared<Controller>(model,qView,this);
      ui->energyBar->setValue(100);
      ui->healthBar->setValue(100);
      connect(model->getProtagonist().get(),&Protagonist::energyChanged,ui->energyBar,&QProgressBar::setValue);

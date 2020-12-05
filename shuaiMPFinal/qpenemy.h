@@ -6,7 +6,7 @@
 class QPEnemy : public QEnemy
 {
 public:
-    QPEnemy(int,int,int);
+    QPEnemy(int,int,int,QObject *);
 };
 
 #endif // QPENEMY_H

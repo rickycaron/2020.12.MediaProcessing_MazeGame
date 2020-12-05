@@ -13,6 +13,11 @@ void MyQView::createScene(const std::vector<std::shared_ptr<Tile> > &tiles, cons
    setScene(qScene);
 }
 
+MyQScene* MyQView::getCurrentScene()
+{
+    return qScene;
+}
+
 
 
 
@@ -35,6 +40,9 @@ void MyQView::keyPressEvent(QKeyEvent *event)
         break;
     case Qt::Key_T:
         emit keyPressSignal(4);
+        break;
+    case Qt::Key_A:
+        emit keyPressSignal(5);
         break;
 
     }

@@ -1873,7 +1873,39 @@ mainwindow.o: ../shuaiMPFinal/mainwindow.cpp ../shuaiMPFinal/mainwindow.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QTimer \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qtimer.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qbasictimer.h \
-		ui_mainwindow.h
+		ui_mainwindow.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QVariant \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QApplication \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qapplication.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qeventloop.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qguiapplication.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qinputmethod.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QHBoxLayout \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qlayout.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QLineEdit \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qlineedit.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtextcursor.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtGui/qtextformat.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QMenuBar \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qmenubar.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qmenu.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qaction.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qactiongroup.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QProgressBar \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qprogressbar.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QPushButton \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QSpacerItem \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QStatusBar \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/qstatusbar.h \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QVBoxLayout \
+		../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../shuaiMPFinal/mainwindow.cpp
 
 model.o: ../shuaiMPFinal/model.cpp ../shuaiMPFinal/model.h \

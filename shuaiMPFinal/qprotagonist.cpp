@@ -2,7 +2,7 @@
 #include<QtDebug>
 
 
-QProtagonist::QProtagonist(int xPos, int yPos,int scale)
+QProtagonist::QProtagonist(int xPos, int yPos,int scale,QObject *parent)
 {
     this->scale = scale;
     QPixmap image(":/images/protagonist.png");
@@ -15,6 +15,6 @@ QProtagonist::QProtagonist(int xPos, int yPos,int scale)
 void QProtagonist::reSetPos(int xPos, int yPos)
 {
     setPos(xPos*scale,yPos*scale);
-    qDebug()<< "position after is" << xPos <<yPos;
+//    qDebug()<< "position after is" << xPos <<yPos;
 
 }

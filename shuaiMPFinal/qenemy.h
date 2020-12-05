@@ -6,7 +6,7 @@ class QEnemy : public QGraphicsPixmapItem
 {
 
 public:
-     QEnemy(int,int,int);
+     QEnemy(int,int,int,QObject*);
 private:
      int x;
      int y;

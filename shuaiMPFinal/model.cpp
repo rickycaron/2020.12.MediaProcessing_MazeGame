@@ -2,7 +2,7 @@
 #include<QDebug>
 
 
-Model::Model(QString fileName,int scale)
+Model::Model(QString fileName,int scale,QObject *parent)
 {
 
     world = std::make_unique<World>();
@@ -27,29 +27,67 @@ bool Model::readData()
         }
 
         std::vector<std::unique_ptr<Enemy>> tempEnemies = world->getEnemies();
+        int indexOfEnermy =0;
+        int indexOfPEnermy =0;
         for(unsigned int i=0; i<tempEnemies.size(); i++){
             std::shared_ptr<Enemy> e = std::move(tempEnemies[i]);
             if(dynamic_cast<PEnemy*>(e.get())){
+//                 qDebug()<< "P:"<<indexOfPEnermy;
+
                 pEnemies.emplace_back(std::dynamic_pointer_cast<PEnemy>(e));
+//                qDebug()<< "list of pisonal enermy strength is"<<pEnemies[indexOfPEnermy]->getValue();
                 connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
                     if(x==e->getXPos()&&y==e->getYPos()){
                         qDebug()<< "there is an posional enermy";
-                        emit detectedSignal(PENEMY,i);
+                        this->isPosional = true;
+                        emit detectedSignal(PENEMY,indexOfPEnermy);
                     }
-                    emit detectedSignal(-1,i);
             });
 
+                connect(pEnemies[indexOfPEnermy].get(),&PEnemy::poisonLevelUpdated,[=](int poisonLevel){
+                   int pEXPosion =  pEnemies[indexOfPEnermy].get()->getXPos();
+                   int pEYPosion =  pEnemies[indexOfPEnermy].get()->getYPos();
+                   int xPos = protagonist.get()->getXPos();
+                   int yPos=protagonist.get()->getYPos();
+
+                    if(std::abs(pEXPosion-xPos)<2 && std::abs(pEYPosion-yPos)<2){
+                        qDebug()<< "protagonist x"<<xPos;
+                        qDebug()<< "penemy x"<<pEXPosion;
+
+                        qDebug()<< "near around";
+                        //get poisoned
+                        float currentHealth = protagonist.get()->getHealth();
+                        currentHealth = currentHealth -difficulty*poisonLevel;
+                        //update apperance around firstly
+                        //update protagonist then
+                        if(currentHealth<=0){
+                            protagonist.get()->setHealth(0);
+                        }
+                        else{
+                            protagonist.get()->setHealth(currentHealth);
+                        }
+                    }
+
+
+
+            });
+                 indexOfPEnermy++;
             }else{
+//                  qDebug()<< indexOfEnermy;
                 normalEnemies.emplace_back(e);
+//                 qDebug()<< "list of normal enermy strength is"<<normalEnemies[indexOfEnermy]->getValue();
                 connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
                     if(x==e->getXPos()&&y==e->getYPos()){
                         qDebug()<< "there is an normal enermy";
-                        emit detectedSignal(ENEMY,i);
+                        this->isPosional = false;
+                        emit detectedSignal(ENEMY,indexOfEnermy);
                     }
-                    emit detectedSignal(NONE,i);
 
             });
+                indexOfEnermy++;
+
             }
+
         }
 
         std::vector<std::unique_ptr<Tile>> tempHealthpacks = world->getHealthPacks();
@@ -61,13 +99,12 @@ bool Model::readData()
                     qDebug()<< "there is an health pack";
                     emit detectedSignal(HEALTHPACK,i);
                 }
-                emit detectedSignal(NONE,i);
-
         });
         }
         if(row==0||col==0||protagonist==NULL||tiles.size()==0||normalEnemies.size()==0||pEnemies.size()==0||healthpacks.size()==0){
             return false;
         }
+
         return true;
 }
 
@@ -122,16 +159,14 @@ void Model::moveRight()
     //After a movement,three things needed:
     //1.update energy //2.detect energy //3.detectpack
     protagonist->setXPos(protagonist->getXPos()+1);
-    qDebug()<<"Move right";
     consumeEnergy();
-//  detectEnemy();  //implementation in controller, cause it is detected by view
-//  detectHealthpack(); //implementation in controller, cause it is detected by view
+
 }
 
 void Model::moveLeft()
 {
     protagonist->setXPos(protagonist->getXPos()-1);
-    qDebug()<<"Move left";
+//    qDebug()<<"Move left";
     consumeEnergy();
 }
 
@@ -139,14 +174,14 @@ void Model::moveUp()
 {
     protagonist->setYPos(protagonist->getYPos()-1);
 //    qDebug()<< "position now is" << xPos <<yPos;
-    qDebug()<<"Move up";
+//    qDebug()<<"Move up";
     consumeEnergy();
 }
 
 void Model::moveDown()
 {
     protagonist->setYPos(protagonist->getYPos()+1);
-    qDebug()<<"Move down";
+//    qDebug()<<"Move down";
     consumeEnergy();
 }
 
@@ -160,30 +195,58 @@ void Model::consumeEnergy()
 //These two function will excute if checking success in controller
 void Model::attack(int index)
 {
-
+qDebug()<<isPosional;
     if(index==-1){
         qDebug()<<"No enemy.";
     }else{
-        if(normalEnemies[index]->getDefeated()){
-            qDebug()<<"The enemy is already dead";
-        }else{
-            normalEnemies[index]->setDefeated(true);
-            protagonist->setHealth(protagonist->getHealth()-normalEnemies[index]->getValue());
-            protagonist->setEnergy(maxEH); //return back
-            qDebug()<<"Attack an enemy, enemy strength:"<<normalEnemies[index]->getValue();
-            qDebug()<<"Energy:"<<protagonist->getEnergy()<<", health:"<<protagonist->getHealth();
+        switch (isPosional) {
+        case false:
+            if(normalEnemies[index]->getDefeated()){
+                qDebug()<<"The enemy is already dead";
+            }else{
+                normalEnemies[index]->setDefeated(true);
+                float currentHealth = protagonist->getHealth()-difficulty*(normalEnemies[index]->getValue());
+                float currentEnergy = protagonist->getEnergy()-difficulty*(normalEnemies[index]->getValue());
+                if(currentHealth<0){currentHealth=0;}
+                if(currentEnergy<0){currentEnergy=0;}
+                protagonist->setHealth(currentHealth);
+                protagonist->setEnergy(currentEnergy);
+    //            protagonist->setEnergy(maxEH); //return back
+                qDebug()<<"Attack an enemy, enemy strength:"<<normalEnemies[index]->getValue();
+                qDebug()<<"Energy:"<<protagonist->getEnergy()<<", health:"<<protagonist->getHealth();
+            }
+            break;
+        case true:
+            qDebug()<<"attacking p enemy.";
+            if(pEnemies[index]->getPoisonLevel()!=0){
+                pEnemies[index]->poison();
+//                animation part
+            }
+            else{
+                qDebug()<<"This enemy is already dead.";
+            }
+            break;
         }
+
     }
 }
 
-void Model::take(int index)
+int Model::take(int index)
 {
     if(index==-1){
         qDebug()<<"No healthpack.";
     }else{
-        protagonist->setHealth(protagonist->getHealth()+healthpacks[index]->getValue());
+        if(healthpacks[index]->getValue()==0){qDebug()<< "this is a empty healthpacks"; return -1;}
+        float currentHealth = protagonist->getHealth()+healthpacks[index]->getValue();
+        float currentEnergy = protagonist->getEnergy()+healthpacks[index]->getValue();
+        if(currentHealth>100){currentHealth=100;}
+        if(currentEnergy>100){currentEnergy=100;}
+        protagonist->setHealth(currentHealth);
+        protagonist->setEnergy(currentEnergy);
         qDebug()<<"Take a healthpack, content:"<<healthpacks[index]->getValue()<<", health:"<<protagonist->getHealth();
-        healthpacks[index]->setValue(0);
+//        healthpacks[index]->setValue(0);
+          healthpacks[index]->setValue(0);
+          return index;
 //        scene->redrawHealthpack(index);
     }
 }
