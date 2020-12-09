@@ -41,6 +41,14 @@ Controller::Controller(QObject *parent):QObject(parent)
         connect(pEnemies[i].get(),&PEnemy::poisonLevelUpdated,this,&Controller::getPoisonLevel);
         connect(pEnemies[i].get(),&PEnemy::dead,this,&Controller::resetPoisonLevel);
     }
+
+    for(unsigned int i=0;i<normalEnemies.size();i++){
+        qDebug()<<"normal: "<<normalEnemies[i]->getValue();
+    }
+
+    for(unsigned int i=0;i<pEnemies.size();i++){
+        qDebug()<<"poison: "<<pEnemies[i]->getValue();
+    }
 }
 
 void Controller::createScene(QWidget *parent)
