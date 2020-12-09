@@ -4,10 +4,14 @@
 #include <QWidget>
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QLabel>
+#include "world.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
 QT_END_NAMESPACE
+#include "tprotagonist.h"
+#include "command.h"
 
 class Widget : public QWidget
 {
@@ -16,12 +20,19 @@ class Widget : public QWidget
 public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
-    void buildWorld();
+    void checkString(QString &s);
 
+private slots:
+    void on_lineEdit_editingFinished();
+    void getEnegyValue(int enegy);
+    void getHealthValue(int health);
+signals:
+    void energyChanged(int enegy);
+    void healthChanged(int health);
 private:
     Ui::Widget *ui;
-    QGraphicsScene * scene;
-    QGraphicsView * view;
-
+    QLabel *hint;
+    QStringList editList;
+    std::map<QString,std::shared_ptr<Command>> commandList;
 };
 #endif // WIDGET_H
