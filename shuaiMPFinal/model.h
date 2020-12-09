@@ -41,7 +41,6 @@ private:
     int col = 0;
     bool isChangable =true;
     bool isPosional =false;
-    enum type{NONE=-1,ENEMY=0,PENEMY,HEALTHPACK};
 //    float maxEH;
     bool readData();
     std::unique_ptr<World> world;

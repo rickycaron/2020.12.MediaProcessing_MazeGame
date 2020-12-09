@@ -249,6 +249,7 @@ int Model::take(int index)
           return index;
 //        scene->redrawHealthpack(index);
     }
+    return index;
 }
 
 

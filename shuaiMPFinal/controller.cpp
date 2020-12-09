@@ -207,15 +207,14 @@ bool Controller::checkBoundary(int axis,int sign)
         //next tile position
         xPos = xPos + sign*1;
         if(xPos>col-1||xPos<0) { return true;}
-        return false;
         }
     case Y: //Y axis
         {        
         yPos = yPos + sign*1;
         if(yPos>row-1||yPos<0){ return true;}
-        return false;
         }
     }
+    return false;
 }
 
 
