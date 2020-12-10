@@ -21,7 +21,6 @@ void GTile::poisonTile()
 
 void GTile::draw()
 {
-
     if(std::isinf(value)) //fix inf value
     {
         value=0;
@@ -37,5 +36,4 @@ void GTile::draw()
     QPen pen;
     pen.setColor(color);     //set border color for each item same as its color
     setPen(pen);
-
 }

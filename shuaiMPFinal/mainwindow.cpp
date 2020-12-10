@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     qView  = new MyQView(this);
 
 
-     ui->verticalLayout1->addWidget(qView);
+     ui->verticalLayout->addWidget(qView);
      model = std::make_shared<Model>(QString("worldmap"),2,this);
      myController = std::make_shared<Controller>(model,qView,this);
      ui->energyBar->setValue(100);

@@ -12,6 +12,10 @@ GScene::GScene(QObject *parent, const std::vector<std::shared_ptr<Tile>> &tiles,
     printPEnemies(penemies);
     printProtagonist(protagonist);
     printHealthpacks(healthpacks);
+//    parent->connect(protagonist.get(),&Protagonist::posChanged,this,&TextScene::redrawProtagonist);
+//    for (unsigned int i=0; i<enemies.size(); i++) {
+//        parent->connect(enemies[i].get(),&Enemy::dead,enemyQlist[i],&TEnemy::indicateDead);
+//    }
 }
 
 void GScene::printTiles(const std::vector<std::shared_ptr<Tile> > &tiles)
@@ -35,24 +39,18 @@ void GScene::printTiles(const std::vector<std::shared_ptr<Tile> > &tiles)
                       tile->draw();
                   });
                 }
-
             }
-
-
         });
     }
 }
 
 void GScene::printProtagonist(const std::shared_ptr<Protagonist> &protagonist)
 {
-
     protagonistView = new GProtagonist(protagonist->getXPos(),protagonist->getYPos(),scale,this);
 
     connect(protagonist.get(),&Protagonist::posChanged,[=](int x,int y){
         protagonistView->reSetPos(x,y);
 });
-
-
     this->addItem(protagonistView);
 }
 
@@ -85,7 +83,6 @@ void GScene::printPEnemies(const std::vector<std::shared_ptr<PEnemy> > &penemies
            emit poisonTile(penemies[i]->getXPos(),penemies[i]->getYPos(),penemies[i].get()->getPoisonLevel());
         });
         animationPEnemyTimer->start(300);
-
     }
 }
 
@@ -107,40 +104,38 @@ void GScene::redrawHealthpack(int index)
 void GScene::changeProtagonistImage(int dir)
 {
     switch (dir) {
-    case UP:{
-        protagonistView->reSetImg(UP);
-        break;
-    }
+        case UP:{
+            protagonistView->reSetImg(UP);
+            break;
+        }
 
-    case DOWN:{
-        protagonistView->reSetImg(DOWN);
-        break;
-    }
+        case DOWN:{
+            protagonistView->reSetImg(DOWN);
+            break;
+        }
 
-    case LEFT:{
-        protagonistView->reSetImg(LEFT);
-        break;
-    }
+        case LEFT:{
+            protagonistView->reSetImg(LEFT);
+            break;
+        }
 
-    case RIGHT:{
-        protagonistView->reSetImg(RIGHT);
-        break;
-    }
-
+        case RIGHT:{
+            protagonistView->reSetImg(RIGHT);
+            break;
+        }
     }
 }
 
 void GScene::setDeath(int type,int index)
 {
     switch (type) {
-    case ENEMY:{
-        enemyQlist[index]->setGrave();
-        break;
-    }
-    case PENEMY:{
-        penemyQlist[index]->setGrave();
-        break;
-    }
-
+        case ENEMY:{
+            enemyQlist[index]->setGrave();
+            break;
+        }
+        case PENEMY:{
+            penemyQlist[index]->setGrave();
+            break;
+        }
     }
 }

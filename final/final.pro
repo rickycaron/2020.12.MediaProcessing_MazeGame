@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     attack.cpp \
     command.cpp \
+    commandcontroller.cpp \
     controller.cpp \
     genemy.cpp \
     ghealthpack.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
     gtile.cpp \
     gview.cpp \
     help.cpp \
+    keypresscontroller.cpp \
     main.cpp \
     mainwindow.cpp \
     model.cpp \
@@ -41,6 +43,7 @@ SOURCES += \
 HEADERS += \
     attack.h \
     command.h \
+    commandcontroller.h \
     config.h \
     controller.h \
     genemy.h \
@@ -52,6 +55,7 @@ HEADERS += \
     gtile.h \
     gview.h \
     help.h \
+    keypresscontroller.h \
     mainwindow.h \
     model.h \
     movedown.h \

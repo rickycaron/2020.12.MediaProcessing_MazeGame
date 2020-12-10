@@ -5,7 +5,6 @@
 Command::Command(std::shared_ptr<Controller> con)
 {
     controller = con;
-    name="default command";
 }
 
 void Command::setDestination(int x, int y)
@@ -17,14 +16,4 @@ void Command::setDestination(int x, int y)
 std::shared_ptr<Controller> Command::getController() const
 {
     return controller;
-}
-
-QString Command::getName() const
-{
-    return name;
-}
-
-void Command::setName(const QString &value)
-{
-    name = value;
 }

@@ -13,9 +13,9 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     bool getPassable() const;
     void setPassable(bool value);
+    void clean();
 public slots:
     void getPolluted(int poisonLevel);
-    void clean();
 private:
     bool passable;
     int pollutedLevel;

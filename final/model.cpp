@@ -1,15 +1,15 @@
 #include "model.h"
 #include<QDebug>
+#include <QTimer>
+#include "config.h"
 
-
-Model::Model(QString fileName,int scale,QObject *parent)
+Model::Model(QString fileName):QObject()
 {
 
     world = std::make_unique<World>();
 //    world->createWorld("://images/" +fileName+".png",10,10,0.25);
-    world->createWorld("/home/shuai/Desktop/libfinal/" + fileName + ".png",22,22,0.25);
-
-    this->scale= scale;
+//    world->createWorld("/home/shuai/Desktop/libfinal/" + fileName + ".png",22,22,0.25);
+    world->createWorld(":/images/worldmap.png",22,22,0.25);
     readData();
 
 }
@@ -17,43 +17,40 @@ Model::Model(QString fileName,int scale,QObject *parent)
 bool Model::readData()
 {
     //Read data from world lib and store it into our vectors
-        row=world->getRows();
-        col=world->getCols();
-        protagonist = world->getProtagonist();
-        maxEH = protagonist->getEnergy();
-        std::vector<std::unique_ptr<Tile>> tempTiles = world->getTiles();
-        for(unsigned int i=0; i<tempTiles.size(); i++){
-            tiles.emplace_back(std::move(tempTiles[i]));
-        }
+    row=world->getRows();
+    col=world->getCols();
+    protagonist = world->getProtagonist();
+    maxEH = protagonist->getEnergy();
+    std::vector<std::unique_ptr<Tile>> tempTiles = world->getTiles();
+    for(unsigned int i=0; i<tempTiles.size(); i++){
+        tiles.emplace_back(std::move(tempTiles[i]));
+    }
 
-        std::vector<std::unique_ptr<Enemy>> tempEnemies = world->getEnemies();
-        int indexOfEnermy =0;
-        int indexOfPEnermy =0;
-        for(unsigned int i=0; i<tempEnemies.size(); i++){
-            std::shared_ptr<Enemy> e = std::move(tempEnemies[i]);
-            if(dynamic_cast<PEnemy*>(e.get())){
-//                 qDebug()<< "P:"<<indexOfPEnermy;
+    pathfinder=std::make_shared<Pathfinder>(row,col,tiles);
 
-                pEnemies.emplace_back(std::dynamic_pointer_cast<PEnemy>(e));
-//                qDebug()<< "list of pisonal enermy strength is"<<pEnemies[indexOfPEnermy]->getValue();
-                connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
-                    if(x==e->getXPos()&&y==e->getYPos()){
-                        qDebug()<< "there is an posional enermy";
-                        this->isPosional = true;
-                        emit detectedSignal(PENEMY,indexOfPEnermy);
-                    }
+    std::vector<std::unique_ptr<Enemy>> tempEnemies = world->getEnemies();
+    int indexOfEnermy =0;
+    int indexOfPEnermy =0;
+
+    for(unsigned int i=0; i<tempEnemies.size(); i++){
+        std::shared_ptr<Enemy> e = std::move(tempEnemies[i]);
+        if(dynamic_cast<PEnemy*>(e.get())){
+            pEnemies.emplace_back(std::dynamic_pointer_cast<PEnemy>(e));
+            connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
+                if(x==e->getXPos()&&y==e->getYPos()){
+                    qDebug()<< "there is an posional enermy";
+                    this->isPosional = true;
+                    emit detectedSignal(PENEMY,indexOfPEnermy);
+                }
             });
 
-                connect(pEnemies[indexOfPEnermy].get(),&PEnemy::poisonLevelUpdated,[=](int poisonLevel){
-                   int pEXPosion =  pEnemies[indexOfPEnermy].get()->getXPos();
-                   int pEYPosion =  pEnemies[indexOfPEnermy].get()->getYPos();
+            connect(pEnemies[indexOfPEnermy].get(),&PEnemy::poisonLevelUpdated,[=](int poisonLevel){
+                   int pEXPosion = pEnemies[indexOfPEnermy].get()->getXPos();
+                   int pEYPosion = pEnemies[indexOfPEnermy].get()->getYPos();
                    int xPos = protagonist.get()->getXPos();
                    int yPos=protagonist.get()->getYPos();
 
-                    if(std::abs(pEXPosion-xPos)<2 && std::abs(pEYPosion-yPos)<2){
-                        qDebug()<< "protagonist x"<<xPos;
-                        qDebug()<< "penemy x"<<pEXPosion;
-
+                   if(std::abs(pEXPosion-xPos)<2 && std::abs(pEYPosion-yPos)<2){
                         qDebug()<< "near around";
                         //get poisoned
                         float currentHealth = protagonist.get()->getHealth();
@@ -67,47 +64,37 @@ bool Model::readData()
                             protagonist.get()->setHealth(currentHealth);
                         }
                     }
-
-
-
             });
-                 indexOfPEnermy++;
-            }else{
-//                  qDebug()<< indexOfEnermy;
-                normalEnemies.emplace_back(e);
-//                 qDebug()<< "list of normal enermy strength is"<<normalEnemies[indexOfEnermy]->getValue();
-                connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
-                    if(x==e->getXPos()&&y==e->getYPos()){
-                        qDebug()<< "there is an normal enermy";
-                        this->isPosional = false;
-                        emit detectedSignal(ENEMY,indexOfEnermy);
-                    }
-
-            });
-                indexOfEnermy++;
-
-            }
-
-        }
-
-        std::vector<std::unique_ptr<Tile>> tempHealthpacks = world->getHealthPacks();
-        for(unsigned int i=0; i<tempHealthpacks.size(); i++){
-            std::shared_ptr<Tile> e = std::move(tempHealthpacks[i]);
-            healthpacks.emplace_back(e);
+            indexOfPEnermy++;
+        }else{
+            normalEnemies.emplace_back(e);
             connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
                 if(x==e->getXPos()&&y==e->getYPos()){
-                    qDebug()<< "there is an health pack";
-                    emit detectedSignal(HEALTHPACK,i);
+                    qDebug()<< "there is an normal enermy";
+                    this->isPosional = false;
+                    emit detectedSignal(ENEMY,indexOfEnermy);
                 }
+            });
+            indexOfEnermy++;
+        }
+    }
+
+    std::vector<std::unique_ptr<Tile>> tempHealthpacks = world->getHealthPacks();
+    for(unsigned int i=0; i<tempHealthpacks.size(); i++){
+        std::shared_ptr<Tile> e = std::move(tempHealthpacks[i]);
+        healthpacks.emplace_back(e);
+        connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
+            if(x==e->getXPos()&&y==e->getYPos()){
+                qDebug()<< "there is an health pack";
+                emit detectedSignal(HEALTHPACK,i);
+            }
         });
-        }
-        if(row==0||col==0||protagonist==NULL||tiles.size()==0||normalEnemies.size()==0||pEnemies.size()==0||healthpacks.size()==0){
-            return false;
-        }
-
-        return true;
+    }
+    if(row==0||col==0||protagonist==NULL||tiles.size()==0||normalEnemies.size()==0||pEnemies.size()==0||healthpacks.size()==0){
+        return false;
+    }
+    return true;
 }
-
 
 bool Model::setIsChangable(bool status)
 {
@@ -154,35 +141,87 @@ std::vector<std::shared_ptr<PEnemy> > Model::getPEnemies() const
     return pEnemies;
 }
 
-void Model::moveRight()
+bool Model::isOutside(int x, int y)
+{
+    if(x>col-1||x<0||y>row-1||y<0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool Model::moveRight()
 {
     //After a movement,three things needed:
     //1.update energy //2.detect energy //3.detectpack
-    protagonist->setXPos(protagonist->getXPos()+1);
-    consumeEnergy();
-
+    if(!isOutside(protagonist->getXPos()+1,protagonist->getYPos())){
+        protagonist->setXPos(protagonist->getXPos()+1);
+        consumeEnergy();
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
-void Model::moveLeft()
+bool Model::moveLeft()
 {
-    protagonist->setXPos(protagonist->getXPos()-1);
-//    qDebug()<<"Move left";
-    consumeEnergy();
+    if(!isOutside(protagonist->getXPos()-1,protagonist->getYPos())){
+        protagonist->setXPos(protagonist->getXPos()-1);
+        consumeEnergy();
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
-void Model::moveUp()
+bool Model::moveUp()
 {
-    protagonist->setYPos(protagonist->getYPos()-1);
-//    qDebug()<< "position now is" << xPos <<yPos;
-//    qDebug()<<"Move up";
-    consumeEnergy();
+    if(!isOutside(protagonist->getXPos(),protagonist->getYPos()-1)){
+        protagonist->setYPos(protagonist->getYPos()-1);
+        consumeEnergy();
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
-void Model::moveDown()
+bool Model::moveDown()
 {
-    protagonist->setYPos(protagonist->getYPos()+1);
-//    qDebug()<<"Move down";
-    consumeEnergy();
+    if(!isOutside(protagonist->getXPos(),protagonist->getYPos()+1)){
+        protagonist->setYPos(protagonist->getYPos()+1);
+        consumeEnergy();
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+void Model::move()
+{
+    if(!path.isEmpty()){
+        std::shared_ptr<Tile> nextTile = path.pop();
+        protagonist->setPos(nextTile->getXPos(),nextTile->getYPos());
+        consumeEnergy();
+        QTimer::singleShot(1000, this, &Model::move);
+    }else{
+        qDebug()<<"Finish!";
+    }
+}
+
+void Model::gotoXY(int x, int y)
+{
+    if(isOutside(x,y)){
+        qDebug()<<"outside the world!";
+    }
+    else
+    {
+        path = pathfinder->findpath(protagonist->getXPos(),protagonist->getYPos(),x,y);
+        move();
+    }
 }
 
 void Model::consumeEnergy()
@@ -244,10 +283,10 @@ int Model::take(int index)
         protagonist->setHealth(currentHealth);
         protagonist->setEnergy(currentEnergy);
         qDebug()<<"Take a healthpack, content:"<<healthpacks[index]->getValue()<<", health:"<<protagonist->getHealth();
-//        healthpacks[index]->setValue(0);
-          healthpacks[index]->setValue(0);
-          return index;
+        healthpacks[index]->setValue(0);
+        return index;
 //        scene->redrawHealthpack(index);
     }
     return index;
 }
+

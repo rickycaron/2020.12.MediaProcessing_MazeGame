@@ -3,7 +3,7 @@
 
 GotoXY::GotoXY(std::shared_ptr<Controller> con):Command(con)
 {
-    setName("go to x y");
+
 }
 
 void GotoXY::excute() const

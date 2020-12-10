@@ -1,6 +1,7 @@
 #include "ttile.h"
 #include <QPainter>
 #include <QDebug>
+#include <QTimer>
 
 TTile::TTile(int xPos, int yPos, bool ispassable):QGraphicsTextItem()
 {
@@ -20,7 +21,7 @@ void TTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     mPen->setWidth(1);
     mPen->setStyle(Qt::DashLine);
     painter->setPen(*mPen);
-    painter->setBrush(QBrush(QColor(100,100,100,pollutedLevel)));
+    painter->setBrush(QBrush(QColor(100,100,200,pollutedLevel)));
     if(!getPassable()){
         painter->setBrush(Qt::SolidPattern);
     }
@@ -44,6 +45,10 @@ void TTile::getPolluted(int poisonLevel)
     //QPainter painter;
     pollutedLevel=poisonLevel;
     update(boundingRect());
+    QTimer::singleShot(400,this,[=]{
+        //to achieve animation
+        clean();
+    });
 }
 
 void TTile::clean()

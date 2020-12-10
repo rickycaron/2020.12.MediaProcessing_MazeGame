@@ -4,6 +4,7 @@
 #include <QObject>
 #include<QKeyEvent>
 #include "gscene.h"
+#include "tscene.h"
 
 class GView : public QGraphicsView
 {
@@ -11,22 +12,28 @@ class GView : public QGraphicsView
 public:
      GView(QWidget *parent);
      void createScene( const std::vector<std::shared_ptr<Tile>> &tiles, const std::shared_ptr<Protagonist> &protagonist,
-                       const std::vector<std::shared_ptr<Enemy>> &enemies,const std::vector<std::shared_ptr<PEnemy>> &penemies, const std::vector<std::shared_ptr<Tile>> &healthpacks,int scale);
+                       const std::vector<std::shared_ptr<Enemy>> &enemies,const std::vector<std::shared_ptr<PEnemy>> &penemies, const std::vector<std::shared_ptr<Tile>> &healthpacks,int scale,int row,int col);
      int detectEnemy();
-     GScene* getCurrentScene();
+     void switchScene();
+     GScene* getGScene();
+     TScene* getTScene();
 //     int detectHealthPack();
 //     function of view only
- signals:
-    void mouseClickSignal(QPoint point);
+     int getCurrentScene() const;
+
+signals:
+     void mouseClickSignal(QPoint point);
     void keyPressSignal(int index);
 
 private:
     int scale;
-    GScene* qScene;
-
+    GScene* gScene;
+    TScene* tScene;
+    int currentScene;
     // QWidget interface
 protected:
     void keyPressEvent(QKeyEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 };
 
 #endif // GVIEW_H

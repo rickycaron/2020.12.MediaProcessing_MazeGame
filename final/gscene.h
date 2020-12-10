@@ -1,15 +1,15 @@
 #ifndef GSCENE_H
 #define GSCENE_H
-
 #include "config.h"
 #include <QGraphicsScene>
 #include <QObject>
 #include"model.h"
-#include "gprotagonist.h"
-#include "gtile.h"
-#include "genemy.h"
-#include "gpenemy.h"
-#include "ghealthpack.h"
+#include"gtile.h"
+#include"genemy.h"
+#include"gpenemy.h"
+#include"gprotagonist.h"
+#include"ghealthpack.h"
+#include"world.h"
 
 class GScene : public QGraphicsScene
 {
@@ -39,5 +39,6 @@ private:
     QList<GPEnemy *> penemyQlist;
     QList<GHealthpack *> healthpackQlist;
 };
+
 
 #endif // GSCENE_H

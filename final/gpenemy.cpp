@@ -20,7 +20,6 @@ void GPEnemy::animationPEnemy()
         imgCurrentIndex++;
     }
     else{
-//        qDebug()<< "test ";
         setPixmap(img_arr[imgCurrentIndex].scaled(scale, scale));
         imgCurrentIndex=0;
     }
