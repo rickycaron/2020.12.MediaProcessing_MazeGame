@@ -31,8 +31,6 @@ public:
     bool setIsChangable(bool);
     bool getIsChangable();
 
-
-
 private:
     float difficulty =0.1;
     float maxEH;
