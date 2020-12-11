@@ -9,7 +9,7 @@ Model::Model(QString fileName):QObject()
     world = std::make_unique<World>();
 //    world->createWorld("://images/" +fileName+".png",10,10,0.25);
 //    world->createWorld("/home/shuai/Desktop/libfinal/" + fileName + ".png",22,22,0.25);
-    world->createWorld(":/images/worldmap.png",20,20,0.4);
+    world->createWorld(":/images/worldmap.png",30,20,0.4);
     readData();
     //qDebug()<<"3333";
 }

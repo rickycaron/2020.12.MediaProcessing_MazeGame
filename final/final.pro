@@ -88,3 +88,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     resource.qrc
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../worldLib/ -lworl
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../worldLib/ -lworld
+unix:!macx: LIBS += -L$$PWD/../worldLib/ -lworl
+
+INCLUDEPATH += $$PWD/../worldLib
+DEPENDPATH += $$PWD/../worldLib
