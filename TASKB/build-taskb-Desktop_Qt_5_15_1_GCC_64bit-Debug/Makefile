@@ -37,10 +37,10 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = taskb1.0.0
-DISTDIR = /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/build-taskb-Desktop_Qt_5_15_1_GCC_64bit-Debug/.tmp/taskb1.0.0
+DISTDIR = /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/build-taskb-Desktop_Qt_5_15_1_GCC_64bit-Debug/.tmp/taskb1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/opt/Qt/5.15.1/gcc_64/lib
-LIBS          = $(SUBLIBS) -L/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/taskb/../world_v4/ -lworld /opt/Qt/5.15.1/gcc_64/lib/libQt5Widgets.so /opt/Qt/5.15.1/gcc_64/lib/libQt5Gui.so /opt/Qt/5.15.1/gcc_64/lib/libQt5Core.so -lGL -lpthread   
+LIBS          = $(SUBLIBS) -L/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/taskb/../world_v4/ -lworld /opt/Qt/5.15.1/gcc_64/lib/libQt5Widgets.so /opt/Qt/5.15.1/gcc_64/lib/libQt5Gui.so /opt/Qt/5.15.1/gcc_64/lib/libQt5Core.so -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -896,7 +896,7 @@ moc_controller.cpp: ../taskb/controller.h \
 		../taskb/point.h \
 		moc_predefs.h \
 		/opt/Qt/5.15.1/gcc_64/bin/moc
-	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/build-taskb-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/taskb -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/world_v4 -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/world_v4 -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../taskb/controller.h -o moc_controller.cpp
+	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/build-taskb-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/taskb -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/world_v4 -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/world_v4 -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../taskb/controller.h -o moc_controller.cpp
 
 moc_tenemy.cpp: ../taskb/tenemy.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
@@ -1011,7 +1011,7 @@ moc_tenemy.cpp: ../taskb/tenemy.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/QImage \
 		moc_predefs.h \
 		/opt/Qt/5.15.1/gcc_64/bin/moc
-	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/build-taskb-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/taskb -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/world_v4 -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/world_v4 -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../taskb/tenemy.h -o moc_tenemy.cpp
+	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/build-taskb-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/taskb -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/world_v4 -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/world_v4 -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../taskb/tenemy.h -o moc_tenemy.cpp
 
 moc_tprotagonist.cpp: ../taskb/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
@@ -1128,7 +1128,7 @@ moc_tprotagonist.cpp: ../taskb/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		moc_predefs.h \
 		/opt/Qt/5.15.1/gcc_64/bin/moc
-	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/build-taskb-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/taskb -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/world_v4 -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/world_v4 -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../taskb/tprotagonist.h -o moc_tprotagonist.cpp
+	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/build-taskb-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/taskb -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/world_v4 -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/world_v4 -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../taskb/tprotagonist.h -o moc_tprotagonist.cpp
 
 moc_ttile.cpp: ../taskb/ttile.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
@@ -1239,7 +1239,7 @@ moc_ttile.cpp: ../taskb/ttile.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpainterpath.h \
 		moc_predefs.h \
 		/opt/Qt/5.15.1/gcc_64/bin/moc
-	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/build-taskb-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/taskb -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/world_v4 -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/world_v4 -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../taskb/ttile.h -o moc_ttile.cpp
+	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/build-taskb-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/taskb -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/world_v4 -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/world_v4 -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../taskb/ttile.h -o moc_ttile.cpp
 
 moc_widget.cpp: ../taskb/widget.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
@@ -1387,7 +1387,7 @@ moc_widget.cpp: ../taskb/widget.h \
 		../taskb/point.h \
 		moc_predefs.h \
 		/opt/Qt/5.15.1/gcc_64/bin/moc
-	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/build-taskb-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/taskb -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/world_v4 -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/TASKB/world_v4 -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../taskb/widget.h -o moc_widget.cpp
+	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/build-taskb-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/taskb -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/world_v4 -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/TASKB/world_v4 -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../taskb/widget.h -o moc_widget.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
