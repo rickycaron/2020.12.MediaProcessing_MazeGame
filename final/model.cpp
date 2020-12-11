@@ -9,7 +9,7 @@ Model::Model(QString fileName):QObject()
     world = std::make_unique<World>();
 //    world->createWorld("://images/" +fileName+".png",10,10,0.25);
 //    world->createWorld("/home/shuai/Desktop/libfinal/" + fileName + ".png",22,22,0.25);
-    world->createWorld(":/images/maze2.png",20,20,0.4);
+    world->createWorld(":/images/worldmap.png",20,20,0.4);
     readData();
     //qDebug()<<"3333";
 }
@@ -78,6 +78,17 @@ bool Model::readData()
             indexOfEnermy++;
         }
     }
+
+    std::random_device r;
+    std::default_random_engine e1(r());
+    std::uniform_int_distribution<int> uniform_index(0, indexOfEnermy-1);
+    int index = uniform_index(e1);
+
+    qDebug()<<indexOfEnermy;
+    qDebug()<<index;
+
+    qDebug()<< "starting x position is"<< normalEnemies[index].get()->getXPos();
+    qDebug()<< "starting y position is"<< normalEnemies[index].get()->getYPos();
 
     std::vector<std::unique_ptr<Tile>> tempHealthpacks = world->getHealthPacks();
     for(unsigned int i=0; i<tempHealthpacks.size(); i++){

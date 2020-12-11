@@ -22,6 +22,7 @@ SOURCES += \
     gscene.cpp \
     gtile.cpp \
     gview.cpp \
+    gxenemy.cpp \
     help.cpp \
     keypresscontroller.cpp \
     main.cpp \
@@ -39,7 +40,8 @@ SOURCES += \
     thealthpack.cpp \
     tprotagonist.cpp \
     tscene.cpp \
-    ttile.cpp
+    ttile.cpp \
+    xenemy.cpp
 
 HEADERS += \
     attack.h \
@@ -56,6 +58,7 @@ HEADERS += \
     gscene.h \
     gtile.h \
     gview.h \
+    gxenemy.h \
     help.h \
     keypresscontroller.h \
     mainwindow.h \
@@ -72,7 +75,8 @@ HEADERS += \
     thealthpack.h \
     tprotagonist.h \
     tscene.h \
-    ttile.h
+    ttile.h \
+    xenemy.h
 
 FORMS += \
     mainwindow.ui
@@ -82,18 +86,5 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../worldLib/ -lworl
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../worldLib/ -lworld
-
-INCLUDEPATH += $$PWD/../worldLib
-DEPENDPATH += $$PWD/../worldLib
-
 RESOURCES += \
     resource.qrc
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../worldLib/release/ -lworld
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../worldLib/debug/ -lworld
-else:unix: LIBS += -L$$PWD/../worldLib/ -lworld
-
-INCLUDEPATH += $$PWD/../worldLib
-DEPENDPATH += $$PWD/../worldLib

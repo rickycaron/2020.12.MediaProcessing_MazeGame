@@ -25,7 +25,6 @@ void GTile::draw()
     if(std::isinf(value)) //fix inf value
     {
         value=0;
-        qDebug()<<"blackG";
     }
 
 //    QColor color(value*255,value*255,value*255);
