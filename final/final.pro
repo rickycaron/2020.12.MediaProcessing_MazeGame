@@ -90,3 +90,10 @@ DEPENDPATH += $$PWD/../worldLib
 
 RESOURCES += \
     resource.qrc
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../worldLib/release/ -lworld
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../worldLib/debug/ -lworld
+else:unix: LIBS += -L$$PWD/../worldLib/ -lworld
+
+INCLUDEPATH += $$PWD/../worldLib
+DEPENDPATH += $$PWD/../worldLib

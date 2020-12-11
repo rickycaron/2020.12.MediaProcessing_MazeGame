@@ -25,7 +25,6 @@ public:
     void createScene(int);
     bool checkModel();
     GView *getView() const;
-
 private:
     std::shared_ptr<Model> model;
     GView* view;
