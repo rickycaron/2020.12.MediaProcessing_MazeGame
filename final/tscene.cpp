@@ -12,17 +12,6 @@ TScene::TScene(QObject *parent, const std::vector<std::shared_ptr<Tile> > &tiles
     printEnemies(normalEnemies,pEnemies);
     printHealthpacks(healthpacks);
     connect(protagonist.get(),&Protagonist::posChanged,this,&TScene::redrawPosition);
-
-    //for(int i=0; i<normalEnemyQlist.size(); i++){
-        //connect(normalEnemies[i].get(),&Enemy::dead,normalEnemyQlist[i],&TEnemy::indicateDead);
-        //connect(protagonist.get(),&Protagonist::posChanged,normalEnemyQlist[i],&TEnemy::checkCollide);
-        //connect(normalEnemyQlist[i],&TEnemy::collide,this,&TScene::collideEnemy);
-    //}
-    //for (int i=0; i<pEnemyQlist.size(); i++) {
-        //connect(pEnemies[i].get(),&Enemy::dead,pEnemyQlist[i],&TEnemy::indicateDead);
-//        connect(protagonist.get(),&Protagonist::posChanged,pEnemyQlist[i],&TEnemy::checkCollide);
-        //connect(pEnemyQlist[i],&TEnemy::collide,this,&TScene::collideEnemy);
-    //}
 }
 
 void TScene::printTiles(const std::vector<std::shared_ptr<Tile>> &tiles)

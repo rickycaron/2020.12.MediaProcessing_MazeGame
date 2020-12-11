@@ -39,4 +39,4 @@ debug/moc_mainwindow.o
 debug/moc_model.o
 debug/moc_tenemy.o
 debug/moc_tprotagonist.o
-debug/moc_ttile.o
+debug/moc_tscene.o

@@ -29,7 +29,6 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
             model->setIsChangable (false);
             if(energy<0){
                 updateEnergyTimer->stop();
-                qDebug()<<"Game Over";
             }
 
             else{

@@ -10,6 +10,7 @@
 
 class TScene : public QGraphicsScene
 {
+    Q_OBJECT
 public:
     TScene(QObject *parent, const std::vector<std::shared_ptr<Tile>> &tiles, const std::shared_ptr<Protagonist> &protagonist,
               const std::vector<std::shared_ptr<Enemy>> &normalEnemies, const std::vector<std::shared_ptr<PEnemy>> &pEnemies,
