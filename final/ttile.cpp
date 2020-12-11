@@ -15,9 +15,12 @@ TTile::TTile(int xPos, int yPos, int value, int scale, QObject *parent):QGraphic
 
 void TTile::draw()
 {
-    if(std::isinf(value)) //fix inf value
+    //if(std::isinf(value)) //fix inf value
+    if(value>100)
     {
-        value=0;
+        //value=0;
+        //setBrush(QBrush(QColor(255,255,255)));
+        qDebug()<<"black";
     }
     setPen(QPen(Qt::DashLine));
 }
