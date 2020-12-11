@@ -2,6 +2,7 @@ debug/attack.o
 debug/command.o
 debug/commandcontroller.o
 debug/controller.o
+debug/gameoverscene.o
 debug/genemy.o
 debug/ghealthpack.o
 debug/gotoxy.o

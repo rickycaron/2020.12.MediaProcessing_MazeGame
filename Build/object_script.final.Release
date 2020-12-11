@@ -2,6 +2,7 @@ release/attack.o
 release/command.o
 release/commandcontroller.o
 release/controller.o
+release/gameoverscene.o
 release/genemy.o
 release/ghealthpack.o
 release/gotoxy.o

@@ -26,11 +26,15 @@ public:
 
     bool getIsPEnemy() const;
     void setIsPEnemy(bool value);
+signals:
+    void poisonTile(int,int,int);
 
 public slots:
     void redrawPosition(int xPos, int yPos);
     void collideEnemy(int i, bool isP);
 private:
+    int row;
+    int col;
     QList<TTile *> tileQlist;
     TProtagonist *protagonistView;
     QList<TEnemy *> normalEnemyQlist;

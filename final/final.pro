@@ -13,6 +13,7 @@ SOURCES += \
     command.cpp \
     commandcontroller.cpp \
     controller.cpp \
+    gameoverscene.cpp \
     genemy.cpp \
     ghealthpack.cpp \
     gotoxy.cpp \
@@ -46,6 +47,7 @@ HEADERS += \
     commandcontroller.h \
     config.h \
     controller.h \
+    gameoverscene.h \
     genemy.h \
     ghealthpack.h \
     gotoxy.h \

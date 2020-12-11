@@ -11,9 +11,15 @@ MainWindow::MainWindow(QWidget *parent)
     ui->verticalLayout->addWidget(view);
 
     model = std::make_shared<Model>(QString("worldmap"));
+    qDebug()<<"0";
     controller = std::make_shared<Controller>(model,view,this);
+    qDebug()<<"1";
     keypressController = std::make_shared<KeypressController>(controller,this);
+    qDebug()<<"2";
     commandController = std::make_shared<CommandController>(controller,ui->label,this);
+    qDebug()<<"3";
+
+
 
     ui->energyBar->setValue(100);
     ui->healthBar->setValue(100);

@@ -1,49 +1,55 @@
 #include "tscene.h"
 #include <QDebug>
+#include <QTimer>
 
 TScene::TScene(QObject *parent, const std::vector<std::shared_ptr<Tile> > &tiles, const std::shared_ptr<Protagonist> &protagonist, const std::vector<std::shared_ptr<Enemy> > &normalEnemies, const std::vector<std::shared_ptr<PEnemy> > &pEnemies, const std::vector<std::shared_ptr<Tile> > &healthpacks, int row, int col)
     :QGraphicsScene(parent)
 {
+    this->row=row;
+    this->col=col;
     printTiles(tiles);
     printProtagonist(protagonist);
     printEnemies(normalEnemies,pEnemies);
     printHealthpacks(healthpacks);
     connect(protagonist.get(),&Protagonist::posChanged,this,&TScene::redrawPosition);
 
-    for(int i=0; i<normalEnemyQlist.size(); i++){
-        connect(normalEnemies[i].get(),&Enemy::dead,normalEnemyQlist[i],&TEnemy::indicateDead);
-        connect(protagonist.get(),&Protagonist::posChanged,normalEnemyQlist[i],&TEnemy::checkCollide);
-        connect(normalEnemyQlist[i],&TEnemy::collide,this,&TScene::collideEnemy);
-    }
-    for (int i=0; i<pEnemyQlist.size(); i++) {
-        connect(pEnemies[i].get(),&Enemy::dead,pEnemyQlist[i],&TEnemy::indicateDead);
-        connect(protagonist.get(),&Protagonist::posChanged,pEnemyQlist[i],&TEnemy::checkCollide);
-        connect(pEnemyQlist[i],&TEnemy::collide,this,&TScene::collideEnemy);
-        int x = pEnemies[i]->getXPos();
-        int y = pEnemies[i]->getYPos();
-        for(int n=x-1;n<=x+1;n++){
-            for(int m=y-1;m<=y+1;m++){
-                if(n>=0&&n<col&&m>=0&&m<row){
-                    connect(pEnemies[i].get(),&PEnemy::poisonLevelUpdated,tileQlist[m*col+n],&TTile::getPolluted);
-                    connect(pEnemies[i].get(),&PEnemy::dead,tileQlist[m*col+n],&TTile::clean);
-                }
-            }
-        }
-    }
+    //for(int i=0; i<normalEnemyQlist.size(); i++){
+        //connect(normalEnemies[i].get(),&Enemy::dead,normalEnemyQlist[i],&TEnemy::indicateDead);
+        //connect(protagonist.get(),&Protagonist::posChanged,normalEnemyQlist[i],&TEnemy::checkCollide);
+        //connect(normalEnemyQlist[i],&TEnemy::collide,this,&TScene::collideEnemy);
+    //}
+    //for (int i=0; i<pEnemyQlist.size(); i++) {
+        //connect(pEnemies[i].get(),&Enemy::dead,pEnemyQlist[i],&TEnemy::indicateDead);
+//        connect(protagonist.get(),&Protagonist::posChanged,pEnemyQlist[i],&TEnemy::checkCollide);
+        //connect(pEnemyQlist[i],&TEnemy::collide,this,&TScene::collideEnemy);
+    //}
 }
 
 void TScene::printTiles(const std::vector<std::shared_ptr<Tile>> &tiles)
 {
     for(unsigned int i=0;i<tiles.size();i++){
-        TTile *tile;
-        if(tiles[i]->getValue()>100){
-            tile = new TTile(tiles[i]->getXPos(),tiles[i]->getYPos(),false);
-        }else{
-            tile = new TTile(tiles[i]->getXPos(),tiles[i]->getYPos(),true);
-        }
+        TTile *tile= new TTile(tiles[i]->getXPos(),tiles[i]->getYPos(),tiles[i]->getValue(),20,this);
         tileQlist.append(tile);
         this->addItem(tile);
     }
+    connect(this,&TScene::poisonTile,[=](int xPEPos,int yPEPos,int poisonLevel){
+        for(int n=xPEPos-1;n<=xPEPos+1;n++){
+            for(int m=yPEPos-1;m<=yPEPos+1;m++){
+                if(n>=0&&n<col&&m>=0&&m<row){
+                    if(poisonLevel==0){
+                        tileQlist[m*col+n]->draw();
+                    }
+                    else{
+                        tileQlist[m*col+n]->poisonTile();
+                        QTimer::singleShot(400,this,[=]{
+                            //to achieve animation
+                            tileQlist[m*col+n]->draw();
+                        });
+                    }
+                }
+            }
+        }
+    });
 }
 
 void TScene::printProtagonist(const std::shared_ptr<Protagonist> &protagonist)
@@ -58,11 +64,18 @@ void TScene::printEnemies(const std::vector<std::shared_ptr<Enemy> > &normalEnem
 {
     for(unsigned int i=0;i<normalEnemies.size();i++){
         TEnemy * enemy = new TEnemy(normalEnemies[i]->getXPos(),normalEnemies[i]->getYPos(),i,false);
+        connect(normalEnemies[i].get(),&Enemy::dead,enemy,&TEnemy::indicateDead);
+        connect(enemy,&TEnemy::collide,this,&TScene::collideEnemy);
         normalEnemyQlist.append(enemy);
         this->addItem(enemy);
     }
     for(unsigned int i=0;i<pEnemies.size();i++){
+        connect(pEnemies[i].get(),&PEnemy::poisonLevelUpdated,[=]{
+           emit poisonTile(pEnemies[i]->getXPos(),pEnemies[i]->getYPos(),pEnemies[i].get()->getPoisonLevel());
+        });
         TEnemy * enemy = new TEnemy(pEnemies[i]->getXPos(),pEnemies[i]->getYPos(),i,true);
+        connect(pEnemies[i].get(),&Enemy::dead,enemy,&TEnemy::indicateDead);
+        connect(enemy,&TEnemy::collide,this,&TScene::collideEnemy);
         pEnemyQlist.append(enemy);
         this->addItem(enemy);
     }

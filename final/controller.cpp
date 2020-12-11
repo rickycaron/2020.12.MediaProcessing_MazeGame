@@ -9,6 +9,7 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
     this->model = model;
     this->view = view;
     createScene(20);
+
 //    QObject::connect(this->view,SIGNAL(keyPressSignal(int)),this,SLOT(on_keyPressSlot(int)));
     connect(model->getProtagonist().get(),&Protagonist::healthChanged,[=](int health){
         if(health<1){
@@ -21,7 +22,8 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
 
             model->setIsChangable (true);
         }
-});
+    });
+
     connect(model->getProtagonist().get(),&Protagonist::energyChanged,[=](int energy){
         if(energy<1){
             model->setIsChangable (false);
@@ -37,7 +39,7 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
         else{
             model->setIsChangable (true);
         }
-});
+    });
 
     QObject::connect(model.get(),SIGNAL(detectedSignal(int,int)),this,SLOT(detected(int,int)));
 
