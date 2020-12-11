@@ -2,6 +2,7 @@ debug/attack.o
 debug/command.o
 debug/commandcontroller.o
 debug/controller.o
+debug/gameoverscene.o
 debug/genemy.o
 debug/ghealthpack.o
 debug/gotoxy.o
@@ -38,4 +39,4 @@ debug/moc_mainwindow.o
 debug/moc_model.o
 debug/moc_tenemy.o
 debug/moc_tprotagonist.o
-debug/moc_ttile.o
+debug/moc_tscene.o

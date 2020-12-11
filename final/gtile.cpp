@@ -2,6 +2,7 @@
 #include<cmath>
 #include<QBrush>
 #include<QPen>
+#include <QDebug>
 
 GTile::GTile(int xPos, int yPos, float value, int scale, QObject *parent):QGraphicsRectItem(xPos*scale,yPos*scale,scale,scale)
 {
@@ -24,6 +25,7 @@ void GTile::draw()
     if(std::isinf(value)) //fix inf value
     {
         value=0;
+        qDebug()<<"blackG";
     }
 
 //    QColor color(value*255,value*255,value*255);

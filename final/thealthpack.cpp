@@ -1,15 +1,16 @@
 #include "thealthpack.h"
 
-THealthpack::THealthpack(int xPos, int yPos) : QGraphicsTextItem()
+THealthpack::THealthpack(int xPos, int yPos, int scale) : QGraphicsTextItem()
 {
+    this->scale=scale;
     setPlainText("H");
-    setPos(20*xPos, 20*yPos);
+    setPos(scale*xPos, scale*yPos);
     setIsEmpty(false);
 }
 
 QRectF THealthpack::boundingRect() const
 {
-    return QRectF(0,0,20,20);
+    return QRectF(0,0,scale,scale);
 }
 
 bool THealthpack::getIsEmpty() const

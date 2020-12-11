@@ -16,5 +16,6 @@
         <file>images/maze3.png</file>
         <file>images/worldmap.png</file>
         <file>images/worldmap4.png</file>
+        <file>images/gameover.png</file>
     </qresource>
 </RCC>

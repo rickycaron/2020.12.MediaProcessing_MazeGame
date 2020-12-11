@@ -1,0 +1,17 @@
+release/controller.o
+release/main.o
+release/mainwindow.o
+release/model.o
+release/myqscene.o
+release/myqview.o
+release/qenemy.o
+release/qhealthpack.o
+release/qpenemy.o
+release/qprotagonist.o
+release/qtile.o
+release/qrc_res.o
+release/moc_controller.o
+release/moc_mainwindow.o
+release/moc_model.o
+release/moc_myqscene.o
+release/moc_myqview.o

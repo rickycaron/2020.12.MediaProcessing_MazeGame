@@ -2,57 +2,68 @@
 #include <QPainter>
 #include <QDebug>
 #include <QTimer>
+#include <cmath>
 
-TTile::TTile(int xPos, int yPos, bool ispassable):QGraphicsTextItem()
+TTile::TTile(int xPos, int yPos, int value, int scale, QObject *parent):QGraphicsRectItem(xPos*scale,yPos*scale,scale,scale)
 {
-    setPlainText(" ");
-    setPos(QPointF(20*xPos,20*yPos));
-    setPassable(ispassable);
+    this->xPos = xPos;
+    this->yPos = yPos;
+    this->value = value;
+    this->scale = scale;
+    draw();
 }
 
-QRectF TTile::boundingRect() const
+void TTile::draw()
 {
-    return QRectF(0,0,20,20);
-}
-
-void TTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-    QPen * mPen = new QPen();
-    mPen->setWidth(1);
-    mPen->setStyle(Qt::DashLine);
-    painter->setPen(*mPen);
-    painter->setBrush(QBrush(QColor(100,100,200,pollutedLevel)));
-    if(!getPassable()){
-        painter->setBrush(Qt::SolidPattern);
+    //if(std::isinf(value)) //fix inf value
+    if(value>100)
+    {
+        //value=0;
+        //setBrush(QBrush(QColor(255,255,255)));
+        qDebug()<<"black";
     }
-    painter->drawRect(boundingRect());
-    delete mPen;
-    QGraphicsTextItem::paint(painter,option,widget);
+    setPen(QPen(Qt::DashLine));
 }
 
-bool TTile::getPassable() const
+void TTile::poisonTile()
 {
-    return passable;
+    setBrush(QBrush(QColor(100,100,200)));
 }
 
-void TTile::setPassable(bool value)
-{
-    passable = value;
-}
+//void TTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+//{
+//    painter->setPen(QPen(Qt::DashLine));
+//    painter->setBrush(QBrush(QColor(100,100,200,pollutedLevel)));
 
-void TTile::getPolluted(int poisonLevel)
-{
+//    if(std::isinf(value)) //fix inf value
+//    {
+//        //value=0;
+//        painter->setBrush(Qt::SolidPattern);
+//    }
+//    if(!getPassable()){
+//        painter->setBrush(Qt::SolidPattern);
+//    }
+//    painter->drawRect(boundingRect());
+//    QGraphicsTextItem::paint(painter,option,widget);
+//}
+
+//bool TTile::getPassable() const
+//{
+//    return passable;
+//}
+
+//void TTile::setPassable(bool value)
+//{
+//    passable = value;
+//}
+
+//void TTile::getPolluted(int poisonLevel)
+//{
     //QPainter painter;
-    pollutedLevel=poisonLevel;
-    update(boundingRect());
-    QTimer::singleShot(400,this,[=]{
-        //to achieve animation
-        clean();
-    });
-}
-
-void TTile::clean()
-{
-    pollutedLevel=0;
-    update(boundingRect());
-}
+//    pollutedLevel=poisonLevel;
+//    update(boundingRect());
+//    QTimer::singleShot(400,this,[=]{
+//        to achieve animation
+//        clean();
+//    });
+//}

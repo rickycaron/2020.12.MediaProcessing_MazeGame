@@ -9,10 +9,12 @@ Model::Model(QString fileName):QObject()
     world = std::make_unique<World>();
 //    world->createWorld("://images/" +fileName+".png",10,10,0.25);
 //    world->createWorld("/home/shuai/Desktop/libfinal/" + fileName + ".png",22,22,0.25);
-    world->createWorld(":/images/worldmap.png",22,22,0.25);
+//    world->createWorld(":/images/worldmap.png",22,22,0.25);
 //    world->createWorld(":/images/maze1.png",22,22,0.25);
-    readData();
+    world->createWorld(":/images/maze2.png",20,20,0.4);
 
+    readData();
+    //qDebug()<<"3333";
 }
 
 bool Model::readData()
@@ -261,9 +263,10 @@ bool Model::isOutside(int x, int y)
 bool Model::moveRight()
 {
     //After a movement,three things needed:
-    //1.update energy //2.detect energy //3.detectpack
+    //1.update energy //2.detect enemy //3.detectpack
     if(!isChangable){return false;}
     if(!isOutside(protagonist->getXPos()+1,protagonist->getYPos())){
+        emit detectedSignal(NONE,-1);
         protagonist->setXPos(protagonist->getXPos()+1);
         consumeEnergy();
         return true;
@@ -277,6 +280,7 @@ bool Model::moveLeft()
 {
     if(!isChangable){return false;}
     if(!isOutside(protagonist->getXPos()-1,protagonist->getYPos())){
+        emit detectedSignal(NONE,-1);
         protagonist->setXPos(protagonist->getXPos()-1);
         consumeEnergy();
         return true;
@@ -290,6 +294,7 @@ bool Model::moveUp()
 {
     if(!isChangable){return false;}
     if(!isOutside(protagonist->getXPos(),protagonist->getYPos()-1)){
+        emit detectedSignal(NONE,-1);
         protagonist->setYPos(protagonist->getYPos()-1);
         consumeEnergy();
         return true;
@@ -303,6 +308,7 @@ bool Model::moveDown()
 {
     if(!isChangable){return false;}
     if(!isOutside(protagonist->getXPos(),protagonist->getYPos()+1)){
+        emit detectedSignal(NONE,-1);
         protagonist->setYPos(protagonist->getYPos()+1);
         consumeEnergy();
         return true;
@@ -316,6 +322,7 @@ void Model::move()
 {
     if(!path.isEmpty()){
         std::shared_ptr<Tile> nextTile = path.pop();
+        emit detectedSignal(NONE,-1);
         protagonist->setPos(nextTile->getXPos(),nextTile->getYPos());
         consumeEnergy();
         QTimer::singleShot(1000, this, &Model::move);

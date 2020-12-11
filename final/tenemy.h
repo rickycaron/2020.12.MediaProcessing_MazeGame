@@ -10,7 +10,7 @@ class TEnemy : public QGraphicsTextItem
 {
     Q_OBJECT
 public:
-    TEnemy(int x, int y, int i, bool isP);
+    TEnemy(int x, int y, int i, int scale, bool isP);
     QRectF boundingRect() const;
 public slots:
     void indicateDead();
@@ -21,6 +21,7 @@ private:
     int xPos;
     int yPos;
     int index;
+    int scale;
     bool isPEnemy;
 };
 
