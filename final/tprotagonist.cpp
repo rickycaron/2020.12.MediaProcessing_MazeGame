@@ -2,18 +2,19 @@
 #include <QDebug>
 #include <QGraphicsScene>
 
-TProtagonist::TProtagonist(int xPos, int yPos)
+TProtagonist::TProtagonist(int xPos, int yPos, int scale)
 {
+    this->scale=scale;
     QFont myfont;
     myfont.setBold(true);
     setFont(myfont);
     setPlainText("P");
-    setPos(QPointF(20*xPos,20*yPos));
+    setPos(QPointF(scale*xPos,scale*yPos));
 }
 
 QRectF TProtagonist::boundingRect() const
 {
-    return QRectF(0,0,20,20);
+    return QRectF(0,0,scale,scale);
 }
 
 void TProtagonist::getPoisoned(float poisonLevel)

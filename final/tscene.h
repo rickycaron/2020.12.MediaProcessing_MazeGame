@@ -14,7 +14,7 @@ class TScene : public QGraphicsScene
 public:
     TScene(QObject *parent, const std::vector<std::shared_ptr<Tile>> &tiles, const std::shared_ptr<Protagonist> &protagonist,
               const std::vector<std::shared_ptr<Enemy>> &normalEnemies, const std::vector<std::shared_ptr<PEnemy>> &pEnemies,
-              const std::vector<std::shared_ptr<Tile>> &healthpacks, int row, int col);
+              const std::vector<std::shared_ptr<Tile>> &healthpacks, int scale, int row, int col);
     void printTiles(const std::vector<std::shared_ptr<Tile>> &tiles);
     void printProtagonist(const std::shared_ptr<Protagonist> &protagonist);
     void printEnemies(const std::vector<std::shared_ptr<Enemy>> &normalEnemies, const std::vector<std::shared_ptr<PEnemy>> &pEnemies);
@@ -36,6 +36,7 @@ public slots:
 private:
     int row;
     int col;
+    int scale{1};
     QList<TTile *> tileQlist;
     TProtagonist *protagonistView;
     QList<TEnemy *> normalEnemyQlist;

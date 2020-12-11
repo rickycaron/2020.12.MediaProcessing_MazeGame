@@ -3,13 +3,14 @@
 #include <QColor>
 #include <QDebug>
 
-TEnemy::TEnemy(int x, int y, int i, bool isP) : QGraphicsTextItem()
+TEnemy::TEnemy(int x, int y, int i, int scale, bool isP) : QGraphicsTextItem()
 {
     xPos = x;
     yPos = y;
     index = i;
+    this->scale=scale;
     setPlainText("E");
-    setPos(20*xPos, 20*yPos);
+    setPos(scale*xPos, scale*yPos);
     isPEnemy = isP;
     if(isP){
         QFont myfont;
@@ -21,7 +22,7 @@ TEnemy::TEnemy(int x, int y, int i, bool isP) : QGraphicsTextItem()
 
 QRectF TEnemy::boundingRect() const
 {
-    return QRectF(0,0,20,20);
+    return QRectF(0,0,scale,scale);
 }
 
 void TEnemy::indicateDead()

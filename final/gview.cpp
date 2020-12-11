@@ -11,8 +11,8 @@ void GView::createScene(const std::vector<std::shared_ptr<Tile> > &tiles, const 
                           const std::vector<std::shared_ptr<PEnemy> > &penemies,const std::vector<std::shared_ptr<Tile> > &healthpacks,int scale,int row, int col)
 {
     this-> scale = scale;
-    gScene = new GScene(this, tiles, protagonist, enemies,penemies,healthpacks,scale,row,col);
-    tScene = new TScene(this, tiles, protagonist, enemies, penemies, healthpacks, row, col);
+    gScene = new GScene(this, tiles, protagonist, enemies, penemies, healthpacks, scale, row, col);
+    tScene = new TScene(this, tiles, protagonist, enemies, penemies, healthpacks, scale, row, col);
 
     gameoverScene = new GameoverScene(this);
 

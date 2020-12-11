@@ -146,10 +146,8 @@ void Controller::take()
 
 void Controller::createScene(int scale)
 {
-
-    view->createScene(model->getTiles(),model->getProtagonist()
-                      ,model->getEnemies(),model->getPEnemies(),model->getHealthpacks(),scale,model->getRow(),model->getCol());
-
+    view->createScene(model->getTiles(),model->getProtagonist(),
+                      model->getEnemies(),model->getPEnemies(),model->getHealthpacks(),scale,model->getRow(),model->getCol());
 }
 
 //controller call method from view to query
@@ -196,7 +194,6 @@ void Controller::detected(int type,  int index)
     case HEALTHPACK:
         detectedType = HEALTHPACK;
         detectedHealthPack =index;
-
     break;
     case NONE:
         detectedType = NONE;

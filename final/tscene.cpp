@@ -2,11 +2,12 @@
 #include <QDebug>
 #include <QTimer>
 
-TScene::TScene(QObject *parent, const std::vector<std::shared_ptr<Tile> > &tiles, const std::shared_ptr<Protagonist> &protagonist, const std::vector<std::shared_ptr<Enemy> > &normalEnemies, const std::vector<std::shared_ptr<PEnemy> > &pEnemies, const std::vector<std::shared_ptr<Tile> > &healthpacks, int row, int col)
+TScene::TScene(QObject *parent, const std::vector<std::shared_ptr<Tile> > &tiles, const std::shared_ptr<Protagonist> &protagonist, const std::vector<std::shared_ptr<Enemy> > &normalEnemies, const std::vector<std::shared_ptr<PEnemy> > &pEnemies, const std::vector<std::shared_ptr<Tile> > &healthpacks, int scale, int row, int col)
     :QGraphicsScene(parent)
 {
     this->row=row;
     this->col=col;
+    this->scale=scale;
     printTiles(tiles);
     printProtagonist(protagonist);
     printEnemies(normalEnemies,pEnemies);
@@ -17,7 +18,7 @@ TScene::TScene(QObject *parent, const std::vector<std::shared_ptr<Tile> > &tiles
 void TScene::printTiles(const std::vector<std::shared_ptr<Tile>> &tiles)
 {
     for(unsigned int i=0;i<tiles.size();i++){
-        TTile *tile= new TTile(tiles[i]->getXPos(),tiles[i]->getYPos(),tiles[i]->getValue(),20,this);
+        TTile *tile= new TTile(tiles[i]->getXPos(),tiles[i]->getYPos(),tiles[i]->getValue(),scale,this);
         tileQlist.append(tile);
         this->addItem(tile);
     }
@@ -43,7 +44,7 @@ void TScene::printTiles(const std::vector<std::shared_ptr<Tile>> &tiles)
 
 void TScene::printProtagonist(const std::shared_ptr<Protagonist> &protagonist)
 {
-    protagonistView = new TProtagonist(protagonist->getXPos(),protagonist->getYPos());
+    protagonistView = new TProtagonist(protagonist->getXPos(),protagonist->getYPos(),scale);
     connect(protagonist.get(),&Protagonist::energyChanged,protagonistView,&TProtagonist::checkState);
     connect(protagonist.get(),&Protagonist::healthChanged,protagonistView,&TProtagonist::checkState);
     this->addItem(protagonistView);
@@ -52,7 +53,7 @@ void TScene::printProtagonist(const std::shared_ptr<Protagonist> &protagonist)
 void TScene::printEnemies(const std::vector<std::shared_ptr<Enemy> > &normalEnemies, const std::vector<std::shared_ptr<PEnemy>> &pEnemies)
 {
     for(unsigned int i=0;i<normalEnemies.size();i++){
-        TEnemy * enemy = new TEnemy(normalEnemies[i]->getXPos(),normalEnemies[i]->getYPos(),i,false);
+        TEnemy * enemy = new TEnemy(normalEnemies[i]->getXPos(),normalEnemies[i]->getYPos(),i,scale,false);
         connect(normalEnemies[i].get(),&Enemy::dead,enemy,&TEnemy::indicateDead);
         connect(enemy,&TEnemy::collide,this,&TScene::collideEnemy);
         normalEnemyQlist.append(enemy);
@@ -62,7 +63,7 @@ void TScene::printEnemies(const std::vector<std::shared_ptr<Enemy> > &normalEnem
         connect(pEnemies[i].get(),&PEnemy::poisonLevelUpdated,[=]{
            emit poisonTile(pEnemies[i]->getXPos(),pEnemies[i]->getYPos(),pEnemies[i].get()->getPoisonLevel());
         });
-        TEnemy * enemy = new TEnemy(pEnemies[i]->getXPos(),pEnemies[i]->getYPos(),i,true);
+        TEnemy * enemy = new TEnemy(pEnemies[i]->getXPos(),pEnemies[i]->getYPos(),i,scale,true);
         connect(pEnemies[i].get(),&Enemy::dead,enemy,&TEnemy::indicateDead);
         connect(enemy,&TEnemy::collide,this,&TScene::collideEnemy);
         pEnemyQlist.append(enemy);
@@ -73,7 +74,7 @@ void TScene::printEnemies(const std::vector<std::shared_ptr<Enemy> > &normalEnem
 void TScene::printHealthpacks(const std::vector<std::shared_ptr<Tile> > &healthpacks)
 {
     for(unsigned int i=0;i<healthpacks.size();i++){
-        THealthpack * healthpack = new THealthpack(healthpacks[i]->getXPos(),healthpacks[i]->getYPos());
+        THealthpack * healthpack = new THealthpack(healthpacks[i]->getXPos(),healthpacks[i]->getYPos(),scale);
         healthpackQlist.append(healthpack);
         this->addItem(healthpack);
     }
