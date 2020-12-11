@@ -2,6 +2,7 @@
 #include<cmath>
 #include<QBrush>
 #include<QPen>
+#include <QDebug>
 
 GTile::GTile(int xPos, int yPos, float value, int scale, QObject *parent):QGraphicsRectItem(xPos*scale,yPos*scale,scale,scale)
 {

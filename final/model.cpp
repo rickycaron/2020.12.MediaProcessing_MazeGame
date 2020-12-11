@@ -8,10 +8,15 @@ Model::Model(QString fileName):QObject()
 
     world = std::make_unique<World>();
 //    world->createWorld("://images/" +fileName+".png",10,10,0.25);
+<<<<<<< HEAD
     world->createWorld("/home/shuai/Desktop/libfinal/" + fileName + ".png",22,22,0.25);
 //    world->createWorld(":/images/worldmap4.png",22,22,0.25);
+=======
+//    world->createWorld("/home/shuai/Desktop/libfinal/" + fileName + ".png",22,22,0.25);
+    world->createWorld(":/images/worldmap.png",30,20,0.4);
+>>>>>>> 34cd25ac1a9fc976f4bbcaaeaee08bbf35ff59b0
     readData();
-
+    //qDebug()<<"3333";
 }
 
 bool Model::readData()
@@ -78,6 +83,17 @@ bool Model::readData()
             indexOfEnermy++;
         }
     }
+
+    std::random_device r;
+    std::default_random_engine e1(r());
+    std::uniform_int_distribution<int> uniform_index(0, indexOfEnermy-1);
+    int index = uniform_index(e1);
+
+    qDebug()<<indexOfEnermy;
+    qDebug()<<index;
+
+    qDebug()<< "starting x position is"<< normalEnemies[index].get()->getXPos();
+    qDebug()<< "starting y position is"<< normalEnemies[index].get()->getYPos();
 
     std::vector<std::unique_ptr<Tile>> tempHealthpacks = world->getHealthPacks();
     for(unsigned int i=0; i<tempHealthpacks.size(); i++){
@@ -153,9 +169,10 @@ bool Model::isOutside(int x, int y)
 bool Model::moveRight()
 {
     //After a movement,three things needed:
-    //1.update energy //2.detect energy //3.detectpack
+    //1.update energy //2.detect enemy //3.detectpack
     if(!isChangable){return false;}
     if(!isOutside(protagonist->getXPos()+1,protagonist->getYPos())){
+        emit detectedSignal(NONE,-1);
         protagonist->setXPos(protagonist->getXPos()+1);
         consumeEnergy();
         return true;
@@ -169,6 +186,7 @@ bool Model::moveLeft()
 {
     if(!isChangable){return false;}
     if(!isOutside(protagonist->getXPos()-1,protagonist->getYPos())){
+        emit detectedSignal(NONE,-1);
         protagonist->setXPos(protagonist->getXPos()-1);
         consumeEnergy();
         return true;
@@ -182,6 +200,7 @@ bool Model::moveUp()
 {
     if(!isChangable){return false;}
     if(!isOutside(protagonist->getXPos(),protagonist->getYPos()-1)){
+        emit detectedSignal(NONE,-1);
         protagonist->setYPos(protagonist->getYPos()-1);
         consumeEnergy();
         return true;
@@ -195,6 +214,7 @@ bool Model::moveDown()
 {
     if(!isChangable){return false;}
     if(!isOutside(protagonist->getXPos(),protagonist->getYPos()+1)){
+        emit detectedSignal(NONE,-1);
         protagonist->setYPos(protagonist->getYPos()+1);
         consumeEnergy();
         return true;
@@ -208,6 +228,7 @@ void Model::move()
 {
     if(!path.isEmpty()){
         std::shared_ptr<Tile> nextTile = path.pop();
+        emit detectedSignal(NONE,-1);
         protagonist->setPos(nextTile->getXPos(),nextTile->getYPos());
         consumeEnergy();
         QTimer::singleShot(1000, this, &Model::move);

@@ -4,6 +4,7 @@
 #include"world.h"
 #include "pathfinder.h"
 #include<memory>
+#include "xenemy.h"
 
 //This class is used to fetch data from outside(here is lib world)
 //into what we can use with view and controller

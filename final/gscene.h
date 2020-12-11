@@ -16,8 +16,8 @@ class GScene : public QGraphicsScene
     Q_OBJECT
 public:
     GScene(QObject *parent, const std::vector<std::shared_ptr<Tile>> &tiles, const std::shared_ptr<Protagonist> &protagonist,
-              const std::vector<std::shared_ptr<Enemy>> &enemies,const std::vector<std::shared_ptr<PEnemy>> &penemies, const std::vector<std::shared_ptr<Tile>> &healthpacks,int scale);
-    void printTiles(const std::vector<std::shared_ptr<Tile>> &tiles);
+              const std::vector<std::shared_ptr<Enemy>> &enemies, const std::vector<std::shared_ptr<PEnemy>> &penemies, const std::vector<std::shared_ptr<Tile>> &healthpacks, int scale, int row, int col);
+    void printTiles(const std::vector<std::shared_ptr<Tile>> &tiles, int row, int col);
     void printProtagonist(const std::shared_ptr<Protagonist> &protagonist);
     void printEnemies(const std::vector<std::shared_ptr<Enemy>> &enemies);
     void printPEnemies(const std::vector<std::shared_ptr<PEnemy>> &penemies);

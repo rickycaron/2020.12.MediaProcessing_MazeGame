@@ -1,25 +1,19 @@
 #ifndef TTILE_H
 #define TTILE_H
 
-#include <QWidget>
-#include <QGraphicsTextItem>
+#include <QGraphicsRectItem>
 
-class TTile : public QGraphicsTextItem
+class TTile : public QGraphicsRectItem
 {
-    Q_OBJECT
 public:
-    TTile(int xPos, int yPos, bool ispassable);
-    QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    bool getPassable() const;
-    void setPassable(bool value);
-    void clean();
-public slots:
-    void getPolluted(int poisonLevel);
+    TTile(int xPos, int yPos, int value, int scale, QObject *parent);
+    void draw();
+    void poisonTile();
 private:
-    bool passable;
-    int pollutedLevel;
-
+    int xPos;
+    int yPos;
+    float value;
+    int scale;
 };
 
 #endif // TTILE_H

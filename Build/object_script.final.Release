@@ -2,6 +2,7 @@ release/attack.o
 release/command.o
 release/commandcontroller.o
 release/controller.o
+release/gameoverscene.o
 release/genemy.o
 release/ghealthpack.o
 release/gotoxy.o
@@ -38,4 +39,4 @@ release/moc_mainwindow.o
 release/moc_model.o
 release/moc_tenemy.o
 release/moc_tprotagonist.o
-release/moc_ttile.o
+release/moc_tscene.o

@@ -568,10 +568,32 @@ void Pathfinder::aStarAddNode(int index, std::shared_ptr<Node> parent)
     }
 }
 
+bool Pathfinder::checkReachable(int x, int y)
+{
+    if(x < column && x>=0 && y < row && y >=0)
+    {
+        int index=y*column+x;
+        if(!std::isinf(tiles[index]->getValue()))
+        {
+            return true;
+        }
+    }
+    else
+    {
+        std::cout<<"out of the map"<<std::endl;
+    }
+    return false;
+}
+
 QStack<std::shared_ptr<Tile>> Pathfinder::findpath(const std::shared_ptr<Tile> &p, int x, int y)
 {
     initializePathfinder(p->getXPos(), p->getYPos(),x,y);
     showAllContainers();
+    if(!checkReachable(x,y))
+    {
+        std::cout<<"The goal is unreachable, it is wall!"<<std::endl;
+        return solution;
+    }
     if(calcPath_Astar())
     {
         std::cout<<"Path A* is found ahaha"<<std::endl;
@@ -587,6 +609,11 @@ QStack<std::shared_ptr<Tile> > Pathfinder::findpath(int sx, int sy, int x, int y
 {
     initializePathfinder(sx, sy,x,y);
     showAllContainers();
+    if(!checkReachable(x,y))
+    {
+        std::cout<<"The goal is unreachable, it is wall!"<<std::endl;
+        return solution;
+    }
     if(calcPath_Astar())
     {
         std::cout<<"Path A* is found ahaha"<<std::endl;
@@ -596,7 +623,6 @@ QStack<std::shared_ptr<Tile> > Pathfinder::findpath(int sx, int sy, int x, int y
     }
     showAllContainers();
     return solution;
-
 }
 
 

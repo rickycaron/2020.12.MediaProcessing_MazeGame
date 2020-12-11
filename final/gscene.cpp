@@ -4,45 +4,43 @@
 #include <QGraphicsSceneMouseEvent>
 
 GScene::GScene(QObject *parent, const std::vector<std::shared_ptr<Tile>> &tiles, const std::shared_ptr<Protagonist> &protagonist,
-                   const std::vector<std::shared_ptr<Enemy>> &enemies,const std::vector<std::shared_ptr<PEnemy>> &penemies ,const std::vector<std::shared_ptr<Tile>> &healthpacks,int scale)
+                   const std::vector<std::shared_ptr<Enemy>> &enemies,const std::vector<std::shared_ptr<PEnemy>> &penemies ,const std::vector<std::shared_ptr<Tile>> &healthpacks,int scale, int row, int col)
     :QGraphicsScene(parent)
 {
     this->scale = scale;
-    printTiles(tiles);
+    printTiles(tiles,row, col);
     printEnemies(enemies);
     printPEnemies(penemies);
     printProtagonist(protagonist);
     printHealthpacks(healthpacks);
-//    parent->connect(protagonist.get(),&Protagonist::posChanged,this,&TextScene::redrawProtagonist);
-//    for (unsigned int i=0; i<enemies.size(); i++) {
-//        parent->connect(enemies[i].get(),&Enemy::dead,enemyQlist[i],&TEnemy::indicateDead);
-//    }
 }
 
-void GScene::printTiles(const std::vector<std::shared_ptr<Tile> > &tiles)
+void GScene::printTiles(const std::vector<std::shared_ptr<Tile> > &tiles, int row, int col)
 {
     for(unsigned int i=0;i<tiles.size();i++){
         GTile *tile = new GTile(tiles[i]->getXPos(),tiles[i]->getYPos(),tiles[i]->getValue(),scale,this);
         tileQlist.append(tile);
         this->addItem(tile);
-        connect(this,&GScene::poisonTile,[=](int xPEPos,int yPEPos,int poisonLevel){
-            int tileXPos =tiles[i]->getXPos();
-            int tileYPos =tiles[i]->getYPos();
+    }
 
-            if(std::abs(xPEPos-tileXPos)<2 && std::abs(yPEPos-tileYPos)<2){
-                if(poisonLevel==0){
-                    tile->draw();
-                }
-                else{
-                  tile->poisonTile();
-                  QTimer::singleShot(400,this,[=]{
-                      //to achieve animation
-                      tile->draw();
-                  });
+    connect(this,&GScene::poisonTile,[=](int xPEPos,int yPEPos,int poisonLevel){
+        for(int n=xPEPos-1;n<=xPEPos+1;n++){
+            for(int m=yPEPos-1;m<=yPEPos+1;m++){
+                if(n>=0&&n<col&&m>=0&&m<row){
+                    if(poisonLevel==0){
+                        tileQlist[m*col+n]->draw();
+                    }
+                    else{
+                        tileQlist[m*col+n]->poisonTile();
+                        QTimer::singleShot(400,this,[=]{
+                            //to achieve animation
+                            tileQlist[m*col+n]->draw();
+                        });
+                    }
                 }
             }
-        });
-    }
+        }
+    });
 }
 
 void GScene::printProtagonist(const std::shared_ptr<Protagonist> &protagonist)

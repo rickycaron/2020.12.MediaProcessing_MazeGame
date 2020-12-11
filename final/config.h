@@ -11,6 +11,8 @@
 
 #define PENEMY_IMAGE ":/images/penemy%1.png"
 #define ENEMY_IMAGE ":/images/enemy.png"
+#define XENEMY_IMAGE ":/images/xenemy1.png"
+
 
 #define GRAVE_IMAGE ":/images/grave.png"
 

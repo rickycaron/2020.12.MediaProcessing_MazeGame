@@ -5,7 +5,8 @@
 Controller::Controller(QObject *parent):QObject(parent)
 {
     world = std::make_unique<World>();
-    world->createWorld(":/images/worldmap.png",15,5,0.5);
+//    world->createWorld(":/images/worldmap4.png",15,5,0.5);
+    world->createWorld(":/images/maze1.png",15,5,0.5);
 
     row = world->getRows();
     col = world->getCols();

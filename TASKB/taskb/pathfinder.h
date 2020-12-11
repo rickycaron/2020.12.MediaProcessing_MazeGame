@@ -78,6 +78,7 @@ private:
     bool aStaralorithum();
     void aStarAddNode(int index,std::shared_ptr<Node>parent);
     
+    bool checkReachable(int x,int y);
 };
 
 #endif // PATHFINDER_H
