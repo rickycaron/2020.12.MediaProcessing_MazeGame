@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     view  = new GView(this);
     ui->verticalLayout->addWidget(view);
 
-    model = std::make_shared<Model>(QString("worldmap"));
+    model = std::make_shared<Model>(QString("worldmap4"));
     controller = std::make_shared<Controller>(model,view,this);
     keypressController = std::make_shared<KeypressController>(controller,this);
     commandController = std::make_shared<CommandController>(controller,ui->label,this);
