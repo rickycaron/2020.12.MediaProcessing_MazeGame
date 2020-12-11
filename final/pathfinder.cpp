@@ -599,6 +599,11 @@ QStack<std::shared_ptr<Tile> > Pathfinder::findpath(int sx, int sy, int x, int y
 
 }
 
+float Pathfinder::getMoveCost() const
+{
+    return moveCost;
+}
+
 
 
 

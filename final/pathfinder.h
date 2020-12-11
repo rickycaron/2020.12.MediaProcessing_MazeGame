@@ -28,9 +28,11 @@ public:
     Point nearbyPoint;
     void showsolutionpath();
     void showAllContainers();
-
+    static bool distanncecomp(std::shared_ptr<Node> node1, std::shared_ptr<Node> node2)
+    {
+        return node1->getDistance() < node2->getDistance();
+    }
     void initialze(const std::shared_ptr<Tile> &p,const std::shared_ptr<Tile> goal);
-
     bool calcPath_BreadthFirst();
     bool calcPath_BestFirst();
     bool calcPath_Dijkstra();
@@ -38,7 +40,7 @@ public:
 
     QStack<std::shared_ptr<Tile>> findpath(const std::shared_ptr<Tile> &p,int x, int y);
     QStack<std::shared_ptr<Tile>> findpath(int sx,int sy,int x, int y);
-
+    float getMoveCost() const;
 
 private:
     int row=0;
@@ -49,10 +51,7 @@ private:
     bool reachingGoal();
     double calEuclideanDistance(double x1, double y1, double x2, double y2);
     //static bool distanncecomp(std::shared_ptr<Node> node1, std::shared_ptr<Node> node2);
-    static bool distanncecomp(std::shared_ptr<Node> node1, std::shared_ptr<Node> node2)
-    {
-        return node1->getDistance() < node2->getDistance();
-    }
+
     std::shared_ptr<Node> findMinDistanceNode();
     void generateSolution();
     std::list<std::shared_ptr<Node>>::iterator findOldNote(int index);

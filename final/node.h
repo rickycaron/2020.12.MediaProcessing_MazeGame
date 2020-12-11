@@ -9,6 +9,7 @@ class Node
 public:
     //because the tiles is a vector of unique_ptr, we create a class Node to solve the pointer problem
     Node();
+    Node(std::shared_ptr<Tile> tile);
     Node(std::shared_ptr<Tile> tile,std::shared_ptr<Node> pre);
     std::shared_ptr<Node> getPre() const;
     void setPre(const std::shared_ptr<Node> &value);

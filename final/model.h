@@ -33,6 +33,7 @@ public:
     bool setIsChangable(bool);
     bool getIsChangable();
 
+
 private:
     float difficulty{0.1};
     float maxEH;
@@ -49,6 +50,11 @@ private:
     std::vector<std::shared_ptr<Tile>> healthpacks;
     std::shared_ptr<Pathfinder> pathfinder;
     QStack<std::shared_ptr<Tile>> path;
+
+    std::vector<std::shared_ptr<Tile>> getNearestHealthpack();
+    float goforhealthpack();
+    std::vector<std::shared_ptr<Tile>> getNearestEnemy();
+    float goforEnemy();
 
 signals:
     void detectedSignal(int type, int index);
