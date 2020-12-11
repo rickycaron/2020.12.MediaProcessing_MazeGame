@@ -154,6 +154,7 @@ bool Model::moveRight()
 {
     //After a movement,three things needed:
     //1.update energy //2.detect energy //3.detectpack
+    if(!isChangable){return false;}
     if(!isOutside(protagonist->getXPos()+1,protagonist->getYPos())){
         protagonist->setXPos(protagonist->getXPos()+1);
         consumeEnergy();
@@ -166,6 +167,7 @@ bool Model::moveRight()
 
 bool Model::moveLeft()
 {
+    if(!isChangable){return false;}
     if(!isOutside(protagonist->getXPos()-1,protagonist->getYPos())){
         protagonist->setXPos(protagonist->getXPos()-1);
         consumeEnergy();
@@ -178,6 +180,7 @@ bool Model::moveLeft()
 
 bool Model::moveUp()
 {
+    if(!isChangable){return false;}
     if(!isOutside(protagonist->getXPos(),protagonist->getYPos()-1)){
         protagonist->setYPos(protagonist->getYPos()-1);
         consumeEnergy();
@@ -190,6 +193,7 @@ bool Model::moveUp()
 
 bool Model::moveDown()
 {
+    if(!isChangable){return false;}
     if(!isOutside(protagonist->getXPos(),protagonist->getYPos()+1)){
         protagonist->setYPos(protagonist->getYPos()+1);
         consumeEnergy();
@@ -214,13 +218,17 @@ void Model::move()
 
 void Model::gotoXY(int x, int y)
 {
-    if(isOutside(x,y)){
-        qDebug()<<"outside the world!";
-    }
-    else
-    {
-        path = pathfinder->findpath(protagonist->getXPos(),protagonist->getYPos(),x,y);
-        move();
+    if(isChangable){
+        if(isOutside(x,y)){
+            qDebug()<<"outside the world!";
+        }
+        else
+        {
+            path = pathfinder->findpath(protagonist->getXPos(),protagonist->getYPos(),x,y);
+            move();
+        }
+    }else{
+        qDebug()<<"can't move!";
     }
 }
 

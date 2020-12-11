@@ -51,7 +51,7 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
         }
     });
     updateEnergyTimer->start(1000);
-
+    connect(view,SIGNAL(mouseClickSignal(int,int)),this,SLOT(gotoXY(int,int)));
 }
 
 void Controller::moveRight()
@@ -60,7 +60,7 @@ void Controller::moveRight()
         view->getGScene()->changeProtagonistImage(RIGHT);
     }
     else{
-        qDebug()<<"at boundary!";
+        qDebug()<<"can't move!";
     }
     //it depends on if you want to explore around when you come
     //or explore when taking action("TAKE","ATTACK")
@@ -74,7 +74,7 @@ void Controller::moveLeft()
         view->getGScene()->changeProtagonistImage(LEFT);
     }
     else{
-        qDebug()<<"at boundary!";
+        qDebug()<<"can't move!";
     }
 //    detectEnemy();
 //    detectHealthPack();
@@ -86,7 +86,7 @@ void Controller::moveUp()
         view->getGScene()->changeProtagonistImage(UP);
     }
     else{
-        qDebug()<<"at boundary!";
+        qDebug()<<"can't move!";
     }
 //    detectEnemy();
 //    detectHealthPack();
@@ -98,7 +98,7 @@ void Controller::moveDown()
         view->getGScene()->changeProtagonistImage(DOWN);
     }
     else{
-        qDebug()<<"at boundary!";
+        qDebug()<<"can't move!";
     }
 }
 

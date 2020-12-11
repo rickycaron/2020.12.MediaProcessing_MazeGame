@@ -22,7 +22,6 @@ public:
     void consumeEnergy();
     void attack();
     void take();
-    void gotoXY(int x, int y);
     void createScene(int);
     bool checkModel();
     GView *getView() const;
@@ -36,10 +35,11 @@ private:
     int detectedPEnemyIndex=-1;
     int detectedHealthPack=-1;
 signals:
-        void gameOver();
+    void gameOver();
 
 public slots:
-        void detected(int type, int index);
+    void detected(int type, int index);
+    void gotoXY(int x, int y);
 };
 
 #endif // CONTROLLER_H

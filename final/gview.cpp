@@ -45,7 +45,6 @@ int GView::getCurrentScene() const
 void GView::keyPressEvent(QKeyEvent *event)
 {
     //    qDebug()<<"key is pressed1";
-
     switch (event->key()) {
     case Qt::Key_Up:
         emit keyPressSignal(UP);
@@ -74,5 +73,22 @@ void GView::keyPressEvent(QKeyEvent *event)
 
 void GView::mousePressEvent(QMouseEvent *event)
 {
-    qDebug()<<"x="<<event->x()<<", y="<<event->y();
+    int x;
+    int y;
+    //if(mapToScene(event->pos()).x()>0&&mapToScene(event->pos()).y()>0){
+    if(mapToScene(event->pos()).x()>0){
+        x = static_cast<int>(mapToScene(event->pos()).x()/20);
+    }
+    else{
+        x = static_cast<int>(mapToScene(event->pos()).x()/20)-1;
+    }
+
+    if(mapToScene(event->pos()).y()>0){
+        y = static_cast<int>(mapToScene(event->pos()).y()/20);
+    }
+    else{
+        y = static_cast<int>(mapToScene(event->pos()).y()/20)-1;
+    }
+    //qDebug()<<"x="<<x<<", y="<<y;
+    emit mouseClickSignal(x,y);
 }

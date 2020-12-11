@@ -1,6 +1,7 @@
 #include "gscene.h"
 #include<QtDebug>
 #include<QTimer>
+#include <QGraphicsSceneMouseEvent>
 
 GScene::GScene(QObject *parent, const std::vector<std::shared_ptr<Tile>> &tiles, const std::shared_ptr<Protagonist> &protagonist,
                    const std::vector<std::shared_ptr<Enemy>> &enemies,const std::vector<std::shared_ptr<PEnemy>> &penemies ,const std::vector<std::shared_ptr<Tile>> &healthpacks,int scale)
@@ -139,3 +140,4 @@ void GScene::setDeath(int type,int index)
         }
     }
 }
+

@@ -22,8 +22,8 @@ public:
      int getCurrentScene() const;
 
 signals:
-     void mouseClickSignal(QPoint point);
-    void keyPressSignal(int index);
+     void mouseClickSignal(int x, int y);
+     void keyPressSignal(int index);
 
 private:
     int scale;
