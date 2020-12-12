@@ -2,6 +2,7 @@
 #define NODE_H
 #include "world.h"
 #include "world_global.h"
+#include "config.h"
 #include <memory>
 #include <cmath>
 class Node
@@ -31,6 +32,9 @@ public:
 
     double getFinalCost() const;
 
+    type getTileType() const;
+    void setTileType(const type &value);
+
 private:
     std::shared_ptr<Tile> tile;
     std::shared_ptr<Node> pre;
@@ -39,6 +43,7 @@ private:
     double givenCost = 0.0;//the cost from the start point
     double heuristicCost = 0.0;// the distance to the goal
     double finalCost = 0.0;//the sum pf givenCost and finalCost
+    enum type tileType= NONE;
 };
 
 #endif // NODE_H

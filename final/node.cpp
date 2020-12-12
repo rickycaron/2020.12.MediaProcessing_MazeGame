@@ -89,3 +89,13 @@ double Node::getFinalCost() const
 {
     return finalCost;
 }
+
+type Node::getTileType() const
+{
+    return tileType;
+}
+
+void Node::setTileType(const type &value)
+{
+    tileType = value;
+}

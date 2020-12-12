@@ -45,7 +45,7 @@ private:
     int col = 0;
     bool isChangable =true;
     //bool isPosional =false;
-    int enemyType =NONE;
+    enum type enemyType =NONE;
     bool readData();
     std::unique_ptr<World> world;
     std::shared_ptr<Protagonist> protagonist;
@@ -59,8 +59,9 @@ private:
     int autonextThing =0;//(0,normal;1 healthpack;2,enemy)
 
     std::vector<std::shared_ptr<Tile>> getNearestHealthpack();
-    std::vector<std::shared_ptr<Tile>> getNearestEnemy();  
+    std::vector<std::shared_ptr<Node>> getNearestEnemy();
     std::shared_ptr<Tile> gotoNearestThing();
+    //int getTileIndex(std::shared_ptr<Tile> );
 signals:
     void detectedSignal(int type, int index);
     void poisonTilesPermanent(int);

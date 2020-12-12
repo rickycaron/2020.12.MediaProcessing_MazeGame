@@ -30,8 +30,6 @@ void Pathfinder::showAllContainers()
     std::cout<<"closedlist size:"<<closedlist.size()<<std::endl;
     std::cout<<"openlist size:"<<openlist.size()<<std::endl;
     std::cout<<"solution size:"<<solution.size()<<std::endl;
-    std::cout<<"closedlist max size:"<<closedlist.max_size()<<std::endl;
-    std::cout<<"openlist max size:"<<openlist.max_size()<<std::endl;
 }
 
 void Pathfinder::initialze(const std::shared_ptr<Tile> &p, const std::shared_ptr<Tile> goal)
@@ -45,7 +43,6 @@ void Pathfinder::initializePathfinder(int startx, int starty, int endx, int endy
     startPoint.setPoint(startx,starty);
     goalPoint.setPoint(endx,endy);
     //should be the tiles here, the map wasn't initialized
-    auto newTile=(tiles[startx+row*starty]);
     rootNode=std::make_shared<Node>((tiles[startx+row*starty]));
     rootNode->setDistance(0);
     currentNode=rootNode;

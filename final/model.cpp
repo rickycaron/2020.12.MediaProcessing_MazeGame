@@ -30,7 +30,7 @@ bool Model::readData()
 //        tiles.emplace_back(std::move(tempTiles[i]));
 //    }
 
-    pathfinder=std::make_shared<Pathfinder>(row,col,tiles);
+
 
     std::vector<std::unique_ptr<Enemy>> tempEnemies = world->getEnemies();
     int indexOfEnermy =0;
@@ -135,9 +135,10 @@ bool Model::readData()
                 }
 
             }
-        });
-    }
 
+        });
+    } 
+    pathfinder=std::make_shared<Pathfinder>(row,col,tiles);
     std::vector<std::unique_ptr<Tile>> tempHealthpacks = world->getHealthPacks();
     for(unsigned int i=0; i<tempHealthpacks.size(); i++){
         std::shared_ptr<Tile> e = std::move(tempHealthpacks[i]);
@@ -166,6 +167,7 @@ std::vector<std::shared_ptr<Tile>> Model::getNearestHealthpack()
         {
             auto healthpack = std::make_shared<Node>(*i,protagonistNode);
             healthpack->calculateDistance();
+            healthpack->setTileType(HEALTHPACK);
             nearNodetHealthpacks.push_back(healthpack);
         }
     }
@@ -179,10 +181,10 @@ std::vector<std::shared_ptr<Tile>> Model::getNearestHealthpack()
     return nearTileHealthpacks;
 }
 
-std::vector<std::shared_ptr<Tile> > Model::getNearestEnemy()
+std::vector<std::shared_ptr<Node>> Model::getNearestEnemy()
 {
     std::vector<std::shared_ptr<Node>> nearNodeEnemy;
-    std::vector<std::shared_ptr<Tile>> nearTileEnemy;
+    //std::vector<std::shared_ptr<Tile>> nearTileEnemy;
     auto protagonistNode=std::make_shared<Node>(protagonist);
     for(auto i = normalEnemies.cbegin();i != normalEnemies.cend();++i)
     {
@@ -190,6 +192,7 @@ std::vector<std::shared_ptr<Tile> > Model::getNearestEnemy()
         {
             auto enemy = std::make_shared<Node>(std::shared_ptr<Tile>(*i),protagonistNode);
             enemy->calculateDistance();
+            enemy->setTileType(ENEMY);
             nearNodeEnemy.push_back(enemy);
         }
     }
@@ -199,6 +202,7 @@ std::vector<std::shared_ptr<Tile> > Model::getNearestEnemy()
         {
             auto penemy = std::make_shared<Node>(*i,protagonistNode);
             penemy->calculateDistance();
+            penemy->setTileType(PENEMY);
             nearNodeEnemy.push_back(penemy);
         }
     }
@@ -214,12 +218,12 @@ std::vector<std::shared_ptr<Tile> > Model::getNearestEnemy()
 //    }
     //here I call the compare function from the Pathinder Class
     sort(nearNodeEnemy.begin(), nearNodeEnemy.end(),pathfinder->distanncecomp);
-    for(auto i = nearNodeEnemy.cbegin();i != nearNodeEnemy.cend();++i)
-    {
-        nearTileEnemy.push_back((*i)->getTile());
-    }
-    nearNodeEnemy.clear();
-    return nearTileEnemy;
+//    for(auto i = nearNodeEnemy.cbegin();i != nearNodeEnemy.cend();++i)
+//    {
+//        nearTileEnemy.push_back((*i)->getTile());
+//    }
+//    nearNodeEnemy.clear();
+    return nearNodeEnemy;
 }
 
 std::shared_ptr<Tile> Model::gotoNearestThing()
@@ -234,11 +238,12 @@ std::shared_ptr<Tile> Model::gotoNearestThing()
     //find the nearest enemy
     for(auto i = nearenemy.cbegin();i != nearenemy.cend();++i)
     {
-        enemypath=pathfinder->findpath(protagonist,(*i)->getXPos(),(*i)->getYPos());
+        enemypath=pathfinder->findpath(protagonist,(*i)->getTile()->getXPos() ,(*i)->getTile()->getYPos());
         enemycost=pathfinder->getMoveCost();
-        if( enemycost < protagonist->getEnergy() && (*i)->getValue() < protagonist->getHealth())
+        if( enemycost < protagonist->getEnergy() && (*i)->getTile()->getValue() < protagonist->getHealth())
         {
-            goalTile=(*i);
+            this->enemyType=(*i)->getTileType();
+            goalTile=(*i)->getTile();
             break;
         }
     }
@@ -257,13 +262,13 @@ std::shared_ptr<Tile> Model::gotoNearestThing()
     if (healthpackcost < enemycost)
     {
         //goto the healthpack
-        autonextThing=1;
+        //autonextThing=1;
+        this->enemyType=HEALTHPACK;
         path = healthpackpath;
     }
     else
     {
-        //goto the enemy
-        autonextThing=2;
+        //goto the enemy        
         path = enemypath;
     }
     return goalTile;
@@ -272,14 +277,32 @@ void Model::autoplay()
 {
     auto goalTile = gotoNearestThing();
     move();
-    switch(autonextThing){
-        case 1:
-            //take the healthpack
-            break;
-        case 2 :
-            //attack the enemy
-            break;
+    if(enemyType==HEALTHPACK)
+    {
+        qDebug("we got here!");
+        auto it = find(healthpacks.begin(), healthpacks.end(), goalTile);
+        int healthPackIndex = it-healthpacks.begin();
+        take(healthPackIndex);
     }
+    else if(enemyType==ENEMY)
+    {
+        auto it = find(normalEnemies.begin(), normalEnemies.end(), goalTile);
+        int normalEnemyIndex = it-normalEnemies.begin();
+        attack(normalEnemyIndex);
+    }
+    else if(enemyType==PENEMY)
+    {
+        auto it = find(pEnemies.begin(), pEnemies.end(), goalTile);
+        int pEnemyIndex = it-pEnemies.begin();
+        attack(pEnemyIndex);
+    }
+    else if(enemyType==XENEMY)
+    {
+//        auto it = find(xEnemy.begin(), pEnemies.end(), goalTile);
+//        int pEnemyIndex = it-pEnemies.begin();
+//        attack(pEnemyIndex);
+    }
+
 }
 
 std::shared_ptr<XEnemy> Model::getXEnemy() const
@@ -422,7 +445,7 @@ void Model::gotoXY(int x, int y)
         {
             qDebug()<<"go to "<<x<<","<<y;
             path = pathfinder->findpath(protagonist->getXPos(),protagonist->getYPos(),x,y);
-            //move();
+            move();
         }
     }else{
         qDebug()<<"can't move!";
