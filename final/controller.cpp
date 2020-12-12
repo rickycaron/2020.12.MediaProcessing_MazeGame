@@ -236,8 +236,11 @@ void Controller::autoplay()
     auto goalTile = model->gotoNearestThing();
     qDebug()<<"222222222222222222222222";
     model->move();
-    take();
-    attack();
+
+    if(goalTile->getXPos()==model->getProtagonist()->getXPos()&&goalTile->getYPos()==model->getProtagonist()->getYPos())
+    {   take();
+        attack();
+    }
     qDebug()<<"444444444444444444444444";
     QTimer::singleShot(1000, this, [=]{
         if(gameState==0){

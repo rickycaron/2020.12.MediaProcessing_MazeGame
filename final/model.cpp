@@ -107,8 +107,7 @@ bool Model::readData()
                 emit detectedSignal(XENEMY,index);
             }
         });
-        qDebug()<< "the Xenemy xpos is"<<xEnemy->getXPos();
-
+        qDebug()<< "the Xenemy pos is"<<xEnemy->getXPos()<<", "<<xEnemy->getYPos();
     });
 
     int speed =2;
@@ -216,21 +215,18 @@ std::vector<std::shared_ptr<Node>> Model::getNearestEnemy()
             nearNodeEnemies.push_back(penemy);
         }
     }
-    //this is for Xenemy   
-        if(! xEnemy->getDefeated())
+
+    //here I call the compare function from the Pathinder Class
+    sort(nearNodeEnemies.begin(), nearNodeEnemies.end(),pathfinder->distanncecomp);
+    //this is for Xenemy
+        if(!xEnemy->getDefeated())
         {
             auto xEnemyNode = std::make_shared<Node>(xEnemy,protagonistNode);
             xEnemyNode->calculateDistance();
             xEnemyNode->setTileType(XENEMY);
             nearNodeEnemies.push_back(xEnemyNode);
+            qDebug()<<"xenemy take into consideration!";
         }
-    //here I call the compare function from the Pathinder Class
-    sort(nearNodeEnemies.begin(), nearNodeEnemies.end(),pathfinder->distanncecomp);
-//    for(auto i = nearNodeEnemy.cbegin();i != nearNodeEnemy.cend();++i)
-//    {
-//        nearTileEnemy.push_back((*i)->getTile());
-//    }
-//    nearNodeEnemy.clear();
     return nearNodeEnemies;
 }
 
@@ -249,12 +245,20 @@ std::shared_ptr<Tile> Model::gotoNearestThing()
     {
         enemypath=pathfinder->findpath(protagonist,(*i)->getTile()->getXPos() ,(*i)->getTile()->getYPos());
         enemycost=pathfinder->getMoveCost();
-        if( enemycost < protagonist->getEnergy() && (*i)->getTile()->getValue() < protagonist->getHealth())
+        if( enemycost < protagonist->getEnergy() )
         {
-            this->enemyType=(*i)->getTileType();
+            qDebug()<<" Enemy type"<<(*i)->getTileType();
+            //this->enemyType=(*i)->getTileType();
             enemygoalTile=(*i)->getTile();
             break;
         }
+    }
+    if (protagonist->getHealth() >=90 )
+    {
+        //goto the enemy
+        path = enemypath;
+        qDebug()<<" WE get here!";
+        return enemygoalTile;
     }
     //find the nearest healthpack
     for(auto i = nearhealthpack.cbegin();i != nearhealthpack.cend();++i)
@@ -268,11 +272,12 @@ std::shared_ptr<Tile> Model::gotoNearestThing()
         }
     }
     //compare which one is better
-    if (enemycost < healthpackcost ||  protagonist->getHealth() >=90 )
+    if (enemycost < healthpackcost)
     {
         //goto the enemy
         path = enemypath;
-        return enemygoalTile;
+        qDebug()<<" WE get here!";
+        return enemygoalTile;      
     }
     else
     {
@@ -454,6 +459,7 @@ void Model::consumeEnergy()
 //These two function will excute if checking success in controller
 void Model::attack(int index)
 {
+    qDebug()<<"attack an enemy";
     if(index==-1){
         qDebug()<<"No enemy.";
     }
