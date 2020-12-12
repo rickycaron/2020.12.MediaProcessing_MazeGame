@@ -32,7 +32,7 @@ bool Model::readData()
         std::shared_ptr<Enemy> e = std::move(tempEnemies[i]);
         connect(e.get(),&Enemy::dead,[=]{
             numOfEnemies--;
-            qDebug()<<"numOfEnemies = "<<numOfEnemies;
+            qDebug()<<"numOfEnemies is ="<<numOfEnemies;
             emit numOfEnemiesChanged(numOfEnemies);
         });
         if(dynamic_cast<PEnemy*>(e.get())){
@@ -190,7 +190,7 @@ std::vector<std::shared_ptr<Tile>> Model::getNearestHealthpack()
 
 std::vector<std::shared_ptr<Node>> Model::getNearestEnemy()
 {
-    std::vector<std::shared_ptr<Node>> nearNodeEnemy;
+    std::vector<std::shared_ptr<Node>> nearNodeEnemies;
     //std::vector<std::shared_ptr<Tile>> nearTileEnemy;
     auto protagonistNode=std::make_shared<Node>(protagonist);
     for(auto i = normalEnemies.cbegin();i != normalEnemies.cend();++i)
@@ -200,17 +200,19 @@ std::vector<std::shared_ptr<Node>> Model::getNearestEnemy()
             auto enemy = std::make_shared<Node>((*i),protagonistNode);
             enemy->calculateDistance();
             enemy->setTileType(ENEMY);
-            nearNodeEnemy.push_back(enemy);
+            nearNodeEnemies.push_back(enemy);
         }
     }
     for(auto i = pEnemies.cbegin();i != pEnemies.cend();++i)
     {
-        if(!(*i)->getDefeated())
+        if( (*i)->getPoisonLevel()!=0 )
+        //if(!(*i)->getDefeated() )
         {
+            qDebug()<<"6666666666666666666666666666666666";
             auto penemy = std::make_shared<Node>(*i,protagonistNode);
             penemy->calculateDistance();
             penemy->setTileType(PENEMY);
-            nearNodeEnemy.push_back(penemy);
+            nearNodeEnemies.push_back(penemy);
         }
     }
     //this is for Xenemy
@@ -224,13 +226,13 @@ std::vector<std::shared_ptr<Node>> Model::getNearestEnemy()
 //        }
 //    }
     //here I call the compare function from the Pathinder Class
-    sort(nearNodeEnemy.begin(), nearNodeEnemy.end(),pathfinder->distanncecomp);
+    sort(nearNodeEnemies.begin(), nearNodeEnemies.end(),pathfinder->distanncecomp);
 //    for(auto i = nearNodeEnemy.cbegin();i != nearNodeEnemy.cend();++i)
 //    {
 //        nearTileEnemy.push_back((*i)->getTile());
 //    }
 //    nearNodeEnemy.clear();
-    return nearNodeEnemy;
+    return nearNodeEnemies;
 }
 
 std::shared_ptr<Tile> Model::gotoNearestThing()
@@ -267,11 +269,11 @@ std::shared_ptr<Tile> Model::gotoNearestThing()
         }
     }
     //compare which one is better
-    if (enemycost < healthpackcost || protagonist->getHealth()>=80 )
+    if (enemycost < healthpackcost ||  protagonist->getHealth() >=90 )
     {
         //goto the enemy
         path = enemypath;
-        return healthpackgoalTile;
+        return enemygoalTile;
     }
     else
     {
@@ -279,7 +281,7 @@ std::shared_ptr<Tile> Model::gotoNearestThing()
         //autonextThing=1;
         this->enemyType=HEALTHPACK;
         path = healthpackpath;
-        return enemygoalTile;
+        return healthpackgoalTile;
     }
 }
 

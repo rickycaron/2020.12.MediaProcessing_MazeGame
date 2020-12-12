@@ -232,8 +232,10 @@ void Controller::autoplay()
 {
     auto goalTile = model->gotoNearestThing();
     gotoXY(goalTile->getXPos(),goalTile->getYPos());
+    //qDebug()<<"1111111111111111111111111111111111111111111111111111111!";
     connect(model.get(),&Model::moveFinished,[=](){
         take();
+        //qDebug()<<"WE gor here!";
         attack();
     });
     QTimer::singleShot(1000, this, [=]{
