@@ -27,7 +27,8 @@ void GTile::draw()
         value=0;
     }
 
-    QColor color(value*100,value*255,value*100);
+    //QColor color(value*100,value*255,value*100);
+    QColor color(value*255,value*255,value*255);
     QBrush brush(color);
     setBrush(brush);
     QPen pen;
