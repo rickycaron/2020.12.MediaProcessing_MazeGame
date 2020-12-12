@@ -12,7 +12,8 @@ class TProtagonist : public QGraphicsTextItem
 public:
     TProtagonist(int xPos, int yPos, int scale);
     QRectF boundingRect() const;
-    void getPoisoned(float poisonLevel);
+    void getPoisoned();
+    void reset();
 public slots:
     void checkState(int value);
 private:

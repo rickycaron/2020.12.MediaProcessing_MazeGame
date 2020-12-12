@@ -10,7 +10,10 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
     this->view = view;
     createScene(20);
 
-//    QObject::connect(this->view,SIGNAL(keyPressSignal(int)),this,SLOT(on_keyPressSlot(int)));
+    connect(model.get(),&Model::protagonistGetPoisoned,[=]{
+        view->getTScene()->redrawPoisonedState();
+    });
+
     connect(model->getProtagonist().get(),&Protagonist::healthChanged,[=](int health){
         if(health<1){
          model->setIsChangable (false);
@@ -20,7 +23,6 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
         }
         else{
             qDebug()<<"Game Continue";
-
             if(!xEnemyShown){
                 model->setIsChangable (true);
             }
@@ -32,7 +34,6 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
             model->setIsChangable (false);
             if(energy<0){
                 updateEnergyTimer->stop();
-                qDebug()<<"Game Over!";
             }
             else{
                qDebug()<<"Energy is not enough now, please take a rest ";
@@ -50,6 +51,7 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
 
     QObject::connect(model.get(),&Model::poisonTilesPermanent,[=](int index){
         view->getGScene()->setTilePoison(index);
+        view->getTScene()->setTilePoison(index);
     });
 
     //Qtimer setting
@@ -83,6 +85,8 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
 
 
         view->getGScene()->printXEnemy(model->getXEnemy());
+        view->getTScene()->printXEnemy(model->getXEnemy());
+
         xEnemyExcuteSkillTimer->start(4000);
         connect(model->getXEnemy().get() ,&XEnemy::dead,[=](){
             xEnemyExcuteSkillTimer->stop();
@@ -114,8 +118,6 @@ void Controller::moveLeft()
     else{
         qDebug()<<"can't move!";
     }
-//    detectEnemy();
-//    detectHealthPack();
 }
 
 void Controller::moveUp()
@@ -126,8 +128,6 @@ void Controller::moveUp()
     else{
         qDebug()<<"can't move!";
     }
-//    detectEnemy();
-//    detectHealthPack();
 }
 
 void Controller::moveDown()
@@ -146,7 +146,7 @@ void Controller::attack()
     if(this->detectedType==ENEMY){
         int index = this->detectedEnemyIndex;
            model->attack(index);
-           view ->getGScene()->setDeath(ENEMY,index);
+           //view ->getGScene()->setDeath(ENEMY,index);
 
     }
     if(this->detectedType==PENEMY){
@@ -160,9 +160,6 @@ void Controller::attack()
            model->attack(index);
 
     }
-
-
-
 }
 
 void Controller::take()
@@ -171,11 +168,11 @@ void Controller::take()
         int index = this->detectedHealthPack;
         //Model part
           model->take(index);
-            if(index!=-1){
-                //view part
-                view ->getGScene()->redrawHealthpack(index);
-                view->getTScene()->redrawHealthpack(index);
-            }
+          if(index!=-1){
+              //view part
+              view ->getGScene()->redrawHealthpack(index);
+              view->getTScene()->redrawHealthpack(index);
+          }
     }
 
 }
@@ -185,25 +182,6 @@ void Controller::createScene(int scale)
     view->createScene(model->getTiles(),model->getProtagonist(),
                       model->getEnemies(),model->getPEnemies(),model->getHealthpacks(),scale,model->getRow(),model->getCol());
 }
-
-//controller call method from view to query
-//int Controller::detectAround()
-//{
-//    switch (detectedType) {
-//    case NONE:
-//        return NONE;
-//    case ENEMY:
-//        return ENEMY;
-//    case PENEMY:
-//        return PENEMY;
-//    case HEALTHPACK:
-//        return HEALTHPACK;
-
-//    }
-
-//    return view->detectEnemy();
-//}
-
 
 bool Controller::checkModel()
 {
@@ -243,7 +221,6 @@ void Controller::detected(int type,  int index)
 
 void Controller::gotoXY(int x, int y)
 {
-    //qDebug()<<"go to"<<x<<","<<y;
     model->gotoXY(x,y);
 }
 

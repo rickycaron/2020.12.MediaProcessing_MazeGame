@@ -59,6 +59,7 @@ signals:
     void detectedSignal(int type, int index);
     void poisonTilesPermanent(int);
     void xEnemyShown();
+    void protagonistGetPoisoned();
 private slots:
     void move();
 };

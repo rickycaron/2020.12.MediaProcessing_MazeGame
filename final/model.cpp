@@ -25,12 +25,6 @@ bool Model::readData()
     col=world->getCols();
     protagonist = world->getProtagonist();
     maxEH = protagonist->getEnergy();
-//    std::vector<std::unique_ptr<Tile>> tempTiles = world->getTiles();
-//    for(unsigned int i=0; i<tempTiles.size(); i++){
-//        tiles.emplace_back(std::move(tempTiles[i]));
-//    }
-
-    pathfinder=std::make_shared<Pathfinder>(row,col,tiles);
 
     std::vector<std::unique_ptr<Enemy>> tempEnemies = world->getEnemies();
     int indexOfEnermy =0;
@@ -66,6 +60,7 @@ bool Model::readData()
                         }
                         else{
                             protagonist.get()->setHealth(currentHealth);
+                            emit protagonistGetPoisoned();
                         }
                     }
             });
@@ -137,6 +132,8 @@ bool Model::readData()
             }
         });
     }
+
+    pathfinder=std::make_shared<Pathfinder>(row,col,tiles);
 
     std::vector<std::unique_ptr<Tile>> tempHealthpacks = world->getHealthPacks();
     for(unsigned int i=0; i<tempHealthpacks.size(); i++){
@@ -293,9 +290,9 @@ void Model::gotoXY(int x, int y)
         }
         else
         {
-            qDebug()<<"go to "<<x<<","<<y;
+            //qDebug()<<"go to "<<x<<","<<y;
             path = pathfinder->findpath(protagonist->getXPos(),protagonist->getYPos(),x,y);
-            //move();
+            move();
         }
     }else{
         qDebug()<<"can't move!";
@@ -365,6 +362,7 @@ int Model::take(int index)
 {
     if(index==-1){
         qDebug()<<"No healthpack.";
+        return index;
     }else{
         if(healthpacks[index]->getValue()==0){qDebug()<< "this is a empty healthpacks"; return -1;}
         float currentHealth = protagonist->getHealth()+healthpacks[index]->getValue();
@@ -376,8 +374,6 @@ int Model::take(int index)
         qDebug()<<"Take a healthpack, content:"<<healthpacks[index]->getValue()<<", health:"<<protagonist->getHealth();
         healthpacks[index]->setValue(0);
         return index;
-//        scene->redrawHealthpack(index);
     }
-    return index;
 }
 
