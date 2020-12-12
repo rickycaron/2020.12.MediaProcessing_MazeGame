@@ -221,6 +221,7 @@ std::vector<std::shared_ptr<Node>> Model::getNearestEnemy()
         {
             auto xEnemyNode = std::make_shared<Node>(xEnemy,protagonistNode);
             xEnemyNode->calculateDistance();
+            xEnemyNode->setTileType(XENEMY);
             nearNodeEnemies.push_back(xEnemyNode);
         }
     //here I call the compare function from the Pathinder Class

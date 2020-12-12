@@ -162,8 +162,10 @@ void Controller::attack()
     }
     if(this->detectedType==XENEMY){
         qDebug()<<"66666666666666666666";
-//        int index = this->detectedXEnemyIndex;
-//           model->attack(index);
+        int index = this->detectedXEnemyIndex;
+        qDebug()<<"7777777777777777777777777";
+        qDebug()<<"The index of the xEnmy:"<<index;
+        model->attack(index);
     }
 }
 
@@ -234,13 +236,8 @@ void Controller::autoplay()
     auto goalTile = model->gotoNearestThing();
     qDebug()<<"222222222222222222222222";
     model->move();
-
-//    gotoXY(goalTile->getXPos(),goalTile->getYPos());
-//    connect(model.get(),&Model::moveFinished,[=](){
-        take();
-//        qDebug()<<"3333333333333333333333333";
-        attack();
-//    });
+    take();
+    attack();
     qDebug()<<"444444444444444444444444";
     QTimer::singleShot(1000, this, [=]{
         if(gameState==0){
