@@ -10,7 +10,7 @@ class GXEnemy : public GEnemy
 
 public:
      GXEnemy(int,int,int,QObject*);
-    void  resetPos(int,int);
+    void resetPos(int,int);
     void setGrave();
 private:
      int scale;

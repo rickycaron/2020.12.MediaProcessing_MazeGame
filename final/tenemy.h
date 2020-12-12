@@ -10,19 +10,16 @@ class TEnemy : public QGraphicsTextItem
 {
     Q_OBJECT
 public:
-    TEnemy(int x, int y, int i, int scale, bool isP);
+    TEnemy(int xPos, int yPos, int scale, int enemyType);
+    void resetPos(int newX, int newY);
     QRectF boundingRect() const;
 public slots:
     void indicateDead();
-    void checkCollide(int x, int y){if(xPos==x&&yPos==y){emit collide(index, isPEnemy);}}
-signals:
-    void collide(int index, bool isP);
 private:
-    int xPos;
-    int yPos;
-    int index;
-    int scale;
-    bool isPEnemy;
+    int xPos{-1};
+    int yPos{-1};
+    int scale{1};
+    int enemyType{0};
 };
 
 #endif // TENEMY_H

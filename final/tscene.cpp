@@ -45,7 +45,7 @@ void TScene::printTiles(const std::vector<std::shared_ptr<Tile>> &tiles)
 void TScene::printProtagonist(const std::shared_ptr<Protagonist> &protagonist)
 {
     protagonistView = new TProtagonist(protagonist->getXPos(),protagonist->getYPos(),scale);
-    connect(protagonist.get(),&Protagonist::energyChanged,protagonistView,&TProtagonist::checkState);
+    //connect(protagonist.get(),&Protagonist::energyChanged,protagonistView,&TProtagonist::checkState);
     connect(protagonist.get(),&Protagonist::healthChanged,protagonistView,&TProtagonist::checkState);
     this->addItem(protagonistView);
 }
@@ -53,9 +53,8 @@ void TScene::printProtagonist(const std::shared_ptr<Protagonist> &protagonist)
 void TScene::printEnemies(const std::vector<std::shared_ptr<Enemy> > &normalEnemies, const std::vector<std::shared_ptr<PEnemy>> &pEnemies)
 {
     for(unsigned int i=0;i<normalEnemies.size();i++){
-        TEnemy * enemy = new TEnemy(normalEnemies[i]->getXPos(),normalEnemies[i]->getYPos(),i,scale,false);
+        TEnemy * enemy = new TEnemy(normalEnemies[i]->getXPos(),normalEnemies[i]->getYPos(),scale,0);
         connect(normalEnemies[i].get(),&Enemy::dead,enemy,&TEnemy::indicateDead);
-        connect(enemy,&TEnemy::collide,this,&TScene::collideEnemy);
         normalEnemyQlist.append(enemy);
         this->addItem(enemy);
     }
@@ -63,12 +62,22 @@ void TScene::printEnemies(const std::vector<std::shared_ptr<Enemy> > &normalEnem
         connect(pEnemies[i].get(),&PEnemy::poisonLevelUpdated,[=]{
            emit poisonTile(pEnemies[i]->getXPos(),pEnemies[i]->getYPos(),pEnemies[i].get()->getPoisonLevel());
         });
-        TEnemy * enemy = new TEnemy(pEnemies[i]->getXPos(),pEnemies[i]->getYPos(),i,scale,true);
+        TEnemy * enemy = new TEnemy(pEnemies[i]->getXPos(),pEnemies[i]->getYPos(),scale,1);
         connect(pEnemies[i].get(),&Enemy::dead,enemy,&TEnemy::indicateDead);
-        connect(enemy,&TEnemy::collide,this,&TScene::collideEnemy);
         pEnemyQlist.append(enemy);
         this->addItem(enemy);
     }
+}
+
+void TScene::printXEnemy(const std::shared_ptr<XEnemy> &xEnemy)
+{
+    tXEnemyView  =  new TEnemy(xEnemy->getXPos(),xEnemy->getYPos(),scale,2);
+    this->addItem(tXEnemyView);
+    parent()->connect(xEnemy.get(),&XEnemy::posChanged,[=](int x,int y){
+        tXEnemyView->resetPos(x,y);
+    });
+
+    connect(xEnemy.get(),&Enemy::dead,tXEnemyView,&TEnemy::indicateDead);
 }
 
 void TScene::printHealthpacks(const std::vector<std::shared_ptr<Tile> > &healthpacks)
@@ -102,33 +111,15 @@ void TScene::redrawPosition(int xPos, int yPos)
     protagonistView->setPos(20*xPos,20*yPos);
 }
 
-void TScene::redrawState(float poisonLevel)
+void TScene::redrawPoisonedState()
 {
-    protagonistView->getPoisoned(poisonLevel);
+    protagonistView->getPoisoned();
+    QTimer::singleShot(400,this,[=]{
+        protagonistView->reset();
+    });
 }
 
-void TScene::collideEnemy(int i, bool isP)
+void TScene::setTilePoison(int index)
 {
-    enemyIndex = i;
-    isPEnemy = isP;
-}
-
-bool TScene::getIsPEnemy() const
-{
-    return isPEnemy;
-}
-
-void TScene::setIsPEnemy(bool value)
-{
-    isPEnemy = value;
-}
-
-int TScene::getEnemyIndex() const
-{
-    return enemyIndex;
-}
-
-void TScene::setEnemyIndex(int value)
-{
-    enemyIndex = value;
+    tileQlist[index]->poisonTile();
 }

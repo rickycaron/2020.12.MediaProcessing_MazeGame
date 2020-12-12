@@ -7,6 +7,7 @@
 #include "tprotagonist.h"
 #include "tenemy.h"
 #include "thealthpack.h"
+#include "xenemy.h"
 
 class TScene : public QGraphicsScene
 {
@@ -18,32 +19,29 @@ public:
     void printTiles(const std::vector<std::shared_ptr<Tile>> &tiles);
     void printProtagonist(const std::shared_ptr<Protagonist> &protagonist);
     void printEnemies(const std::vector<std::shared_ptr<Enemy>> &normalEnemies, const std::vector<std::shared_ptr<PEnemy>> &pEnemies);
+    void printXEnemy(const std::shared_ptr<XEnemy> &xEnemy);
     void printHealthpacks(const std::vector<std::shared_ptr<Tile>> &healthpacks);
     int detectHealthpack();
     void redrawHealthpack(int index);
-    void redrawState(float poisonLevel);
-    int getEnemyIndex() const;
-    void setEnemyIndex(int value);
+    void redrawPoisonedState();
+    void setTilePoison(int index);
 
-    bool getIsPEnemy() const;
-    void setIsPEnemy(bool value);
 signals:
     void poisonTile(int,int,int);
 
 public slots:
     void redrawPosition(int xPos, int yPos);
-    void collideEnemy(int i, bool isP);
+    //void collideEnemy(int i, int enemyType);
 private:
     int row;
     int col;
     int scale{1};
     QList<TTile *> tileQlist;
     TProtagonist *protagonistView;
+    TEnemy* tXEnemyView;
     QList<TEnemy *> normalEnemyQlist;
     QList<TEnemy *> pEnemyQlist;
     QList<THealthpack *> healthpackQlist;
-    int enemyIndex{-1};
-    bool isPEnemy{false};
 };
 
 #endif // TSCENE_H

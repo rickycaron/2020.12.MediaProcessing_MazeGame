@@ -59,7 +59,9 @@ void GScene::printEnemies(const std::vector<std::shared_ptr<Enemy> > &enemies)
         GEnemy * enemy = new GEnemy(enemies[i]->getXPos(),enemies[i]->getYPos(),scale,this);
         enemyQlist.append(enemy);
         this->addItem(enemy);
-
+        connect(enemies[i].get(),&Enemy::dead,[=]{
+            enemy->setGrave();
+        });
     }
 }
 
@@ -132,20 +134,6 @@ void GScene::changeProtagonistImage(int dir)
 
         case RIGHT:{
             protagonistView->reSetImg(RIGHT);
-            break;
-        }
-    }
-}
-
-void GScene::setDeath(int type,int index)
-{
-    switch (type) {
-        case ENEMY:{
-            enemyQlist[index]->setGrave();
-            break;
-        }
-        case PENEMY:{
-            penemyQlist[index]->setGrave();
             break;
         }
     }
