@@ -112,11 +112,11 @@ void Pathfinder::generateSolution()
 }
 
 //find the node that has been created from the openlist
-std::list<std::shared_ptr<Node>>::iterator Pathfinder::findOldNote(int index)
+QList<std::shared_ptr<Node>>::iterator Pathfinder::findOldNote(int index)
 {
     std::shared_ptr<Tile> theTile =tiles[index];
     //std::shared_ptr<Node> theNodeFound = nullptr;
-    for(std::list<std::shared_ptr<Node>>::iterator it = openlist.begin(); it !=openlist.end(); it++)
+    for(auto it = openlist.begin(); it !=openlist.end(); it++)
     {
         if((*it)->getTile()==theTile)
         {
@@ -125,11 +125,11 @@ std::list<std::shared_ptr<Node>>::iterator Pathfinder::findOldNote(int index)
     }   
     return openlist.begin();
 }
-std::list<std::shared_ptr<Node>>::iterator Pathfinder::findOldNoteinOpenlist(int index, bool & isInOpenlist)
+QList<std::shared_ptr<Node>>::iterator Pathfinder::findOldNoteinOpenlist(int index, bool & isInOpenlist)
 {
     std::shared_ptr<Tile> theTile =tiles[index];
     isInOpenlist=false;
-    for(std::list<std::shared_ptr<Node>>::iterator it = openlist.begin(); it !=openlist.end(); it++)
+    for(auto it = openlist.begin(); it !=openlist.end(); it++)
     {
         if((*it)->getTile()==theTile)
         {
@@ -141,11 +141,11 @@ std::list<std::shared_ptr<Node>>::iterator Pathfinder::findOldNoteinOpenlist(int
     isInOpenlist=false;
     return openlist.begin();
 }
-std::list<std::shared_ptr<Node>>::iterator Pathfinder::findOldNoteinClosedlist(int index, bool & isInClosedlist)
+QList<std::shared_ptr<Node>>::iterator Pathfinder::findOldNoteinClosedlist(int index, bool & isInClosedlist)
 {
     std::shared_ptr<Tile> theTile =tiles[index];
     isInClosedlist = false;
-    for(std::list<std::shared_ptr<Node>>::iterator it = closedlist.begin(); it !=closedlist.end(); it++)
+    for(auto it = closedlist.begin(); it !=closedlist.end(); it++)
     {
         if((*it)->getTile()==theTile)
         {
@@ -160,7 +160,7 @@ std::list<std::shared_ptr<Node>>::iterator Pathfinder::findOldNoteinClosedlist(i
 bool Pathfinder::isNodeInOpenlist(int index)
 {
     std::shared_ptr<Tile> theTile =tiles[index];
-    for(std::list<std::shared_ptr<Node>>::iterator it = openlist.begin(); it !=openlist.end(); it++)
+    for(auto it = openlist.begin(); it !=openlist.end(); it++)
     {
         if((*it)->getTile()==theTile)
         {
@@ -173,7 +173,7 @@ bool Pathfinder::isNodeInOpenlist(int index)
 bool Pathfinder::isNoteInClosedlist(int index)
 {
     std::shared_ptr<Tile> theTile =tiles[index];
-    for(std::list<std::shared_ptr<Node>>::iterator it = closedlist.begin(); it !=closedlist.end(); it++)
+    for(auto it = closedlist.begin(); it !=closedlist.end(); it++)
     {
         if((*it)->getTile()==theTile)
         {

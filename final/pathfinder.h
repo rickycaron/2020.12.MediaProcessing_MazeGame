@@ -6,6 +6,8 @@
 #include <vector>
 #include <QSet>
 #include <QStack>
+#include <QList>
+#include <QListIterator>
 #include <cmath>
 #include <cfloat>
 #include "node.h"
@@ -15,8 +17,8 @@ class Pathfinder
 public:
     Pathfinder(int row,int column, std::vector<std::shared_ptr<Tile>> newtiles);
     std::vector<std::shared_ptr<Tile>> tiles;//this should be initialized when the pathfinder is created
-    std::list<std::shared_ptr<Node>> openlist;
-    std::list<std::shared_ptr<Node>> closedlist;
+    QList<std::shared_ptr<Node>> openlist;
+    QList<std::shared_ptr<Node>> closedlist;
     QStack<std::shared_ptr<Tile>> solution;
     QSet<int> createdNoteIndex;//all the indexcs that have been created
     std::shared_ptr<Node> currentNode;
@@ -53,9 +55,9 @@ private:
 
     std::shared_ptr<Node> findMinDistanceNode();
     void generateSolution();
-    std::list<std::shared_ptr<Node>>::iterator findOldNote(int index);
-    std::list<std::shared_ptr<Node>>::iterator findOldNoteinOpenlist(int index, bool & isInOpenlist);
-    std::list<std::shared_ptr<Node>>::iterator findOldNoteinClosedlist(int index, bool & isInClosedlist);
+    QList<std::shared_ptr<Node>>::iterator findOldNote(int index);
+    QList<std::shared_ptr<Node>>::iterator findOldNoteinOpenlist(int index, bool & isInOpenlist);
+    QList<std::shared_ptr<Node>>::iterator findOldNoteinClosedlist(int index, bool & isInClosedlist);
     bool isNodeInOpenlist(int index);
     bool isNoteInClosedlist(int index);
     std::shared_ptr<Node> findMinFinalCostNode();
