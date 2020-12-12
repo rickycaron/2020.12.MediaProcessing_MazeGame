@@ -155,13 +155,12 @@ void Controller::attack()
 //           view ->getCurrentScene()->setDeath(PENEMY,index);
 
     }
-//    if(this->detectedType==PENEMY){
-//        int index = this->detectedPEnemyIndex;
-//          int outcome = model->take(index);
-//            if(outcome!=-1){
-//                view ->getCurrentScene()->redrawHealthpack(index);
-//            }
-//    }
+    if(this->detectedType==XENEMY){
+        int index = this->detectedXEnemyIndex;
+           model->attack(index);
+
+    }
+
 
 
 }
@@ -231,6 +230,10 @@ void Controller::detected(int type,  int index)
     case HEALTHPACK:
         detectedType = HEALTHPACK;
         detectedHealthPack =index;
+    break;
+    case XENEMY:
+        detectedType = XENEMY;
+        detectedXEnemyIndex =index;
     break;
     case NONE:
         detectedType = NONE;
