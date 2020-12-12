@@ -151,6 +151,7 @@ void Controller::moveDown()
 
 void Controller::attack()
 {
+    qDebug()<<"5555555555555555555555";
     if(this->detectedType==ENEMY){
         int index = this->detectedEnemyIndex;
            model->attack(index);
@@ -160,6 +161,7 @@ void Controller::attack()
            model->attack(index);
     }
     if(this->detectedType==XENEMY){
+        qDebug()<<"66666666666666666666";
 //        int index = this->detectedXEnemyIndex;
 //           model->attack(index);
     }
@@ -231,12 +233,14 @@ void Controller::autoplay()
 {
     auto goalTile = model->gotoNearestThing();
     qDebug()<<"222222222222222222222222";
-    gotoXY(goalTile->getXPos(),goalTile->getYPos());   
-    connect(model.get(),&Model::moveFinished,[=](){
+    model->move();
+
+//    gotoXY(goalTile->getXPos(),goalTile->getYPos());
+//    connect(model.get(),&Model::moveFinished,[=](){
         take();
-        qDebug()<<"3333333333333333333333333";
+//        qDebug()<<"3333333333333333333333333";
         attack();
-    });
+//    });
     qDebug()<<"444444444444444444444444";
     QTimer::singleShot(1000, this, [=]{
         if(gameState==0){

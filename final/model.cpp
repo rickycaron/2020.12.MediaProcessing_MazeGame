@@ -6,7 +6,9 @@
 Model::Model(QString fileName):QObject()
 {
     world = std::make_unique<World>();
-    world->createWorld(":/images/"+fileName+".png",20,20,0.4);
+    //world->createWorld(":/images/"+fileName+".png",20,20,0.4);
+    world->createWorld(":/images/"+fileName+".png",2,2,0.1);
+
     numOfEnemies=21;
     readData();
 }
@@ -458,7 +460,7 @@ void Model::attack(int index)
         switch (enemyType) {
         case ENEMY:
             if(normalEnemies[index]->getDefeated()){
-                qDebug()<<"The enemy is already dead"<<" "<<index<<"enemy"<<normalEnemies[index]->getXPos()<<" "<<normalEnemies[index]->getYPos();
+                qDebug()<<"The enemy is already dead"<<" "<<index<<" normal enemy"<<normalEnemies[index]->getXPos()<<" "<<normalEnemies[index]->getYPos();
             }else{
                 normalEnemies[index]->setDefeated(true);
                 emit updateScoreBoard(baseScore);

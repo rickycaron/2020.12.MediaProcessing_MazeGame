@@ -75,7 +75,7 @@ signals:
     void protagonistGetPoisoned();
     void numOfEnemiesChanged(int);
 
-private slots:
+public slots:
     void move();
 };
 
