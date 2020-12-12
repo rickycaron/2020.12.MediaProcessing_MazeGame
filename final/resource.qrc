@@ -19,5 +19,6 @@
         <file>images/gameover.png</file>
         <file>images/xenemy1.png</file>
         <file>images/gamewin.png</file>
+        <file>images/protagonistAttack.png</file>
     </qresource>
 </RCC>

@@ -10,6 +10,7 @@ public:
      GProtagonist(int xPos,int yPos,int scale,QObject *parent);
      void reSetPos(int xPos,int yPos);
      void reSetImg(int);
+     void attack();
 private:
      int scale;
 };

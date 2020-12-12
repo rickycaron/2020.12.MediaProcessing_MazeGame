@@ -151,6 +151,7 @@ void Controller::moveDown()
 
 void Controller::attack()
 {
+    view->getGScene()->protagonistAttack();
     qDebug()<<"5555555555555555555555";
     if(this->detectedType==ENEMY){
         int index = this->detectedEnemyIndex;
@@ -234,24 +235,22 @@ void Controller::gotoXY(int x, int y)
 void Controller::autoplay()
 {
     auto goalTile = model->gotoNearestThing();
-    qDebug()<<"222222222222222222222222";
     model->move();
     take();
     attack();
-    qDebug()<<"444444444444444444444444";
-    QTimer::singleShot(1000, this, [=]{
+
         if(gameState==0){
-            if(xEnemyShown)
-            {
-                QTimer::singleShot(8000, this,[=]{
-                    autoplay();
-                });
-            }
-            else
-            {
+            QTimer::singleShot(1000, this,[=]{
+                if(xEnemyShown)
+                {
+                    if(!model->getXEnemy()->getDefeated()){
+                        model->getXEnemy()->setDefeated(true);
+                    }
+                }
                 autoplay();
-            }
+            });
         }
-    });
+
+
 }
 

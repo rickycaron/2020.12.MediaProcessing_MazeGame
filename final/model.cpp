@@ -7,9 +7,9 @@ Model::Model(QString fileName):QObject()
 {
     world = std::make_unique<World>();
     //world->createWorld(":/images/"+fileName+".png",20,20,0.4);
-    world->createWorld(":/images/"+fileName+".png",2,2,0.1);
-
-    numOfEnemies=21;
+    int enemyNum=3;
+    world->createWorld(":/images/"+fileName+".png",enemyNum,enemyNum,0.1);
+    numOfEnemies=enemyNum+1;
     readData();
 }
 

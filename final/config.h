@@ -7,6 +7,7 @@
 #define PROTAGONIST_DOWN_IMAGE ":/images/protagonistDown.png"
 #define PROTAGONIST_LEFT_IMAGE ":/images/protagonistLeft.png"
 #define PROTAGONIST_RIGHT_IMAGE ":/images/protagonistRight.png"
+#define PROTAGONIST_ATTACK_IMAGE ":/images/protagonistAttack.png"
 
 
 #define PENEMY_IMAGE ":/images/penemy%1.png"
