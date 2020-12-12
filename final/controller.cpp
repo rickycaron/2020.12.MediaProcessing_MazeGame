@@ -227,7 +227,6 @@ void Controller::gotoXY(int x, int y)
     model->gotoXY(x,y);
 }
 
-
 void Controller::autoplay()
 {
     auto goalTile = model->gotoNearestThing();

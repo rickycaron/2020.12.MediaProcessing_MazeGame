@@ -456,7 +456,8 @@ void Model::attack(int index)
 {
     if(index==-1){
         qDebug()<<"No enemy.";
-    }else{
+    }
+    else{
         switch (enemyType) {
         case ENEMY:
             if(normalEnemies[index]->getDefeated()){
@@ -476,14 +477,12 @@ void Model::attack(int index)
             }
             break;
         case PENEMY:
-            qDebug()<<"attacking p enemy.";
-            emit updateScoreBoard(2*baseScore);
-            if(pEnemies[index]->getPoisonLevel()!=0){
+            if(pEnemies[index]->getPoisonLevel()==pEnemies[index]->getValue()){//this pEnemy has never released poison
+                qDebug()<<"attacking p enemy.";
+                emit updateScoreBoard(2*baseScore);
                 pEnemies[index]->poison();
-//                animation part
-            }
-            else{
-                qDebug()<<"This enemy is already dead.";
+            }else{
+                qDebug()<<"you already attacked it once.";
             }
             break;
         case XENEMY:
@@ -497,7 +496,6 @@ void Model::attack(int index)
                 qDebug()<<"This x enemy is killed by you.";
                 xEnemy->setDefeated(true);
                 emit updateScoreBoard(3*baseScore);
-
             }
             else{
                 qDebug()<<"This enemy is already dead.";
