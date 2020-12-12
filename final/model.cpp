@@ -214,16 +214,13 @@ std::vector<std::shared_ptr<Node>> Model::getNearestEnemy()
             nearNodeEnemies.push_back(penemy);
         }
     }
-    //this is for Xenemy
-//    for(auto i = pEnemies.cbegin();i != pEnemies.cend();++i)
-//    {
-//        if(!(*i)->getDefeated())
-//        {
-//            auto penemy = std::make_shared<Node>(*i,protagonistNode);
-//            penemy->calculateDistance();
-//            nearNodeEnemy.push_back(penemy);
-//        }
-//    }
+    //this is for Xenemy   
+        if(! xEnemy->getDefeated())
+        {
+            auto xEnemyNode = std::make_shared<Node>(xEnemy,protagonistNode);
+            xEnemyNode->calculateDistance();
+            nearNodeEnemies.push_back(xEnemyNode);
+        }
     //here I call the compare function from the Pathinder Class
     sort(nearNodeEnemies.begin(), nearNodeEnemies.end(),pathfinder->distanncecomp);
 //    for(auto i = nearNodeEnemy.cbegin();i != nearNodeEnemy.cend();++i)
@@ -461,7 +458,7 @@ void Model::attack(int index)
         switch (enemyType) {
         case ENEMY:
             if(normalEnemies[index]->getDefeated()){
-                qDebug()<<"The enemy is already dead";
+                qDebug()<<"The enemy is already dead"<<" "<<index<<"enemy"<<normalEnemies[index]->getXPos()<<" "<<normalEnemies[index]->getYPos();
             }else{
                 normalEnemies[index]->setDefeated(true);
                 emit updateScoreBoard(baseScore);
