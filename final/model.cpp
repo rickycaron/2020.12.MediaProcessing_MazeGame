@@ -7,13 +7,7 @@ Model::Model(QString fileName):QObject()
 {
 
     world = std::make_unique<World>();
-//    world->createWorld("://images/" +fileName+".png",10,10,0.25);
-
-//    world->createWorld("/home/shuai/Desktop/libfinal/" + fileName + ".png",22,22,0.25);
-//    world->createWorld(":/images/worldmap4.png",22,22,0.25);
-
-//    world->createWorld("/home/shuai/Desktop/libfinal/" + fileName + ".png",22,22,0.25);
-    world->createWorld(":/images/worldmap.png",20,20,0.4);
+    world->createWorld(":/images/"+fileName+".png",20,20,0.4);
     readData();
     //qDebug()<<"3333";
 }
@@ -48,9 +42,10 @@ bool Model::readData()
                 }
             });
 
+
             connect(pEnemies[indexOfPEnermy].get(),&PEnemy::poisonLevelUpdated,[=](int poisonLevel){
                    int pEXPosion = pEnemies[indexOfPEnermy].get()->getXPos();
-                   int pEYPosion = pEnemies[indexOfPEnermy].get()->getYPos();
+                   int pEYPosion = pEnemies[indexOfPEnermy].get()->getYPos(); //here can be used to modify born place
                    int xPos = protagonist.get()->getXPos();
                    int yPos=protagonist.get()->getYPos();
 
@@ -305,7 +300,14 @@ void Model::gotoXY(int x, int y)
 void Model::consumeEnergy()
 {
     int index = protagonist->getYPos()*world->getCols()+protagonist->getXPos();
-    protagonist->setEnergy(protagonist->getEnergy()-tiles[index]->getValue());
+    float tileValue = tiles[index]->getValue();
+    if(tileValue<0){
+        protagonist->setEnergy(protagonist->getEnergy()+tileValue);
+    }
+    else{
+        protagonist->setEnergy(protagonist->getEnergy()-tileValue);
+    }
+//    protagonist->setEnergy(protagonist->getEnergy()-tiles[index]->getValue());
     qDebug()<<"Energy: "<<protagonist->getEnergy()<<",Health: "<<protagonist->getHealth();
 }
 
@@ -321,6 +323,7 @@ void Model::attack(int index)
                 qDebug()<<"The enemy is already dead";
             }else{
                 normalEnemies[index]->setDefeated(true);
+                emit updateScoreBoard(baseScore);
                 float currentHealth = protagonist->getHealth()-difficulty*(normalEnemies[index]->getValue());
                 float currentEnergy = protagonist->getEnergy()-difficulty*(normalEnemies[index]->getValue());
                 if(currentHealth<0){currentHealth=0;}
@@ -334,6 +337,7 @@ void Model::attack(int index)
             break;
         case PENEMY:
             qDebug()<<"attacking p enemy.";
+            emit updateScoreBoard(2*baseScore);
             if(pEnemies[index]->getPoisonLevel()!=0){
                 pEnemies[index]->poison();
 //                animation part
@@ -352,6 +356,8 @@ void Model::attack(int index)
             else if(currentLife==-1){
                 qDebug()<<"This x enemy is killed by you.";
                 xEnemy->setDefeated(true);
+                emit updateScoreBoard(3*baseScore);
+
             }
             else{
                 qDebug()<<"This enemy is already dead.";

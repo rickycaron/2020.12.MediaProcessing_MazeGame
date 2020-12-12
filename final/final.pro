@@ -81,6 +81,8 @@ HEADERS += \
 FORMS += \
     mainwindow.ui
 
+UI_DIR = $$PWD
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

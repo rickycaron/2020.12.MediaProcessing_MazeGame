@@ -17,7 +17,7 @@ CXX           = clang++
 DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++1z -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../final -I. -I../worldLib -I../../../../Qt15.1/5.15.1/gcc_64/include -I../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets -I../../../../Qt15.1/5.15.1/gcc_64/include/QtGui -I../../../../Qt15.1/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/libdrm -I. -I../../../../Qt15.1/5.15.1/gcc_64/mkspecs/linux-clang
+INCPATH       = -I../final -I. -I../worldLib -I../../../../Qt15.1/5.15.1/gcc_64/include -I../../../../Qt15.1/5.15.1/gcc_64/include/QtWidgets -I../../../../Qt15.1/5.15.1/gcc_64/include/QtGui -I../../../../Qt15.1/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/libdrm -I../final -I../../../../Qt15.1/5.15.1/gcc_64/mkspecs/linux-clang
 QMAKE         = /home/shuai/Qt15.1/5.15.1/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -424,7 +424,7 @@ TARGET        = final
 first: all
 ####### Build rules
 
-final: ui_mainwindow.h $(OBJECTS)  
+final: ../final/ui_mainwindow.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../final/final.pro ../../../../Qt15.1/5.15.1/gcc_64/mkspecs/linux-clang/qmake.conf ../../../../Qt15.1/5.15.1/gcc_64/mkspecs/features/spec_pre.prf \
@@ -1078,6 +1078,7 @@ moc_commandcontroller.cpp: ../final/commandcontroller.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -1240,6 +1241,7 @@ moc_controller.cpp: ../final/controller.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -1372,6 +1374,7 @@ moc_gscene.cpp: ../final/gscene.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		moc_predefs.h \
 		../../../../Qt15.1/5.15.1/gcc_64/bin/moc
 	/home/shuai/Qt15.1/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/shuai/Desktop/yuqiMP/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/home/shuai/Qt15.1/5.15.1/gcc_64/mkspecs/linux-clang -I/home/shuai/Desktop/yuqiMP/mp20-team-a6-fa/final -I/home/shuai/Desktop/yuqiMP/mp20-team-a6-fa/worldLib -I/home/shuai/Qt15.1/5.15.1/gcc_64/include -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtWidgets -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtGui -I/home/shuai/Qt15.1/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/gscene.h -o moc_gscene.cpp
@@ -1514,6 +1517,7 @@ moc_gview.cpp: ../final/gview.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QList \
 		../final/ttile.h \
@@ -1678,6 +1682,7 @@ moc_keypresscontroller.cpp: ../final/keypresscontroller.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -1847,6 +1852,7 @@ moc_mainwindow.cpp: ../final/mainwindow.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -2407,12 +2413,12 @@ compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h
+compiler_uic_make_all: ../final/ui_mainwindow.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h
-ui_mainwindow.h: ../final/mainwindow.ui \
+	-$(DEL_FILE) ../final/ui_mainwindow.h
+../final/ui_mainwindow.h: ../final/mainwindow.ui \
 		../../../../Qt15.1/5.15.1/gcc_64/bin/uic
-	/home/shuai/Qt15.1/5.15.1/gcc_64/bin/uic ../final/mainwindow.ui -o ui_mainwindow.h
+	/home/shuai/Qt15.1/5.15.1/gcc_64/bin/uic ../final/mainwindow.ui -o ../final/ui_mainwindow.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -2572,6 +2578,7 @@ attack.o: ../final/attack.cpp ../final/attack.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -2734,6 +2741,7 @@ command.o: ../final/command.cpp ../final/command.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -2899,6 +2907,7 @@ commandcontroller.o: ../final/commandcontroller.cpp ../final/commandcontroller.h
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -3067,6 +3076,7 @@ controller.o: ../final/controller.cpp ../final/controller.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -3513,6 +3523,7 @@ gotoxy.o: ../final/gotoxy.cpp ../final/gotoxy.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -3832,6 +3843,7 @@ gscene.o: ../final/gscene.cpp ../final/gscene.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QtDebug \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QTimer \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/qtimer.h \
@@ -4075,6 +4087,7 @@ gview.o: ../final/gview.cpp ../final/gview.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../../../../Qt15.1/5.15.1/gcc_64/include/QtCore/QList \
 		../final/ttile.h \
@@ -4335,6 +4348,7 @@ help.o: ../final/help.cpp ../final/help.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -4498,6 +4512,7 @@ keypresscontroller.o: ../final/keypresscontroller.cpp ../final/keypresscontrolle
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -4665,6 +4680,7 @@ main.o: ../final/main.cpp ../final/mainwindow.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -4843,6 +4859,7 @@ mainwindow.o: ../final/mainwindow.cpp ../final/mainwindow.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -5148,6 +5165,7 @@ movedown.o: ../final/movedown.cpp ../final/movedown.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -5311,6 +5329,7 @@ moveleft.o: ../final/moveleft.cpp ../final/moveleft.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -5474,6 +5493,7 @@ moveright.o: ../final/moveright.cpp ../final/moveright.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -5637,6 +5657,7 @@ moveup.o: ../final/moveup.cpp ../final/moveup.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \
@@ -5969,6 +5990,7 @@ take.o: ../final/take.cpp ../final/take.h \
 		../final/gpenemy.h \
 		../final/gprotagonist.h \
 		../final/ghealthpack.h \
+		../final/gxenemy.h \
 		../final/tscene.h \
 		../final/ttile.h \
 		../final/tprotagonist.h \

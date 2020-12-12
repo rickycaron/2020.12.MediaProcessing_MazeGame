@@ -44,6 +44,7 @@ private:
     bool isChangable =true;
     //bool isPosional =false;
     int enemyType =NONE;
+    int baseScore=1;
     bool readData();
     std::unique_ptr<World> world;
     std::shared_ptr<Protagonist> protagonist;
@@ -59,6 +60,7 @@ signals:
     void detectedSignal(int type, int index);
     void poisonTilesPermanent(int);
     void xEnemyShown();
+    void updateScoreBoard(int);
 private slots:
     void move();
 };

@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Model_t {
-    QByteArrayData data[8];
-    char stringdata0[71];
+    QByteArrayData data[9];
+    char stringdata0[88];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -39,11 +39,13 @@ QT_MOC_LITERAL(3, 22, 4), // "type"
 QT_MOC_LITERAL(4, 27, 5), // "index"
 QT_MOC_LITERAL(5, 33, 20), // "poisonTilesPermanent"
 QT_MOC_LITERAL(6, 54, 11), // "xEnemyShown"
-QT_MOC_LITERAL(7, 66, 4) // "move"
+QT_MOC_LITERAL(7, 66, 16), // "updateScoreBoard"
+QT_MOC_LITERAL(8, 83, 4) // "move"
 
     },
     "Model\0detectedSignal\0\0type\0index\0"
-    "poisonTilesPermanent\0xEnemyShown\0move"
+    "poisonTilesPermanent\0xEnemyShown\0"
+    "updateScoreBoard\0move"
 };
 #undef QT_MOC_LITERAL
 
@@ -53,25 +55,27 @@ static const uint qt_meta_data_Model[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       3,       // signalCount
+       4,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    2,   34,    2, 0x06 /* Public */,
-       5,    1,   39,    2, 0x06 /* Public */,
-       6,    0,   42,    2, 0x06 /* Public */,
+       1,    2,   39,    2, 0x06 /* Public */,
+       5,    1,   44,    2, 0x06 /* Public */,
+       6,    0,   47,    2, 0x06 /* Public */,
+       7,    1,   48,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       7,    0,   43,    2, 0x08 /* Private */,
+       8,    0,   51,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Int, QMetaType::Int,    3,    4,
     QMetaType::Void, QMetaType::Int,    2,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,    2,
 
  // slots: parameters
     QMetaType::Void,
@@ -88,7 +92,8 @@ void Model::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         case 0: _t->detectedSignal((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 1: _t->poisonTilesPermanent((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 2: _t->xEnemyShown(); break;
-        case 3: _t->move(); break;
+        case 3: _t->updateScoreBoard((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 4: _t->move(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -111,6 +116,13 @@ void Model::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
             using _t = void (Model::*)();
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Model::xEnemyShown)) {
                 *result = 2;
+                return;
+            }
+        }
+        {
+            using _t = void (Model::*)(int );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Model::updateScoreBoard)) {
+                *result = 3;
                 return;
             }
         }
@@ -146,13 +158,13 @@ int Model::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 5;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 4)
+        if (_id < 5)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 4;
+        _id -= 5;
     }
     return _id;
 }
@@ -175,6 +187,13 @@ void Model::poisonTilesPermanent(int _t1)
 void Model::xEnemyShown()
 {
     QMetaObject::activate(this, &staticMetaObject, 2, nullptr);
+}
+
+// SIGNAL 3
+void Model::updateScoreBoard(int _t1)
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    QMetaObject::activate(this, &staticMetaObject, 3, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

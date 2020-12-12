@@ -16,35 +16,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_3">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Energy</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QProgressBar" name="energyBar">
-          <property name="styleSheet">
-           <string notr="true">QProgressBar{
-border: 1px solid grey;
-border-radius: 5px;
-text-align: center;
-}
-QProgressBar::chunk{
-	background-color: rgb(112, 158, 218);
-}</string>
-          </property>
-          <property name="value">
-           <number>24</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
@@ -75,7 +47,51 @@ background-color: rgb(141, 161, 98);
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout"/>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Energy</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QProgressBar" name="energyBar">
+          <property name="styleSheet">
+           <string notr="true">QProgressBar{
+border: 1px solid grey;
+border-radius: 5px;
+text-align: center;
+}
+QProgressBar::chunk{
+	background-color: rgb(112, 158, 218);
+}</string>
+          </property>
+          <property name="value">
+           <number>24</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_gameW"/>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEditCommand"/>
       </item>
       <item>
        <widget class="QLabel" name="label">
@@ -84,13 +100,23 @@ background-color: rgb(141, 161, 98);
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QLineEdit" name="lineEdit"/>
-      </item>
      </layout>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QLCDNumber" name="scoreBoard">
+        <property name="frameShape">
+         <enum>QFrame::Box</enum>
+        </property>
+        <property name="lineWidth">
+         <number>1</number>
+        </property>
+        <property name="segmentStyle">
+         <enum>QLCDNumber::Flat</enum>
+        </property>
+       </widget>
+      </item>
       <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
@@ -105,13 +131,17 @@ background-color: rgb(141, 161, 98);
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="changeSceneButton">
+       <widget class="QLineEdit" name="lineEditChangeMap">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="changeSceneButton">
         <property name="text">
          <string>ChangeScene</string>
         </property>
@@ -125,7 +155,7 @@ background-color: rgb(141, 161, 98);
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="restartButton">
+       <widget class="QPushButton" name="pushButton">
         <property name="text">
          <string>Restart</string>
         </property>
@@ -141,7 +171,7 @@ background-color: rgb(141, 161, 98);
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
