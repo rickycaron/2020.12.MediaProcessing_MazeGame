@@ -27,6 +27,7 @@ public:
     void redrawHealthpack(int index);
     void changeProtagonistImage(int);
     void setTilePoison(int index);
+    void protagonistAttack();
 
 signals:
 void poisonTile(int,int,int);

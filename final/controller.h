@@ -32,15 +32,9 @@ private:
     QTimer * updateEnergyTimer;
     QTimer * xEnemyExcuteSkillTimer;
     bool xEnemyShown=false;
-    type detectedType=NONE;
-    int detectedEnemyIndex=-1;
-    int detectedPEnemyIndex=-1;
-    int detectedHealthPack=-1;
-    int detectedXEnemyIndex=-1;
     int gameState=0;
 
 public slots:
-    void detected(int type, int index);
     void gotoXY(int x, int y);
 };
 

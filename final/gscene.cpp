@@ -144,3 +144,8 @@ void GScene::setTilePoison(int index)
     tileQlist[index]->poisonTile();
 }
 
+void GScene::protagonistAttack()
+{
+    protagonistView->attack();
+}
+

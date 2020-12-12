@@ -9,7 +9,6 @@ GXEnemy::GXEnemy(int xPos, int yPos,int scale,QObject *parent):GEnemy(xPos,yPos,
     setPixmap(image.scaled(scale, scale));
     setZValue(3);
     setPos(xPos*scale,yPos*scale);
-    qDebug()<< xPos<<  yPos <<"scale is" << scale;
 }
 
 void GXEnemy::resetPos(int newX, int newY)

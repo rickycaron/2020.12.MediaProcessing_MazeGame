@@ -15,9 +15,9 @@ TTile::TTile(int xPos, int yPos, int value, int scale, QObject *parent):QGraphic
 
 void TTile::draw()
 {
-    if(std::isinf(value)) //fix inf value
+    if(std::isinf(this->value)) //fix inf value
     {
-        value=0;
+        //value=0;
         setBrush(QBrush(QColorConstants::Black));
         qDebug()<<"black";
     }

@@ -32,7 +32,6 @@ void MainWindow::initializeGame(QString fileName)
     connect(model->getProtagonist().get(),&Protagonist::energyChanged,ui->energyBar,&QProgressBar::setValue);
     connect(model->getProtagonist().get(),&Protagonist::healthChanged,ui->healthBar,&QProgressBar::setValue);
     connect(model.get(),&Model::updateScoreBoard,[=](int score){
-        qDebug()<<score;
         int currentScore = ui->scoreBoard->value();
         ui->scoreBoard->display(currentScore+score);
     });
@@ -84,7 +83,6 @@ void MainWindow::on_lineEditCommand_editingFinished()
 
 void MainWindow::on_lineEditChangeMap_editingFinished()
 {
-     qDebug()<<"some thing is typed in  " + ui->lineEditChangeMap->text();
      //there should be a checking function before change file name
      currentFile = QString(ui->lineEditChangeMap->text());
      initializeGame(currentFile);

@@ -45,3 +45,9 @@ void GProtagonist::reSetImg(int index)
    }
 
 }
+
+void GProtagonist::attack()
+{
+    QPixmap image(PROTAGONIST_ATTACK_IMAGE);
+    setPixmap(image.scaled(scale, scale));
+}
