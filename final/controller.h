@@ -29,7 +29,8 @@ private:
     std::shared_ptr<Model> model;
     GView* view;
     QTimer * updateEnergyTimer;
-
+    QTimer * xEnemyExcuteSkillTimer;
+    bool xEnemyShown=false;
     type detectedType=NONE;
     int detectedEnemyIndex=-1;
     int detectedPEnemyIndex=-1;

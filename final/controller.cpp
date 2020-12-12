@@ -16,11 +16,14 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
          model->setIsChangable (false);
          qDebug()<<"Game Over";
          updateEnergyTimer->stop();
+         model->getProtagonist()->setEnergy(0);
         }
         else{
             qDebug()<<"Game Continue";
 
-            model->setIsChangable (true);
+            if(!xEnemyShown){
+                model->setIsChangable (true);
+            }
         }
     });
 
@@ -29,18 +32,25 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
             model->setIsChangable (false);
             if(energy<0){
                 updateEnergyTimer->stop();
+                qDebug()<<"Game Over!";
             }
-
             else{
                qDebug()<<"Energy is not enough now, please take a rest ";
             }
         }
         else{
-            model->setIsChangable (true);
+            qDebug()<<"Game Continue from energychanged slot";
+            if(!xEnemyShown){
+                model->setIsChangable (true);
+            }
         }
     });
 
     QObject::connect(model.get(),SIGNAL(detectedSignal(int,int)),this,SLOT(detected(int,int)));
+
+    QObject::connect(model.get(),&Model::poisonTilesPermanent,[=](int index){
+        view->getGScene()->setTilePoison(index);
+    });
 
     //Qtimer setting
     updateEnergyTimer = new QTimer(this);
@@ -52,6 +62,33 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
         }
     });
     updateEnergyTimer->start(1000);
+
+    xEnemyExcuteSkillTimer = new QTimer(this);
+    QObject::connect(xEnemyExcuteSkillTimer,&QTimer::timeout,[=]{
+        model->getXEnemy()->moving();
+    });
+    QObject::connect(model.get(),&Model::xEnemyShown,[=]{
+        //can not move when x enemy come out
+        updateEnergyTimer->stop();
+        model->setIsChangable(false);
+        qDebug()<<"the prota is stoped and the state of is changeble is"<<model->getIsChangable() ;
+        xEnemyShown =true;
+        //can not move for 8 second
+        QTimer::singleShot(8000,this,[=]{
+            //to achieve animation
+            model->setIsChangable(true);
+            updateEnergyTimer->start(1000);
+            xEnemyShown=false;
+        });
+
+
+        view->getGScene()->printXEnemy(model->getXEnemy());
+        xEnemyExcuteSkillTimer->start(4000);
+        connect(model->getXEnemy().get() ,&XEnemy::dead,[=](){
+            xEnemyExcuteSkillTimer->stop();
+        });
+    });
+
     connect(view,SIGNAL(mouseClickSignal(int,int)),this,SLOT(gotoXY(int,int)));
 }
 
