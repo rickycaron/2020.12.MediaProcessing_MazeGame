@@ -2,15 +2,20 @@
 
 Node::Node()
 {
-    tile=nullptr;
+    tile = nullptr;
     pre=nullptr;
+}
+
+Node::Node(std::shared_ptr<Tile> newtile)
+{
+    this->tile = newtile;
+    this->pre = nullptr;
 }
 
 Node::Node(std::shared_ptr<Tile> tile, std::shared_ptr<Node> pre)
 {
     this->tile = tile;
     this->pre = pre;
-    //calculateDistance();
 }
 
 std::shared_ptr<Node> Node::getPre() const

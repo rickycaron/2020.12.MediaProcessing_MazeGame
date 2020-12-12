@@ -15,22 +15,24 @@ class Pathfinder
 public:
     Pathfinder(int row,int column, std::vector<std::shared_ptr<Tile>> newtiles);
     std::vector<std::shared_ptr<Tile>> tiles;//this should be initialized when the pathfinder is created
-
     std::list<std::shared_ptr<Node>> openlist;
+
     std::list<std::shared_ptr<Node>> closedlist;
     QStack<std::shared_ptr<Tile>> solution;
     QSet<int> createdNoteIndex;//all the indexcs that have been created
     std::shared_ptr<Node> currentNode;
-    std::shared_ptr<Node> successorNode;
+    //std::shared_ptr<Node> successorNode;
     std::shared_ptr<Node> rootNode;
     Point startPoint;
     Point goalPoint;
-    Point nearbyPoint;
+    //Point nearbyPoint;
     void showsolutionpath();
     void showAllContainers();
-
+    static bool distanncecomp(std::shared_ptr<Node> node1, std::shared_ptr<Node> node2)
+    {
+        return node1->getDistance() < node2->getDistance();
+    }
     void initialze(const std::shared_ptr<Tile> &p,const std::shared_ptr<Tile> goal);
-
     bool calcPath_BreadthFirst();
     bool calcPath_BestFirst();
     bool calcPath_Dijkstra();
@@ -38,7 +40,7 @@ public:
 
     QStack<std::shared_ptr<Tile>> findpath(const std::shared_ptr<Tile> &p,int x, int y);
     QStack<std::shared_ptr<Tile>> findpath(int sx,int sy,int x, int y);
-
+    float getMoveCost() const;
 
 private:
     int row=0;
@@ -49,10 +51,7 @@ private:
     bool reachingGoal();
     double calEuclideanDistance(double x1, double y1, double x2, double y2);
     //static bool distanncecomp(std::shared_ptr<Node> node1, std::shared_ptr<Node> node2);
-    static bool distanncecomp(std::shared_ptr<Node> node1, std::shared_ptr<Node> node2)
-    {
-        return node1->getDistance() < node2->getDistance();
-    }
+
     std::shared_ptr<Node> findMinDistanceNode();
     void generateSolution();
     std::list<std::shared_ptr<Node>>::iterator findOldNote(int index);
@@ -65,6 +64,7 @@ private:
     {
         return node1->getFinalCost() < node2->getFinalCost();
     }
+    bool checkReachable(int x, int y);
 
     bool breadthfirstalorithum();
     void breadthfirstAddNode(int index,std::shared_ptr<Node>parent);
