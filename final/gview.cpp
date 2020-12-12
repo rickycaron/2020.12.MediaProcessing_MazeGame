@@ -59,7 +59,7 @@ void GView::win()
 
 void GView::keyPressEvent(QKeyEvent *event)
 {
-    //    qDebug()<<"key is pressed1";
+    //    qDebug()<<"key is pressed";
     switch (event->key()) {
     case Qt::Key_Up:
         emit keyPressSignal(UP);
@@ -91,21 +91,20 @@ void GView::mousePressEvent(QMouseEvent *event)
     if(event->button() == Qt::LeftButton){
         int x;
         int y;
-        //if(mapToScene(event->pos()).x()>0&&mapToScene(event->pos()).y()>0){
         if(mapToScene(event->pos()).x()>0){
-            x = static_cast<int>(mapToScene(event->pos()).x()/20);
+            x = static_cast<int>(mapToScene(event->pos()).x()/scale);
         }
         else{
-            x = static_cast<int>(mapToScene(event->pos()).x()/20)-1;
+            x = static_cast<int>(mapToScene(event->pos()).x()/scale)-1;
         }
 
         if(mapToScene(event->pos()).y()>0){
-            y = static_cast<int>(mapToScene(event->pos()).y()/20);
+            y = static_cast<int>(mapToScene(event->pos()).y()/scale);
         }
         else{
-            y = static_cast<int>(mapToScene(event->pos()).y()/20)-1;
+            y = static_cast<int>(mapToScene(event->pos()).y()/scale)-1;
         }
-        //qDebug()<<"x="<<x<<", y="<<y;
         emit mouseClickSignal(x,y);
+        qDebug()<<"x="<<x<<", y="<<y;
     }
 }

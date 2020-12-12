@@ -13,7 +13,6 @@ class Model :public QObject
     Q_OBJECT
 public:
     Model(QString fileName);
-    //Getter for controller using
     int getRow() const;
     int getCol() const;
     std::vector<std::shared_ptr<Tile> > getTiles() const;
@@ -26,8 +25,8 @@ public:
     bool moveLeft();
     bool moveUp();
     bool moveDown();
-    void attack(int);
-    int take(int);
+    void attack();
+    int take();
     void gotoXY(int x, int y);
     bool isOutside(int x,int y);
     void consumeEnergy();
@@ -35,7 +34,6 @@ public:
     bool getIsChangable();
     std::shared_ptr<Tile> gotoNearestThing();
     std::shared_ptr<XEnemy> getXEnemy() const;
-    type getEnemyType() const;
 
 
 private:
@@ -44,8 +42,8 @@ private:
     int row = 0;
     int col = 0;
     bool isChangable =true;
-    //bool isPosional =false;
-    enum type enemyType =NONE;
+    enum type thingType =NONE;
+    int thingIndex=-1;
     int baseScore=1;
     int numOfEnemies;
 
@@ -59,18 +57,12 @@ private:
     std::vector<std::shared_ptr<Tile>> healthpacks;
     std::shared_ptr<Pathfinder> pathfinder;
     QStack<std::shared_ptr<Tile>> path;
-    //int autonextThing =0;//(0,normal;1 healthpack;2,enemy)
-
-
     std::vector<std::shared_ptr<Tile>> getNearestHealthpack();
     std::vector<std::shared_ptr<Node>> getNearestEnemy();
 
-    //int getTileIndex(std::shared_ptr<Tile> );
 signals:
-    void detectedSignal(int type, int index);
     void poisonTilesPermanent(int);
     void xEnemyShown();
-    void moveFinished();
     void updateScoreBoard(int);
     void protagonistGetPoisoned();
     void numOfEnemiesChanged(int);

@@ -8,7 +8,7 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
 {
     this->model = model;
     this->view = view;
-    createScene(20);
+    createScene(10);
 
     connect(model.get(),&Model::protagonistGetPoisoned,[=]{
         view->getTScene()->redrawPoisonedState();
@@ -55,8 +55,6 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
             }
         }
     });
-
-    QObject::connect(model.get(),SIGNAL(detectedSignal(int,int)),this,SLOT(detected(int,int)));
 
     QObject::connect(model.get(),&Model::poisonTilesPermanent,[=](int index){
         view->getGScene()->setTilePoison(index);
@@ -113,10 +111,6 @@ void Controller::moveRight()
     else{
         qDebug()<<"can't move!";
     }
-    //it depends on if you want to explore around when you come
-    //or explore when taking action("TAKE","ATTACK")
-//    detectEnemy();
-//    detectHealthPack();
 }
 
 void Controller::moveLeft()
@@ -152,37 +146,17 @@ void Controller::moveDown()
 void Controller::attack()
 {
     view->getGScene()->protagonistAttack();
-    qDebug()<<"5555555555555555555555";
-    if(this->detectedType==ENEMY){
-        int index = this->detectedEnemyIndex;
-           model->attack(index);
-    }
-    if(this->detectedType==PENEMY){
-        int index = this->detectedPEnemyIndex;
-           model->attack(index);
-    }
-    if(this->detectedType==XENEMY){
-        qDebug()<<"66666666666666666666";
-        int index = this->detectedXEnemyIndex;
-        qDebug()<<"7777777777777777777777777";
-        qDebug()<<"The index of the xEnmy:"<<index;
-        model->attack(index);
-    }
+    model->attack();
 }
 
 void Controller::take()
 {
-    if(this->detectedType==HEALTHPACK){
-        int index = this->detectedHealthPack;
-        //Model part
-          model->take(index);
-          if(index!=-1){
-              //view part
-              view ->getGScene()->redrawHealthpack(index);
-              view->getTScene()->redrawHealthpack(index);
-          }
+    int index = model->take();
+    if(index!=-1){
+        //view part
+        view ->getGScene()->redrawHealthpack(index);
+        view->getTScene()->redrawHealthpack(index);
     }
-
 }
 
 void Controller::createScene(int scale)
@@ -201,32 +175,6 @@ GView *Controller::getView() const
     return view;
 }
 
-void Controller::detected(int type,  int index)
-{
-
-    switch (type) {
-    case ENEMY:
-        detectedType = ENEMY;
-        this->detectedEnemyIndex =index;
-    break;
-    case PENEMY:
-        detectedType = PENEMY;
-        this->detectedPEnemyIndex = index;
-        break;
-    case HEALTHPACK:
-        detectedType = HEALTHPACK;
-        detectedHealthPack =index;
-    break;
-    case XENEMY:
-        detectedType = XENEMY;
-        detectedXEnemyIndex =index;
-    break;
-    case NONE:
-        detectedType = NONE;
-        break;
-    }
-}
-
 void Controller::gotoXY(int x, int y)
 {
     model->gotoXY(x,y);
@@ -238,18 +186,16 @@ void Controller::autoplay()
     model->move();
     take();
     attack();
-        if(gameState==0){
-            QTimer::singleShot(1000, this,[=]{
-                if(xEnemyShown)
-                {
-                    if(!model->getXEnemy()->getDefeated()){
-                        model->getXEnemy()->setDefeated(true);
-                    }
+    if(gameState==0){
+        QTimer::singleShot(1000, this,[=]{
+            if(xEnemyShown)
+            {
+                if(!model->getXEnemy()->getDefeated()){
+                    model->getXEnemy()->setDefeated(true);
                 }
-                autoplay();
-            });
-        }
-
-
+            }
+            autoplay();
+        });
+    }
 }
 

@@ -7,7 +7,7 @@ Model::Model(QString fileName):QObject()
 {
     world = std::make_unique<World>();
     //world->createWorld(":/images/"+fileName+".png",20,20,0.4);
-    int enemyNum=3;
+    int enemyNum=20;
     world->createWorld(":/images/"+fileName+".png",enemyNum,enemyNum,0.1);
     numOfEnemies=enemyNum+1;
     readData();
@@ -19,12 +19,10 @@ bool Model::readData()
     row=world->getRows();
     col=world->getCols();
     protagonist = world->getProtagonist();
-    maxEH = protagonist->getEnergy();
 
-//    std::vector<std::unique_ptr<Tile>> tempTiles = world->getTiles();
-//    for(unsigned int i=0; i<tempTiles.size(); i++){
-//        tiles.emplace_back(std::move(tempTiles[i]));
-//    }
+    //protagonist->setPos(20,8);
+
+    maxEH = protagonist->getEnergy();
 
     std::vector<std::unique_ptr<Enemy>> tempEnemies = world->getEnemies();
     int indexOfEnermy =0;
@@ -34,7 +32,6 @@ bool Model::readData()
         std::shared_ptr<Enemy> e = std::move(tempEnemies[i]);
         connect(e.get(),&Enemy::dead,[=]{
             numOfEnemies--;            
-            qDebug()<<"NORMAL numOfEnemies is ="<<numOfEnemies;
             emit numOfEnemiesChanged(numOfEnemies);
         });
         if(dynamic_cast<PEnemy*>(e.get())){
@@ -42,8 +39,8 @@ bool Model::readData()
             connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
                 if(x==e->getXPos()&&y==e->getYPos()){
                     qDebug()<< "there is an posional enermy";
-                    this->enemyType = PENEMY;
-                    emit detectedSignal(PENEMY,indexOfPEnermy);
+                    this->thingType = PENEMY;
+                    this->thingIndex = indexOfPEnermy;
                 }
             });
 
@@ -76,8 +73,8 @@ bool Model::readData()
             connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
                 if(x==e->getXPos()&&y==e->getYPos()){
                     qDebug()<< "there is an normal enermy";
-                    this->enemyType = ENEMY;
-                    emit detectedSignal(ENEMY,indexOfEnermy);
+                    this->thingType = ENEMY;
+                    this->thingIndex = indexOfEnermy;
                 }
             });
             indexOfEnermy++;
@@ -89,11 +86,8 @@ bool Model::readData()
     std::uniform_int_distribution<int> uniform_index(0, indexOfEnermy-1);
     int index = uniform_index(e1);
 
-    qDebug()<<indexOfEnermy;
-    qDebug()<<index;
-
-    qDebug()<< "starting x position is"<< normalEnemies[index].get()->getXPos();
-    qDebug()<< "starting y position is"<< normalEnemies[index].get()->getYPos();
+    qDebug()<< "XEnemy starting x position is"<< normalEnemies[index].get()->getXPos();
+    qDebug()<< "XEnemy starting y position is"<< normalEnemies[index].get()->getYPos();
 
     //The X enemy will show up, doing settings then
     connect(normalEnemies[index].get(),&Enemy::dead,[=]{
@@ -103,11 +97,10 @@ bool Model::readData()
         connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
             if(x==xEnemy->getXPos()&&y==xEnemy->getYPos()){
                 qDebug()<< "there is an X enermy";
-                this->enemyType = XENEMY;
-                emit detectedSignal(XENEMY,index);
+                this->thingType = XENEMY;
+                this->thingIndex = index;
             }
         });
-        qDebug()<< "the Xenemy pos is"<<xEnemy->getXPos()<<", "<<xEnemy->getYPos();
     });
 
     int speed =2;
@@ -116,7 +109,6 @@ bool Model::readData()
 
     connect(xEnemy.get(),&Enemy::dead,[=]{
         numOfEnemies--;
-        qDebug()<<"numOfEnemies = "<<numOfEnemies;
         emit numOfEnemiesChanged(numOfEnemies);
     });
 
@@ -125,8 +117,7 @@ bool Model::readData()
         tiles.emplace_back(std::move(tempTiles[i]));
         connect(xEnemy.get(),&XEnemy::posChanged,[=](int x,int y){
             if(x==tiles[i]->getXPos()&&y==tiles[i]->getYPos()){
-//                    qDebug()<< "poison the tile permanently";
-                qDebug()<< "Is changable state is"<< getIsChangable();
+                qDebug()<< "poison the tile permanently";
                 emit poisonTilesPermanent(i);
                 tiles[i]->setValue(-1);
             }
@@ -154,7 +145,8 @@ bool Model::readData()
         connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
             if(x==e->getXPos()&&y==e->getYPos()){
                 qDebug()<< "there is an health pack";
-                emit detectedSignal(HEALTHPACK,i);
+                this->thingType = HEALTHPACK;
+                this->thingIndex = i;
             }
         });
     }
@@ -192,7 +184,6 @@ std::vector<std::shared_ptr<Tile>> Model::getNearestHealthpack()
 std::vector<std::shared_ptr<Node>> Model::getNearestEnemy()
 {
     std::vector<std::shared_ptr<Node>> nearNodeEnemies;
-    //std::vector<std::shared_ptr<Tile>> nearTileEnemy;
     auto protagonistNode=std::make_shared<Node>(protagonist);
     for(auto i = normalEnemies.cbegin();i != normalEnemies.cend();++i)
     {
@@ -207,7 +198,6 @@ std::vector<std::shared_ptr<Node>> Model::getNearestEnemy()
     for(auto i = pEnemies.cbegin();i != pEnemies.cend();++i)
     {
         if( (*i)->getPoisonLevel() == (*i)->getValue() )
-        //if(!(*i)->getDefeated() )
         {
             auto penemy = std::make_shared<Node>(*i,protagonistNode);
             penemy->calculateDistance();
@@ -225,7 +215,7 @@ std::vector<std::shared_ptr<Node>> Model::getNearestEnemy()
             xEnemyNode->calculateDistance();
             xEnemyNode->setTileType(XENEMY);
             nearNodeEnemies.push_back(xEnemyNode);
-            qDebug()<<"xenemy take into consideration!";
+            //qDebug()<<"xenemy take into consideration!";
         }
     return nearNodeEnemies;
 }
@@ -247,8 +237,6 @@ std::shared_ptr<Tile> Model::gotoNearestThing()
         enemycost=pathfinder->getMoveCost();
         if( enemycost < protagonist->getEnergy() )
         {
-            qDebug()<<" Enemy type"<<(*i)->getTileType();
-            //this->enemyType=(*i)->getTileType();
             enemygoalTile=(*i)->getTile();
             break;
         }
@@ -257,7 +245,6 @@ std::shared_ptr<Tile> Model::gotoNearestThing()
     {
         //goto the enemy
         path = enemypath;
-        qDebug()<<" WE get here!";
         return enemygoalTile;
     }
     //find the nearest healthpack
@@ -276,14 +263,11 @@ std::shared_ptr<Tile> Model::gotoNearestThing()
     {
         //goto the enemy
         path = enemypath;
-        qDebug()<<" WE get here!";
         return enemygoalTile;      
     }
     else
     {
         //goto the healthpack
-        //autonextThing=1;
-        this->enemyType=HEALTHPACK;
         path = healthpackpath;
         return healthpackgoalTile;
     }
@@ -292,11 +276,6 @@ std::shared_ptr<Tile> Model::gotoNearestThing()
 std::shared_ptr<XEnemy> Model::getXEnemy() const
 {
     return xEnemy;
-}
-
-type Model::getEnemyType() const
-{
-    return enemyType;
 }
 
 bool Model::setIsChangable(bool status)
@@ -359,7 +338,8 @@ bool Model::moveRight()
     //1.update energy //2.detect enemy //3.detectpack
     if(!isChangable){return false;}
     if(!isOutside(protagonist->getXPos()+1,protagonist->getYPos())){
-        emit detectedSignal(NONE,-1);
+        this->thingType = NONE;
+        this->thingIndex = -1;
         protagonist->setXPos(protagonist->getXPos()+1);
         consumeEnergy();
         return true;
@@ -373,7 +353,8 @@ bool Model::moveLeft()
 {
     if(!isChangable){return false;}
     if(!isOutside(protagonist->getXPos()-1,protagonist->getYPos())){
-        emit detectedSignal(NONE,-1);
+        this->thingType = NONE;
+        this->thingIndex = -1;
         protagonist->setXPos(protagonist->getXPos()-1);
         consumeEnergy();
         return true;
@@ -387,7 +368,8 @@ bool Model::moveUp()
 {
     if(!isChangable){return false;}
     if(!isOutside(protagonist->getXPos(),protagonist->getYPos()-1)){
-        emit detectedSignal(NONE,-1);
+        this->thingType = NONE;
+        this->thingIndex = -1;
         protagonist->setYPos(protagonist->getYPos()-1);
         consumeEnergy();
         return true;
@@ -401,7 +383,8 @@ bool Model::moveDown()
 {
     if(!isChangable){return false;}
     if(!isOutside(protagonist->getXPos(),protagonist->getYPos()+1)){
-        emit detectedSignal(NONE,-1);
+        this->thingType = NONE;
+        this->thingIndex = -1;
         protagonist->setYPos(protagonist->getYPos()+1);
         consumeEnergy();
         return true;
@@ -415,25 +398,26 @@ void Model::move()
 {
     if(!path.isEmpty()){
         std::shared_ptr<Tile> nextTile = path.pop();
-        emit detectedSignal(NONE,-1);
+        this->thingType = NONE;
+        this->thingIndex = -1;
         protagonist->setPos(nextTile->getXPos(),nextTile->getYPos());
         consumeEnergy();
-        QTimer::singleShot(500, this, &Model::move);
+        QTimer::singleShot(1, this, &Model::move);
     }else{
-        emit moveFinished();
-        //qDebug()<<"Finish!";
+        qDebug()<<"Finish!";
     }
 }
 
 void Model::gotoXY(int x, int y)
 {
+    int index = y*col+row;
+    qDebug()<<"Tile value: "<<tiles[index]->getValue();
     if(isChangable){
         if(isOutside(x,y)){
-            //qDebug()<<"outside the world!";
+            qDebug()<<"outside the world!";
         }
         else
         {
-            //qDebug()<<"go to "<<x<<","<<y;
             path = pathfinder->findpath(protagonist->getXPos(),protagonist->getYPos(),x,y);
             move();
         }
@@ -452,51 +436,49 @@ void Model::consumeEnergy()
     else{
         protagonist->setEnergy(protagonist->getEnergy()-tileValue);
     }
-//    protagonist->setEnergy(protagonist->getEnergy()-tiles[index]->getValue());
-    //qDebug()<<"Energy: "<<protagonist->getEnergy()<<",Health: "<<protagonist->getHealth();
 }
 
 //These two function will excute if checking success in controller
-void Model::attack(int index)
+void Model::attack()
 {
-    qDebug()<<"attack an enemy";
-    if(index==-1){
+    if(thingIndex==-1){
         qDebug()<<"No enemy.";
     }
     else{
-        switch (enemyType) {
+        switch (thingType) {
+        case NONE:
+            break;
         case ENEMY:
-            if(normalEnemies[index]->getDefeated()){
-                qDebug()<<"The enemy is already dead"<<" "<<index<<" normal enemy"<<normalEnemies[index]->getXPos()<<" "<<normalEnemies[index]->getYPos();
+            if(normalEnemies[thingIndex]->getDefeated()){
+                qDebug()<<"The enemy is already dead"<<" "<<thingIndex<<" normal enemy"<<normalEnemies[thingIndex]->getXPos()<<" "<<normalEnemies[thingIndex]->getYPos();
             }else{
-                normalEnemies[index]->setDefeated(true);
+                normalEnemies[thingIndex]->setDefeated(true);
                 emit updateScoreBoard(baseScore);
-                float currentHealth = protagonist->getHealth()-difficulty*(normalEnemies[index]->getValue());
-                float currentEnergy = protagonist->getEnergy()-difficulty*(normalEnemies[index]->getValue());
+                float currentHealth = protagonist->getHealth()-difficulty*(normalEnemies[thingIndex]->getValue());
+                float currentEnergy = protagonist->getEnergy()-difficulty*(normalEnemies[thingIndex]->getValue());
                 if(currentHealth<0){currentHealth=0;}
                 if(currentEnergy<0){currentEnergy=0;}
                 protagonist->setHealth(currentHealth);
                 protagonist->setEnergy(currentEnergy);
-    //            protagonist->setEnergy(maxEH); //return back
-                qDebug()<<"Attack an enemy, enemy strength:"<<normalEnemies[index]->getValue();
-                //qDebug()<<"Energy:"<<protagonist->getEnergy()<<", health:"<<protagonist->getHealth();
+                qDebug()<<"Attack a normal enemy, enemy strength:"<<normalEnemies[thingIndex]->getValue();
             }
             break;
         case PENEMY:
-            if(pEnemies[index]->getPoisonLevel()==pEnemies[index]->getValue()){//this pEnemy has never released poison
+            if(pEnemies[thingIndex]->getPoisonLevel()==pEnemies[thingIndex]->getValue()){//this pEnemy has never released poison
                 qDebug()<<"attacking p enemy.";
                 emit updateScoreBoard(2*baseScore);
-                pEnemies[index]->poison();
+                pEnemies[thingIndex]->poison();
             }else{
                 qDebug()<<"you already attacked it once.";
             }
+            break;
+        case HEALTHPACK:
             break;
         case XENEMY:
             qDebug()<<"attacking x enemy.";
             int currentLife =xEnemy->useLives();
             if(currentLife>-1){
                 qDebug()<<"This x enemy is attacked once."<<currentLife;
-//                animation part
             }
             else if(currentLife==-1){
                 qDebug()<<"This x enemy is killed by you.";
@@ -511,22 +493,22 @@ void Model::attack(int index)
     }
 }
 
-int Model::take(int index)
+int Model::take()
 {
-    if(index==-1){
+    if(thingIndex==-1){
         qDebug()<<"No healthpack.";
-        return index;
+        return thingIndex;
     }else{
-        if(healthpacks[index]->getValue()==0){qDebug()<< "this is a empty healthpacks"; return -1;}
-        float currentHealth = protagonist->getHealth()+healthpacks[index]->getValue();
-        float currentEnergy = protagonist->getEnergy()+healthpacks[index]->getValue();
+        if(healthpacks[thingIndex]->getValue()==0){qDebug()<< "this is a empty healthpacks"; return -1;}
+        float currentHealth = protagonist->getHealth()+healthpacks[thingIndex]->getValue();
+        float currentEnergy = protagonist->getEnergy()+healthpacks[thingIndex]->getValue();
         if(currentHealth>100){currentHealth=100;}
         if(currentEnergy>100){currentEnergy=100;}
         protagonist->setHealth(currentHealth);
         protagonist->setEnergy(currentEnergy);
-        qDebug()<<"Take a healthpack, content:"<<healthpacks[index]->getValue()<<", health:"<<protagonist->getHealth();
-        healthpacks[index]->setValue(0);
-        return index;
+        qDebug()<<"Take a healthpack, content:"<<healthpacks[thingIndex]->getValue()<<", health:"<<protagonist->getHealth();
+        healthpacks[thingIndex]->setValue(0);
+        return thingIndex;
     }
 }
 
