@@ -16,7 +16,6 @@ public:
     Pathfinder(int row,int column, std::vector<std::shared_ptr<Tile>> newtiles);
     std::vector<std::shared_ptr<Tile>> tiles;//this should be initialized when the pathfinder is created
     std::list<std::shared_ptr<Node>> openlist;
-
     std::list<std::shared_ptr<Node>> closedlist;
     QStack<std::shared_ptr<Tile>> solution;
     QSet<int> createdNoteIndex;//all the indexcs that have been created

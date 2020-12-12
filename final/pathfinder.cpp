@@ -44,7 +44,9 @@ void Pathfinder::initializePathfinder(int startx, int starty, int endx, int endy
     clearAllContainer();
     startPoint.setPoint(startx,starty);
     goalPoint.setPoint(endx,endy);
-    rootNode=std::make_shared<Node>((tiles[startx+row*starty]),nullptr);
+    //should be the tiles here, the map wasn't initialized
+    auto newTile=(tiles[startx+row*starty]);
+    rootNode=std::make_shared<Node>((tiles[startx+row*starty]));
     rootNode->setDistance(0);
     currentNode=rootNode;
     openlist.push_back(rootNode);
@@ -595,6 +597,7 @@ bool Pathfinder::checkReachable(int x, int y)
 QStack<std::shared_ptr<Tile>> Pathfinder::findpath(const std::shared_ptr<Tile> &p, int x, int y)
 {
     initializePathfinder(p->getXPos(), p->getYPos(),x,y);
+    std::cout<<"we got here"<<std::endl;
     showAllContainers();
     if(!checkReachable(x,y))
     {

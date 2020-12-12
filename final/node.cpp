@@ -12,9 +12,9 @@ Node::Node(std::shared_ptr<Tile> newtile)
     this->pre = nullptr;
 }
 
-Node::Node(std::shared_ptr<Tile> tile, std::shared_ptr<Node> pre)
+Node::Node(std::shared_ptr<Tile> newtile, std::shared_ptr<Node> pre)
 {
-    this->tile = tile;
+    this->tile = newtile;
     this->pre = pre;
 }
 
