@@ -8,7 +8,7 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
 {
     this->model = model;
     this->view = view;
-    createScene(10);
+    createScene(20);
 
     connect(model.get(),&Model::protagonistGetPoisoned,[=]{
         view->getTScene()->redrawPoisonedState();
@@ -18,6 +18,7 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
         if(numOfEnemies==0){
             qDebug()<<"You win!";
             gameState=1;
+            view->win();
         }
     });
 
