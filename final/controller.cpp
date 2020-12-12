@@ -243,6 +243,7 @@ void Controller::detected(int type,  int index)
 
 void Controller::gotoXY(int x, int y)
 {
+    //qDebug()<<"go to"<<x<<","<<y;
     model->gotoXY(x,y);
 }
 

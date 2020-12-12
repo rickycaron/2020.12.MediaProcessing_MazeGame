@@ -113,7 +113,7 @@ background-color: rgb(141, 161, 98);
          </sizepolicy>
         </property>
         <property name="text">
-         <string>changeScene</string>
+         <string>ChangeScene</string>
         </property>
        </widget>
       </item>
@@ -121,6 +121,13 @@ background-color: rgb(141, 161, 98);
        <widget class="QPushButton" name="autoplayButton">
         <property name="text">
          <string>Autoplay</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="restartButton">
+        <property name="text">
+         <string>Restart</string>
         </property>
        </widget>
       </item>
