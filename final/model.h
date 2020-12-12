@@ -60,11 +60,8 @@ signals:
     void detectedSignal(int type, int index);
     void poisonTilesPermanent(int);
     void xEnemyShown();
-<<<<<<< HEAD
     void updateScoreBoard(int);
-=======
     void protagonistGetPoisoned();
->>>>>>> ae34ce27ecb8e34905fade4ba4c1859bcd463a3d
 private slots:
     void move();
 };

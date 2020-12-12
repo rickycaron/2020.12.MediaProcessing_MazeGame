@@ -5,11 +5,9 @@
 
 Model::Model(QString fileName):QObject()
 {
-
     world = std::make_unique<World>();
     world->createWorld(":/images/"+fileName+".png",20,20,0.4);
     readData();
-    //qDebug()<<"3333";
 }
 
 bool Model::readData()

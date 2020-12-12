@@ -20,6 +20,7 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
          qDebug()<<"Game Over";
          updateEnergyTimer->stop();
          model->getProtagonist()->setEnergy(0);
+         view->gameover();
         }
         else{
             qDebug()<<"Game Continue";
@@ -140,25 +141,19 @@ void Controller::moveDown()
     }
 }
 
-
 void Controller::attack()
 {
     if(this->detectedType==ENEMY){
         int index = this->detectedEnemyIndex;
            model->attack(index);
-           //view ->getGScene()->setDeath(ENEMY,index);
-
     }
     if(this->detectedType==PENEMY){
         int index = this->detectedPEnemyIndex;
            model->attack(index);
-//           view ->getCurrentScene()->setDeath(PENEMY,index);
-
     }
     if(this->detectedType==XENEMY){
         int index = this->detectedXEnemyIndex;
            model->attack(index);
-
     }
 }
 
