@@ -238,7 +238,6 @@ void Controller::autoplay()
     model->move();
     take();
     attack();
-
         if(gameState==0){
             QTimer::singleShot(1000, this,[=]{
                 if(xEnemyShown)
