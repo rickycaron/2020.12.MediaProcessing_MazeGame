@@ -289,8 +289,9 @@ void Model::gotoXY(int x, int y)
         }
         else
         {
+            qDebug()<<"go to "<<x<<","<<y;
             path = pathfinder->findpath(protagonist->getXPos(),protagonist->getYPos(),x,y);
-            move();
+            //move();
         }
     }else{
         qDebug()<<"can't move!";
