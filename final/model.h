@@ -33,10 +33,12 @@ public:
     void consumeEnergy();
     bool setIsChangable(bool);
     bool getIsChangable();
-    void autoplay();
+    std::shared_ptr<Tile> gotoNearestThing();
 
 
     std::shared_ptr<XEnemy> getXEnemy() const;
+    type getEnemyType() const;
+
 
 private:
     float difficulty{0.1};
@@ -56,16 +58,18 @@ private:
     std::vector<std::shared_ptr<Tile>> healthpacks;
     std::shared_ptr<Pathfinder> pathfinder;
     QStack<std::shared_ptr<Tile>> path;
-    int autonextThing =0;//(0,normal;1 healthpack;2,enemy)
+    //int autonextThing =0;//(0,normal;1 healthpack;2,enemy)
+
 
     std::vector<std::shared_ptr<Tile>> getNearestHealthpack();
     std::vector<std::shared_ptr<Node>> getNearestEnemy();
-    std::shared_ptr<Tile> gotoNearestThing();
+
     //int getTileIndex(std::shared_ptr<Tile> );
 signals:
     void detectedSignal(int type, int index);
     void poisonTilesPermanent(int);
     void xEnemyShown();
+    void moveFinished();
 private slots:
     void move();
 };

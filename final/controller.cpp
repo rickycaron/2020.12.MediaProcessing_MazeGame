@@ -41,7 +41,7 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
         else{
             qDebug()<<"Game Continue from energychanged slot";
             if(!xEnemyShown){
-                model->setIsChangable (true);
+                model->setIsChangable (true);                
             }
         }
     });
@@ -244,4 +244,15 @@ void Controller::gotoXY(int x, int y)
     model->gotoXY(x,y);
 }
 
+
+void Controller::autoplay()
+{
+    auto goalTile = model->gotoNearestThing();
+    gotoXY(goalTile->getXPos(),goalTile->getYPos());
+    connect(model.get(),&Model::moveFinished,[=](){
+        take();
+        attack();
+    });
+
+}
 

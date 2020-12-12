@@ -190,7 +190,7 @@ std::vector<std::shared_ptr<Node>> Model::getNearestEnemy()
     {
         if(!(*i)->getDefeated())
         {
-            auto enemy = std::make_shared<Node>(std::shared_ptr<Tile>(*i),protagonistNode);
+            auto enemy = std::make_shared<Node>((*i),protagonistNode);
             enemy->calculateDistance();
             enemy->setTileType(ENEMY);
             nearNodeEnemy.push_back(enemy);
@@ -229,12 +229,13 @@ std::vector<std::shared_ptr<Node>> Model::getNearestEnemy()
 std::shared_ptr<Tile> Model::gotoNearestThing()
 {
     float healthpackcost=0.0f;
-    float enemycost=0.0f;
+    float enemycost=0.0f;   
     auto nearhealthpack=getNearestHealthpack();
     auto nearenemy=getNearestEnemy();
     QStack<std::shared_ptr<Tile>> healthpackpath;
     QStack<std::shared_ptr<Tile>> enemypath;
-    std::shared_ptr<Tile> goalTile=nullptr;
+    std::shared_ptr<Tile> enemygoalTile=nullptr;
+    std::shared_ptr<Tile> healthpackgoalTile=nullptr;
     //find the nearest enemy
     for(auto i = nearenemy.cbegin();i != nearenemy.cend();++i)
     {
@@ -243,7 +244,7 @@ std::shared_ptr<Tile> Model::gotoNearestThing()
         if( enemycost < protagonist->getEnergy() && (*i)->getTile()->getValue() < protagonist->getHealth())
         {
             this->enemyType=(*i)->getTileType();
-            goalTile=(*i)->getTile();
+            enemygoalTile=(*i)->getTile();
             break;
         }
     }
@@ -254,60 +255,35 @@ std::shared_ptr<Tile> Model::gotoNearestThing()
         healthpackpath=pathfinder->findpath(protagonist,(*i)->getXPos(),(*i)->getYPos());
         healthpackcost=pathfinder->getMoveCost();
         if(healthpackcost < protagonist->getEnergy()){
-            goalTile=(*i);
+            healthpackgoalTile=(*i);
             break;
         }
     }
     //compare which one is better
-    if (healthpackcost < enemycost)
+    if (enemycost < healthpackcost || protagonist->getHealth())
+    {
+        //goto the enemy
+        path = enemypath;
+        return healthpackgoalTile;
+    }
+    else
     {
         //goto the healthpack
         //autonextThing=1;
         this->enemyType=HEALTHPACK;
         path = healthpackpath;
+        return enemygoalTile;
     }
-    else
-    {
-        //goto the enemy        
-        path = enemypath;
-    }
-    return goalTile;
-}
-void Model::autoplay()
-{
-    auto goalTile = gotoNearestThing();
-    move();
-    if(enemyType==HEALTHPACK)
-    {
-        qDebug("we got here!");
-        auto it = find(healthpacks.begin(), healthpacks.end(), goalTile);
-        int healthPackIndex = it-healthpacks.begin();
-        take(healthPackIndex);
-    }
-    else if(enemyType==ENEMY)
-    {
-        auto it = find(normalEnemies.begin(), normalEnemies.end(), goalTile);
-        int normalEnemyIndex = it-normalEnemies.begin();
-        attack(normalEnemyIndex);
-    }
-    else if(enemyType==PENEMY)
-    {
-        auto it = find(pEnemies.begin(), pEnemies.end(), goalTile);
-        int pEnemyIndex = it-pEnemies.begin();
-        attack(pEnemyIndex);
-    }
-    else if(enemyType==XENEMY)
-    {
-//        auto it = find(xEnemy.begin(), pEnemies.end(), goalTile);
-//        int pEnemyIndex = it-pEnemies.begin();
-//        attack(pEnemyIndex);
-    }
-
 }
 
 std::shared_ptr<XEnemy> Model::getXEnemy() const
 {
     return xEnemy;
+}
+
+type Model::getEnemyType() const
+{
+    return enemyType;
 }
 
 bool Model::setIsChangable(bool status)
@@ -431,6 +407,7 @@ void Model::move()
         consumeEnergy();
         QTimer::singleShot(1000, this, &Model::move);
     }else{
+        emit moveFinished();
         qDebug()<<"Finish!";
     }
 }
@@ -478,6 +455,7 @@ void Model::attack(int index)
                 protagonist->setHealth(currentHealth);
                 protagonist->setEnergy(currentEnergy);
     //            protagonist->setEnergy(maxEH); //return back
+                qDebug("1111111111111111111111111111111111111111111111!");
                 qDebug()<<"Attack an enemy, enemy strength:"<<normalEnemies[index]->getValue();
                 qDebug()<<"Energy:"<<protagonist->getEnergy()<<", health:"<<protagonist->getHealth();
             }

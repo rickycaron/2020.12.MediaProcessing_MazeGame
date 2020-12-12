@@ -54,5 +54,5 @@ void MainWindow::on_lineEdit_editingFinished()
 
 void MainWindow::on_autoplayButton_clicked()
 {
-    model->autoplay();
+    controller->autoplay();
 }
