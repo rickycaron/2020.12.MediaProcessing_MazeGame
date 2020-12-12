@@ -15,17 +15,17 @@ class Pathfinder
 public:
     Pathfinder(int row,int column, std::vector<std::shared_ptr<Tile>> newtiles);
     std::vector<std::shared_ptr<Tile>> tiles;//this should be initialized when the pathfinder is created
-
     std::list<std::shared_ptr<Node>> openlist;
+
     std::list<std::shared_ptr<Node>> closedlist;
     QStack<std::shared_ptr<Tile>> solution;
     QSet<int> createdNoteIndex;//all the indexcs that have been created
     std::shared_ptr<Node> currentNode;
-    std::shared_ptr<Node> successorNode;
+    //std::shared_ptr<Node> successorNode;
     std::shared_ptr<Node> rootNode;
     Point startPoint;
     Point goalPoint;
-    Point nearbyPoint;
+    //Point nearbyPoint;
     void showsolutionpath();
     void showAllContainers();
     static bool distanncecomp(std::shared_ptr<Node> node1, std::shared_ptr<Node> node2)
@@ -64,6 +64,7 @@ private:
     {
         return node1->getFinalCost() < node2->getFinalCost();
     }
+    bool checkReachable(int x, int y);
 
     bool breadthfirstalorithum();
     void breadthfirstAddNode(int index,std::shared_ptr<Node>parent);

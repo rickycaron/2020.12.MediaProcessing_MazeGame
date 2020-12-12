@@ -24,6 +24,8 @@ private slots:
     void on_changeSceneButton_clicked();
     void on_lineEdit_editingFinished();
 
+    void on_autoplayButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     GView* view;

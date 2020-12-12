@@ -5,13 +5,12 @@
 
 Model::Model(QString fileName):QObject()
 {
-
     world = std::make_unique<World>();
 //    world->createWorld("://images/" +fileName+".png",10,10,0.25);
 //    world->createWorld("/home/shuai/Desktop/libfinal/" + fileName + ".png",22,22,0.25);
 //    world->createWorld(":/images/worldmap.png",22,22,0.25);
 //    world->createWorld(":/images/maze1.png",22,22,0.25);
-    world->createWorld(":/images/maze2.png",20,20,0.4);
+    world->createWorld(":/images/worldmap.png",20,20,0.4);
 
     readData();
     //qDebug()<<"3333";
@@ -167,21 +166,25 @@ std::vector<std::shared_ptr<Tile> > Model::getNearestEnemy()
     return nearTileEnemy;
 }
 
-float Model::gotoNearestThing()
+std::shared_ptr<Tile> Model::gotoNearestThing()
 {
     float healthpackcost=0.0f;
     float enemycost=0.0f;
     auto nearhealthpack=getNearestHealthpack();
-    auto nearenemy=getNearestHealthpack();
+    auto nearenemy=getNearestEnemy();
     QStack<std::shared_ptr<Tile>> healthpackpath;
     QStack<std::shared_ptr<Tile>> enemypath;
+    std::shared_ptr<Tile> goalTile=nullptr;
     //find the nearest enemy
     for(auto i = nearenemy.cbegin();i != nearenemy.cend();++i)
     {
         enemypath=pathfinder->findpath(protagonist,(*i)->getXPos(),(*i)->getYPos());
         enemycost=pathfinder->getMoveCost();
         if( enemycost < protagonist->getEnergy() && (*i)->getValue() < protagonist->getHealth())
-        {break;}
+        {
+            goalTile=(*i);
+            break;
+        }
     }
     //find the nearest healthpack
     for(auto i = nearhealthpack.cbegin();i != nearhealthpack.cend();++i)
@@ -189,20 +192,39 @@ float Model::gotoNearestThing()
         //find the path from the nearest healthpack
         healthpackpath=pathfinder->findpath(protagonist,(*i)->getXPos(),(*i)->getYPos());
         healthpackcost=pathfinder->getMoveCost();
-        if(healthpackcost < protagonist->getEnergy()){break;}
+        if(healthpackcost < protagonist->getEnergy()){
+            goalTile=(*i);
+            break;
+        }
     }
     //compare which one is better
     if (healthpackcost < enemycost)
     {
         //goto the healthpack
-
+        autonextThing=1;
+        path = healthpackpath;
     }
     else
     {
         //goto the enemy
+        autonextThing=2;
+        path = enemypath;
     }
+    return goalTile;
+}
 
-
+void Model::autoplay()
+{
+    auto goalTile = gotoNearestThing();
+    move();
+    switch(autonextThing){
+        case 1:
+            //take the healthpack
+            break;
+        case 2 :
+            //attack the enemy
+            break;
+    }
 }
 
 

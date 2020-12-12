@@ -37,10 +37,10 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = final1.0.0
-DISTDIR = /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/.tmp/final1.0.0
+DISTDIR = /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/.tmp/final1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/opt/Qt/5.15.1/gcc_64/lib
-LIBS          = $(SUBLIBS) -L/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/final/../worldLib/ -lworld /opt/Qt/5.15.1/gcc_64/lib/libQt5Widgets.so /opt/Qt/5.15.1/gcc_64/lib/libQt5Gui.so /opt/Qt/5.15.1/gcc_64/lib/libQt5Core.so -lGL -lpthread   
+LIBS          = $(SUBLIBS) -L/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/final/../worldLib/ -lworld /opt/Qt/5.15.1/gcc_64/lib/libQt5Widgets.so /opt/Qt/5.15.1/gcc_64/lib/libQt5Gui.so /opt/Qt/5.15.1/gcc_64/lib/libQt5Core.so -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -56,6 +56,7 @@ SOURCES       = ../final/attack.cpp \
 		../final/command.cpp \
 		../final/commandcontroller.cpp \
 		../final/controller.cpp \
+		../final/gameoverscene.cpp \
 		../final/genemy.cpp \
 		../final/ghealthpack.cpp \
 		../final/gotoxy.cpp \
@@ -91,11 +92,12 @@ SOURCES       = ../final/attack.cpp \
 		moc_model.cpp \
 		moc_tenemy.cpp \
 		moc_tprotagonist.cpp \
-		moc_ttile.cpp
+		moc_tscene.cpp
 OBJECTS       = attack.o \
 		command.o \
 		commandcontroller.o \
 		controller.o \
+		gameoverscene.o \
 		genemy.o \
 		ghealthpack.o \
 		gotoxy.o \
@@ -132,7 +134,7 @@ OBJECTS       = attack.o \
 		moc_model.o \
 		moc_tenemy.o \
 		moc_tprotagonist.o \
-		moc_ttile.o
+		moc_tscene.o
 DIST          = /opt/Qt/5.15.1/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt/5.15.1/gcc_64/mkspecs/common/unix.conf \
 		/opt/Qt/5.15.1/gcc_64/mkspecs/common/linux.conf \
@@ -315,6 +317,7 @@ DIST          = /opt/Qt/5.15.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../final/commandcontroller.h \
 		../final/config.h \
 		../final/controller.h \
+		../final/gameoverscene.h \
 		../final/genemy.h \
 		../final/ghealthpack.h \
 		../final/gotoxy.h \
@@ -343,6 +346,7 @@ DIST          = /opt/Qt/5.15.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../final/command.cpp \
 		../final/commandcontroller.cpp \
 		../final/controller.cpp \
+		../final/gameoverscene.cpp \
 		../final/genemy.cpp \
 		../final/ghealthpack.cpp \
 		../final/gotoxy.cpp \
@@ -755,8 +759,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../final/resource.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt/5.15.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../final/attack.h ../final/command.h ../final/commandcontroller.h ../final/config.h ../final/controller.h ../final/genemy.h ../final/ghealthpack.h ../final/gotoxy.h ../final/gpenemy.h ../final/gprotagonist.h ../final/gscene.h ../final/gtile.h ../final/gview.h ../final/help.h ../final/keypresscontroller.h ../final/mainwindow.h ../final/model.h ../final/movedown.h ../final/moveleft.h ../final/moveright.h ../final/moveup.h ../final/node.h ../final/pathfinder.h ../final/point.h ../final/take.h ../final/tenemy.h ../final/thealthpack.h ../final/tprotagonist.h ../final/tscene.h ../final/ttile.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../final/attack.cpp ../final/command.cpp ../final/commandcontroller.cpp ../final/controller.cpp ../final/genemy.cpp ../final/ghealthpack.cpp ../final/gotoxy.cpp ../final/gpenemy.cpp ../final/gprotagonist.cpp ../final/gscene.cpp ../final/gtile.cpp ../final/gview.cpp ../final/help.cpp ../final/keypresscontroller.cpp ../final/main.cpp ../final/mainwindow.cpp ../final/model.cpp ../final/movedown.cpp ../final/moveleft.cpp ../final/moveright.cpp ../final/moveup.cpp ../final/node.cpp ../final/pathfinder.cpp ../final/point.cpp ../final/take.cpp ../final/tenemy.cpp ../final/thealthpack.cpp ../final/tprotagonist.cpp ../final/tscene.cpp ../final/ttile.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../final/attack.h ../final/command.h ../final/commandcontroller.h ../final/config.h ../final/controller.h ../final/gameoverscene.h ../final/genemy.h ../final/ghealthpack.h ../final/gotoxy.h ../final/gpenemy.h ../final/gprotagonist.h ../final/gscene.h ../final/gtile.h ../final/gview.h ../final/help.h ../final/keypresscontroller.h ../final/mainwindow.h ../final/model.h ../final/movedown.h ../final/moveleft.h ../final/moveright.h ../final/moveup.h ../final/node.h ../final/pathfinder.h ../final/point.h ../final/take.h ../final/tenemy.h ../final/thealthpack.h ../final/tprotagonist.h ../final/tscene.h ../final/ttile.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../final/attack.cpp ../final/command.cpp ../final/commandcontroller.cpp ../final/controller.cpp ../final/gameoverscene.cpp ../final/genemy.cpp ../final/ghealthpack.cpp ../final/gotoxy.cpp ../final/gpenemy.cpp ../final/gprotagonist.cpp ../final/gscene.cpp ../final/gtile.cpp ../final/gview.cpp ../final/help.cpp ../final/keypresscontroller.cpp ../final/main.cpp ../final/mainwindow.cpp ../final/model.cpp ../final/movedown.cpp ../final/moveleft.cpp ../final/moveright.cpp ../final/moveup.cpp ../final/node.cpp ../final/pathfinder.cpp ../final/point.cpp ../final/take.cpp ../final/tenemy.cpp ../final/thealthpack.cpp ../final/tprotagonist.cpp ../final/tscene.cpp ../final/ttile.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../final/mainwindow.ui $(DISTDIR)/
 
 
@@ -790,6 +794,7 @@ qrc_resource.cpp: ../final/resource.qrc \
 		../final/images/protagonistDown.png \
 		../final/images/protagonistUp.png \
 		../final/images/penemy3.png \
+		../final/images/gameover.png \
 		../final/images/protagonistRight.png \
 		../final/images/penemy2.png \
 		../final/images/maze3.png \
@@ -810,9 +815,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /opt/Qt/5.15.1/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++1z -Wall -Wextra -dM -E -o moc_predefs.h /opt/Qt/5.15.1/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_commandcontroller.cpp moc_controller.cpp moc_gscene.cpp moc_gview.cpp moc_keypresscontroller.cpp moc_mainwindow.cpp moc_model.cpp moc_tenemy.cpp moc_tprotagonist.cpp moc_ttile.cpp
+compiler_moc_header_make_all: moc_commandcontroller.cpp moc_controller.cpp moc_gscene.cpp moc_gview.cpp moc_keypresscontroller.cpp moc_mainwindow.cpp moc_model.cpp moc_tenemy.cpp moc_tprotagonist.cpp moc_tscene.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_commandcontroller.cpp moc_controller.cpp moc_gscene.cpp moc_gview.cpp moc_keypresscontroller.cpp moc_mainwindow.cpp moc_model.cpp moc_tenemy.cpp moc_tprotagonist.cpp moc_ttile.cpp
+	-$(DEL_FILE) moc_commandcontroller.cpp moc_controller.cpp moc_gscene.cpp moc_gview.cpp moc_keypresscontroller.cpp moc_mainwindow.cpp moc_model.cpp moc_tenemy.cpp moc_tprotagonist.cpp moc_tscene.cpp
 moc_commandcontroller.cpp: ../final/commandcontroller.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QString \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstring.h \
@@ -964,9 +969,9 @@ moc_commandcontroller.cpp: ../final/commandcontroller.h \
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
@@ -974,9 +979,10 @@ moc_commandcontroller.cpp: ../final/commandcontroller.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
 		../final/thealthpack.h \
+		../final/gameoverscene.h \
 		moc_predefs.h \
 		/opt/Qt/5.15.1/gcc_64/bin/moc
-	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/commandcontroller.h -o moc_commandcontroller.cpp
+	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/commandcontroller.h -o moc_commandcontroller.cpp
 
 moc_controller.cpp: ../final/controller.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QObject \
@@ -1124,9 +1130,9 @@ moc_controller.cpp: ../final/controller.h \
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
@@ -1134,9 +1140,10 @@ moc_controller.cpp: ../final/controller.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
 		../final/thealthpack.h \
+		../final/gameoverscene.h \
 		moc_predefs.h \
 		/opt/Qt/5.15.1/gcc_64/bin/moc
-	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/controller.h -o moc_controller.cpp
+	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/controller.h -o moc_controller.cpp
 
 moc_gscene.cpp: ../final/gscene.h \
 		../final/config.h \
@@ -1254,7 +1261,7 @@ moc_gscene.cpp: ../final/gscene.h \
 		../final/ghealthpack.h \
 		moc_predefs.h \
 		/opt/Qt/5.15.1/gcc_64/bin/moc
-	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/gscene.h -o moc_gscene.cpp
+	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/gscene.h -o moc_gscene.cpp
 
 moc_gview.cpp: ../final/gview.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsView \
@@ -1396,9 +1403,9 @@ moc_gview.cpp: ../final/gview.h \
 		../final/tscene.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QList \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
@@ -1406,9 +1413,10 @@ moc_gview.cpp: ../final/gview.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
 		../final/thealthpack.h \
+		../final/gameoverscene.h \
 		moc_predefs.h \
 		/opt/Qt/5.15.1/gcc_64/bin/moc
-	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/gview.h -o moc_gview.cpp
+	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/gview.h -o moc_gview.cpp
 
 moc_keypresscontroller.cpp: ../final/keypresscontroller.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QObject \
@@ -1557,9 +1565,9 @@ moc_keypresscontroller.cpp: ../final/keypresscontroller.h \
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
@@ -1567,9 +1575,10 @@ moc_keypresscontroller.cpp: ../final/keypresscontroller.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
 		../final/thealthpack.h \
+		../final/gameoverscene.h \
 		moc_predefs.h \
 		/opt/Qt/5.15.1/gcc_64/bin/moc
-	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/keypresscontroller.h -o moc_keypresscontroller.cpp
+	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/keypresscontroller.h -o moc_keypresscontroller.cpp
 
 moc_mainwindow.cpp: ../final/mainwindow.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QMainWindow \
@@ -1724,9 +1733,9 @@ moc_mainwindow.cpp: ../final/mainwindow.h \
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
@@ -1734,13 +1743,14 @@ moc_mainwindow.cpp: ../final/mainwindow.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
 		../final/thealthpack.h \
+		../final/gameoverscene.h \
 		../final/commandcontroller.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QString \
 		../final/command.h \
 		../final/keypresscontroller.h \
 		moc_predefs.h \
 		/opt/Qt/5.15.1/gcc_64/bin/moc
-	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/mainwindow.h -o moc_mainwindow.cpp
+	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/mainwindow.h -o moc_mainwindow.cpp
 
 moc_model.cpp: ../final/model.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QObject \
@@ -1830,7 +1840,7 @@ moc_model.cpp: ../final/model.h \
 		../final/point.h \
 		moc_predefs.h \
 		/opt/Qt/5.15.1/gcc_64/bin/moc
-	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/model.h -o moc_model.cpp
+	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/model.h -o moc_model.cpp
 
 moc_tenemy.cpp: ../final/tenemy.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
@@ -1945,7 +1955,7 @@ moc_tenemy.cpp: ../final/tenemy.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/QImage \
 		moc_predefs.h \
 		/opt/Qt/5.15.1/gcc_64/bin/moc
-	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/tenemy.h -o moc_tenemy.cpp
+	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/tenemy.h -o moc_tenemy.cpp
 
 moc_tprotagonist.cpp: ../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
@@ -2062,11 +2072,11 @@ moc_tprotagonist.cpp: ../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		moc_predefs.h \
 		/opt/Qt/5.15.1/gcc_64/bin/moc
-	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/tprotagonist.h -o moc_tprotagonist.cpp
+	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/tprotagonist.h -o moc_tprotagonist.cpp
 
-moc_ttile.cpp: ../final/ttile.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
-		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qwidget.h \
+moc_tscene.cpp: ../final/tscene.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsScene \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qgraphicsscene.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtguiglobal.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qglobal.h \
@@ -2092,12 +2102,10 @@ moc_ttile.cpp: ../final/ttile.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qversiontagging.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtgui-config.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobject.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobjectdefs.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qnamespace.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobject.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstring.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qchar.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qbytearray.h \
@@ -2125,23 +2133,24 @@ moc_ttile.cpp: ../final/ttile.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvarlengtharray.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcontainerfwd.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobject_impl.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmargins.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpaintdevice.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmargins.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsize.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qbrush.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qcolor.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qrgb.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qrgba64.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qbrush.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qmatrix.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpolygon.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qwindowdefs_win.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qdatastream.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qiodevice.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qline.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtransform.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpaintdevice.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpixelformat.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpixmap.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsharedpointer.h \
@@ -2149,12 +2158,15 @@ moc_ttile.cpp: ../final/ttile.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qhash.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qfont.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qfontmetrics.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qfontinfo.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qcursor.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qkeysequence.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpen.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/QList \
+		../worldLib/world.h \
+		../worldLib/world_global.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/QObject \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/QImage \
+		../final/ttile.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsRectItem \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qgraphicsitem.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariant.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmap.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qdebug.h \
@@ -2162,6 +2174,17 @@ moc_ttile.cpp: ../final/ttile.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qlocale.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qset.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpainterpath.h \
+		../final/tprotagonist.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qevent.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qurl.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qurlquery.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qfile.h \
@@ -2169,11 +2192,16 @@ moc_ttile.cpp: ../final/ttile.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qvector2d.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qgraphicsitem.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qeasingcurve.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
+		../final/tenemy.h \
+		../final/thealthpack.h \
 		moc_predefs.h \
 		/opt/Qt/5.15.1/gcc_64/bin/moc
-	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPfinal/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/ttile.h -o moc_ttile.cpp
+	/opt/Qt/5.15.1/gcc_64/bin/moc $(DEFINES) --include /home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/build-final-Desktop_Qt_5_15_1_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/5.15.1/gcc_64/mkspecs/linux-g++ -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/final -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/home/rickycaron/Desktop/MPFinal2/mp20-team-a6-fa/worldLib -I/opt/Qt/5.15.1/gcc_64/include -I/opt/Qt/5.15.1/gcc_64/include/QtWidgets -I/opt/Qt/5.15.1/gcc_64/include/QtGui -I/opt/Qt/5.15.1/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/x86_64-linux-gnu/c++/10 -I/usr/include/c++/10/backward -I/usr/lib/gcc/x86_64-linux-gnu/10/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../final/tscene.h -o moc_tscene.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -2345,16 +2373,17 @@ attack.o: ../final/attack.cpp ../final/attack.h \
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qeasingcurve.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
-		../final/thealthpack.h
+		../final/thealthpack.h \
+		../final/gameoverscene.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o attack.o ../final/attack.cpp
 
 command.o: ../final/command.cpp ../final/command.h \
@@ -2505,16 +2534,17 @@ command.o: ../final/command.cpp ../final/command.h \
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qeasingcurve.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
-		../final/thealthpack.h
+		../final/thealthpack.h \
+		../final/gameoverscene.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o command.o ../final/command.cpp
 
 commandcontroller.o: ../final/commandcontroller.cpp ../final/commandcontroller.h \
@@ -2668,9 +2698,9 @@ commandcontroller.o: ../final/commandcontroller.cpp ../final/commandcontroller.h
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
@@ -2678,6 +2708,7 @@ commandcontroller.o: ../final/commandcontroller.cpp ../final/commandcontroller.h
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
 		../final/thealthpack.h \
+		../final/gameoverscene.h \
 		../final/moveright.h \
 		../final/moveleft.h \
 		../final/moveup.h \
@@ -2834,9 +2865,9 @@ controller.o: ../final/controller.cpp ../final/controller.h \
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
@@ -2844,8 +2875,106 @@ controller.o: ../final/controller.cpp ../final/controller.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
 		../final/thealthpack.h \
+		../final/gameoverscene.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QtDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o controller.o ../final/controller.cpp
+
+gameoverscene.o: ../final/gameoverscene.cpp ../final/gameoverscene.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsScene \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qgraphicsscene.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtgui-config.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringliteral.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringview.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qrgba64.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qline.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpen.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qgraphicsitem.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qset.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpainterpath.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gameoverscene.o ../final/gameoverscene.cpp
 
 genemy.o: ../final/genemy.cpp ../final/genemy.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsPixmapItem \
@@ -3181,16 +3310,17 @@ gotoxy.o: ../final/gotoxy.cpp ../final/gotoxy.h \
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qeasingcurve.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
-		../final/thealthpack.h
+		../final/thealthpack.h \
+		../final/gameoverscene.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gotoxy.o ../final/gotoxy.cpp
 
 gpenemy.o: ../final/gpenemy.cpp ../final/gpenemy.h \
@@ -3597,7 +3727,8 @@ gtile.o: ../final/gtile.cpp ../final/gtile.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/QBrush \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qbrush.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/QPen \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpen.h
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpen.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gtile.o ../final/gtile.cpp
 
 gview.o: ../final/gview.cpp ../final/gview.h \
@@ -3740,9 +3871,9 @@ gview.o: ../final/gview.cpp ../final/gview.h \
 		../final/tscene.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QList \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
@@ -3750,6 +3881,7 @@ gview.o: ../final/gview.cpp ../final/gview.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
 		../final/thealthpack.h \
+		../final/gameoverscene.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QtDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gview.o ../final/gview.cpp
 
@@ -3902,9 +4034,9 @@ help.o: ../final/help.cpp ../final/help.h \
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
@@ -3912,6 +4044,7 @@ help.o: ../final/help.cpp ../final/help.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
 		../final/thealthpack.h \
+		../final/gameoverscene.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QLabel \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qlabel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o help.o ../final/help.cpp
@@ -4063,16 +4196,17 @@ keypresscontroller.o: ../final/keypresscontroller.cpp ../final/keypresscontrolle
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qeasingcurve.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
-		../final/thealthpack.h
+		../final/thealthpack.h \
+		../final/gameoverscene.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o keypresscontroller.o ../final/keypresscontroller.cpp
 
 main.o: ../final/main.cpp ../final/mainwindow.h \
@@ -4228,9 +4362,9 @@ main.o: ../final/main.cpp ../final/mainwindow.h \
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
@@ -4238,6 +4372,7 @@ main.o: ../final/main.cpp ../final/mainwindow.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
 		../final/thealthpack.h \
+		../final/gameoverscene.h \
 		../final/commandcontroller.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QString \
 		../final/command.h \
@@ -4404,9 +4539,9 @@ mainwindow.o: ../final/mainwindow.cpp ../final/mainwindow.h \
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
@@ -4414,6 +4549,7 @@ mainwindow.o: ../final/mainwindow.cpp ../final/mainwindow.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
 		../final/thealthpack.h \
+		../final/gameoverscene.h \
 		../final/commandcontroller.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QString \
 		../final/command.h \
@@ -4706,16 +4842,17 @@ movedown.o: ../final/movedown.cpp ../final/movedown.h \
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qeasingcurve.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
-		../final/thealthpack.h
+		../final/thealthpack.h \
+		../final/gameoverscene.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o movedown.o ../final/movedown.cpp
 
 moveleft.o: ../final/moveleft.cpp ../final/moveleft.h \
@@ -4867,16 +5004,17 @@ moveleft.o: ../final/moveleft.cpp ../final/moveleft.h \
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qeasingcurve.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
-		../final/thealthpack.h
+		../final/thealthpack.h \
+		../final/gameoverscene.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moveleft.o ../final/moveleft.cpp
 
 moveright.o: ../final/moveright.cpp ../final/moveright.h \
@@ -5028,16 +5166,17 @@ moveright.o: ../final/moveright.cpp ../final/moveright.h \
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qeasingcurve.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
-		../final/thealthpack.h
+		../final/thealthpack.h \
+		../final/gameoverscene.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moveright.o ../final/moveright.cpp
 
 moveup.o: ../final/moveup.cpp ../final/moveup.h \
@@ -5189,16 +5328,17 @@ moveup.o: ../final/moveup.cpp ../final/moveup.h \
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qeasingcurve.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
-		../final/thealthpack.h
+		../final/thealthpack.h \
+		../final/gameoverscene.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moveup.o ../final/moveup.cpp
 
 node.o: ../final/node.cpp ../final/node.h \
@@ -5519,16 +5659,17 @@ take.o: ../final/take.cpp ../final/take.h \
 		../final/ghealthpack.h \
 		../final/tscene.h \
 		../final/ttile.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qeasingcurve.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
-		../final/thealthpack.h
+		../final/thealthpack.h \
+		../final/gameoverscene.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o take.o ../final/take.cpp
 
 tenemy.o: ../final/tenemy.cpp ../final/tenemy.h \
@@ -5966,6 +6107,17 @@ tscene.o: ../final/tscene.cpp ../final/tscene.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QObject \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/QImage \
 		../final/ttile.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsRectItem \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qgraphicsitem.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qset.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpainterpath.h \
+		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qwidget.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpalette.h \
@@ -5975,13 +6127,6 @@ tscene.o: ../final/tscene.cpp ../final/tscene.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qcursor.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qkeysequence.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qevent.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qlocale.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qset.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcontiguouscache.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qurl.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qurlquery.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qfile.h \
@@ -5989,9 +6134,6 @@ tscene.o: ../final/tscene.cpp ../final/tscene.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qvector2d.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qgraphicsitem.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpainterpath.h \
-		../final/tprotagonist.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QPropertyAnimation \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qpropertyanimation.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariantanimation.h \
@@ -5999,12 +6141,15 @@ tscene.o: ../final/tscene.cpp ../final/tscene.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qabstractanimation.h \
 		../final/tenemy.h \
 		../final/thealthpack.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/QDebug
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/QDebug \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/QTimer \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qtimer.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qbasictimer.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tscene.o ../final/tscene.cpp
 
 ttile.o: ../final/ttile.cpp ../final/ttile.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QWidget \
-		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsRectItem \
+		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qgraphicsitem.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtguiglobal.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qglobal.h \
@@ -6030,12 +6175,10 @@ ttile.o: ../final/ttile.cpp ../final/ttile.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qversiontagging.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtgui-config.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobject.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobjectdefs.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qnamespace.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobject.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qstring.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qchar.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qbytearray.h \
@@ -6063,56 +6206,45 @@ ttile.o: ../final/ttile.cpp ../final/ttile.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvarlengtharray.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcontainerfwd.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qobject_impl.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmargins.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpaintdevice.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qrect.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsize.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpalette.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qcolor.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qrgb.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qrgba64.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qbrush.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qmatrix.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpolygon.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qregion.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qdatastream.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qline.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtransform.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qimage.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpixelformat.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpixmap.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsharedpointer.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qshareddata.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qhash.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qfont.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qfontmetrics.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qfontinfo.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qcursor.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qkeysequence.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qevent.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qvariant.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmap.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qhash.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qiodevice.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qshareddata.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qset.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qcontiguouscache.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qurl.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qurlquery.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qfile.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtCore/qfiledevice.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qvector2d.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtouchdevice.h \
-		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		/opt/Qt/5.15.1/gcc_64/include/QtWidgets/qgraphicsitem.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qsize.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtCore/qline.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qrgba64.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpixelformat.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/QPainter \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpainter.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qtextoption.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtGui/qpen.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt/5.15.1/gcc_64/include/QtGui/qfontmetrics.h \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QDebug \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/QTimer \
 		/opt/Qt/5.15.1/gcc_64/include/QtCore/qtimer.h \
@@ -6149,8 +6281,8 @@ moc_tenemy.o: moc_tenemy.cpp
 moc_tprotagonist.o: moc_tprotagonist.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_tprotagonist.o moc_tprotagonist.cpp
 
-moc_ttile.o: moc_ttile.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_ttile.o moc_ttile.cpp
+moc_tscene.o: moc_tscene.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_tscene.o moc_tscene.cpp
 
 ####### Install
 

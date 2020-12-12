@@ -51,3 +51,8 @@ void MainWindow::on_lineEdit_editingFinished()
 {
     emit inputCommand(ui->lineEdit->text());
 }
+
+void MainWindow::on_autoplayButton_clicked()
+{
+    model->autoplay();
+}

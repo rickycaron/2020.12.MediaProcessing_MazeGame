@@ -32,6 +32,7 @@ public:
     void consumeEnergy();
     bool setIsChangable(bool);
     bool getIsChangable();
+    void autoplay();
 
 
 private:
@@ -50,12 +51,11 @@ private:
     std::vector<std::shared_ptr<Tile>> healthpacks;
     std::shared_ptr<Pathfinder> pathfinder;
     QStack<std::shared_ptr<Tile>> path;
+    int autonextThing =0;//(0,normal;1 healthpack;2,enemy)
 
     std::vector<std::shared_ptr<Tile>> getNearestHealthpack();
-    float goforhealthpack();
-    std::vector<std::shared_ptr<Tile>> getNearestEnemy();
-    float goforEnemy();
-
+    std::vector<std::shared_ptr<Tile>> getNearestEnemy();  
+    std::shared_ptr<Tile> gotoNearestThing();
 signals:
     void detectedSignal(int type, int index);
 
