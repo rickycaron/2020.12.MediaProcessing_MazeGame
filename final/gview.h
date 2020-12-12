@@ -6,6 +6,7 @@
 #include "gscene.h"
 #include "tscene.h"
 #include "gameoverscene.h"
+#include "gamewinscene.h"
 
 class GView : public QGraphicsView
 {
@@ -20,15 +21,18 @@ public:
      TScene* getTScene();
      int getCurrentScene() const;
      void gameover();
+     void win();
 signals:
      void mouseClickSignal(int x, int y);
      void keyPressSignal(int index);
 
 private:
     int scale;
+    int over{0};
     GScene* gScene;
     TScene* tScene;
     GameoverScene* gameoverScene;
+    GamewinScene* gamewinScene;
     int currentScene;
     // QWidget interface
 protected:

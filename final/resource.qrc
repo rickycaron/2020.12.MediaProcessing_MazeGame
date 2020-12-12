@@ -18,5 +18,6 @@
         <file>images/worldmap4.png</file>
         <file>images/gameover.png</file>
         <file>images/xenemy1.png</file>
+        <file>images/gamewin.png</file>
     </qresource>
 </RCC>

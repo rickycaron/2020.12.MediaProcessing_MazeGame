@@ -33,7 +33,6 @@ public:
     void consumeEnergy();
     bool setIsChangable(bool);
     bool getIsChangable();
-
     std::shared_ptr<XEnemy> getXEnemy() const;
 
 private:
@@ -45,6 +44,7 @@ private:
     //bool isPosional =false;
     int enemyType =NONE;
     int baseScore=1;
+    int numOfEnemies;
     bool readData();
     std::unique_ptr<World> world;
     std::shared_ptr<Protagonist> protagonist;
@@ -62,6 +62,7 @@ signals:
     void xEnemyShown();
     void updateScoreBoard(int);
     void protagonistGetPoisoned();
+    void numOfEnemiesChanged(int);
 private slots:
     void move();
 };

@@ -15,6 +15,7 @@ void GView::createScene(const std::vector<std::shared_ptr<Tile> > &tiles, const 
     tScene = new TScene(this, tiles, protagonist, enemies, penemies, healthpacks, scale, row, col);
 
     gameoverScene = new GameoverScene(this);
+    gamewinScene = new GamewinScene(this);
 
     setScene(gScene);
     currentScene = 1;
@@ -49,6 +50,11 @@ int GView::getCurrentScene() const
 void GView::gameover()
 {
     setScene(gameoverScene);
+}
+
+void GView::win()
+{
+    setScene(gamewinScene);
 }
 
 void GView::keyPressEvent(QKeyEvent *event)

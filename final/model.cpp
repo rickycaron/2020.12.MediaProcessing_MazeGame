@@ -7,6 +7,7 @@ Model::Model(QString fileName):QObject()
 {
     world = std::make_unique<World>();
     world->createWorld(":/images/"+fileName+".png",20,20,0.4);
+    numOfEnemies=21;
     readData();
 }
 
@@ -24,6 +25,11 @@ bool Model::readData()
 
     for(unsigned int i=0; i<tempEnemies.size(); i++){
         std::shared_ptr<Enemy> e = std::move(tempEnemies[i]);
+        connect(e.get(),&Enemy::dead,[=]{
+            numOfEnemies--;
+            qDebug()<<"numOfEnemies = "<<numOfEnemies;
+            emit numOfEnemiesChanged(numOfEnemies);
+        });
         if(dynamic_cast<PEnemy*>(e.get())){
             pEnemies.emplace_back(std::dynamic_pointer_cast<PEnemy>(e));
             connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
@@ -101,6 +107,12 @@ bool Model::readData()
     int speed =2;
     xEnemy = std::make_shared<XEnemy>(normalEnemies[index].get()->getXPos(),normalEnemies[index].get()->getYPos(),
                                                    normalEnemies[index].get()->getValue(),speed,col,row);
+
+    connect(xEnemy.get(),&Enemy::dead,[=]{
+        numOfEnemies--;
+        qDebug()<<"numOfEnemies = "<<numOfEnemies;
+        emit numOfEnemiesChanged(numOfEnemies);
+    });
 
     std::vector<std::unique_ptr<Tile>> tempTiles = world->getTiles();
     for(unsigned int i=0; i<tempTiles.size(); i++){

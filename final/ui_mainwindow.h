@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.15.1
+** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -39,9 +39,8 @@ public:
     QLabel *label_2;
     QProgressBar *energyBar;
     QVBoxLayout *verticalLayout_gameW;
-    QSpacerItem *verticalSpacer_2;
-    QLineEdit *lineEditCommand;
     QLabel *label;
+    QLineEdit *lineEditCommand;
     QVBoxLayout *verticalLayout_2;
     QLCDNumber *scoreBoard;
     QSpacerItem *verticalSpacer;
@@ -56,7 +55,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(800, 800);
+        MainWindow->resize(900, 800);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         horizontalLayout_3 = new QHBoxLayout(centralwidget);
@@ -117,19 +116,15 @@ public:
 
         verticalLayout->addLayout(verticalLayout_gameW);
 
-        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        label = new QLabel(centralwidget);
+        label->setObjectName(QString::fromUtf8("label"));
 
-        verticalLayout->addItem(verticalSpacer_2);
+        verticalLayout->addWidget(label);
 
         lineEditCommand = new QLineEdit(centralwidget);
         lineEditCommand->setObjectName(QString::fromUtf8("lineEditCommand"));
 
         verticalLayout->addWidget(lineEditCommand);
-
-        label = new QLabel(centralwidget);
-        label->setObjectName(QString::fromUtf8("label"));
-
-        verticalLayout->addWidget(label);
 
 
         horizontalLayout_3->addLayout(verticalLayout);
@@ -179,7 +174,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 22));
+        menubar->setGeometry(QRect(0, 0, 900, 26));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));

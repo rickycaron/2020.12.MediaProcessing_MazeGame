@@ -14,6 +14,12 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
         view->getTScene()->redrawPoisonedState();
     });
 
+    connect(model.get(),&Model::numOfEnemiesChanged,[=](int numOfEnemies){
+        if(numOfEnemies==0){
+            qDebug()<<"You win!";
+        }
+    });
+
     connect(model->getProtagonist().get(),&Protagonist::healthChanged,[=](int health){
         if(health<1){
          model->setIsChangable (false);
@@ -41,7 +47,7 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
             }
         }
         else{
-            qDebug()<<"Game Continue from energychanged slot";
+//            qDebug()<<"Game Continue from energychanged slot";
             if(!xEnemyShown){
                 model->setIsChangable (true);
             }
