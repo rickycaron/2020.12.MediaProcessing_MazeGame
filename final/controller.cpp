@@ -17,6 +17,7 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
     connect(model.get(),&Model::numOfEnemiesChanged,[=](int numOfEnemies){
         if(numOfEnemies==0){
             qDebug()<<"You win!";
+            gameState=1;
         }
     });
 
@@ -24,6 +25,7 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
         if(health<1){
          model->setIsChangable (false);
          qDebug()<<"Game Over";
+         gameState=-1;
          updateEnergyTimer->stop();
          model->getProtagonist()->setEnergy(0);
          view->gameover();
@@ -234,6 +236,10 @@ void Controller::autoplay()
         take();
         attack();
     });
-
+    QTimer::singleShot(1000, this, [=]{
+        if(gameState==0){
+            autoplay();
+        }
+    });
 }
 

@@ -412,7 +412,7 @@ void Model::move()
         emit detectedSignal(NONE,-1);
         protagonist->setPos(nextTile->getXPos(),nextTile->getYPos());
         consumeEnergy();
-        QTimer::singleShot(1000, this, &Model::move);
+        QTimer::singleShot(500, this, &Model::move);
     }else{
         emit moveFinished();
         qDebug()<<"Finish!";

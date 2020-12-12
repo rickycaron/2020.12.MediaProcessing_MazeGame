@@ -37,6 +37,7 @@ private:
     int detectedPEnemyIndex=-1;
     int detectedHealthPack=-1;
     int detectedXEnemyIndex=-1;
+    int gameState=0;
 
 public slots:
     void detected(int type, int index);
