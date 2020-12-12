@@ -201,11 +201,11 @@ bool Pathfinder::calcPath_BreadthFirst()
     //when there are still nodes left in the op
     if(openlist.size())
     {
-        qDebug("Path is found!!!");
+        //qDebug("Path is found!!!");
         generateSolution();
     }else
     {
-        qDebug("BreathFirst: Path is not found in the end!!!!");
+        //qDebug("BreathFirst: Path is not found in the end!!!!");
         return false;
     }
     return true;
@@ -456,11 +456,11 @@ bool Pathfinder::calcPath_Astar()
     //when there are still nodes left in the op
     if(openlist.size())
     {
-        qDebug("A*: Path  is found!!!");
+        //qDebug("A*: Path  is found!!!");
         generateSolution();
     }else
     {
-        qDebug("A*: Path is not found in the end!!!!");
+        //qDebug("A*: Path is not found in the end!!!!");
         return false;
     }
     return true;
@@ -601,23 +601,23 @@ QStack<std::shared_ptr<Tile> > Pathfinder::findpath(int sx, int sy, int x, int y
     initializePathfinder(sx, sy,x,y);
     if(sx == x && sy == y)
     {
-       std::cout<<"You are alreay here! No need for pathfinding!"<<std::endl;
+       //std::cout<<"You are alreay here! No need for pathfinding!"<<std::endl;
        return solution;
     }
-    showAllContainers();
+    //showAllContainers();
     if(!checkReachable(x,y))
     {
-        std::cout<<"The goal is unreachable, it is wall!"<<std::endl;
+        //std::cout<<"The goal is unreachable, it is wall!"<<std::endl;
         return solution;
     }
     if(calcPath_Astar())
     {
-        std::cout<<"Path A* is found ahaha"<<std::endl;
-        showsolutionpath();
+        //std::cout<<"Path A* is found ahaha"<<std::endl;
+        //showsolutionpath();
     }else{
-        std::cout<<"Oh, no, Path A*  is not found..."<<std::endl;
+        //std::cout<<"Oh, no, Path A*  is not found..."<<std::endl;
     }
-    showAllContainers();
+    //showAllContainers();
     return solution;
 }
 

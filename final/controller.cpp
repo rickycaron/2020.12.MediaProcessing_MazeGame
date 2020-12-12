@@ -231,17 +231,15 @@ void Controller::gotoXY(int x, int y)
 void Controller::autoplay()
 {
     auto goalTile = model->gotoNearestThing();
-    gotoXY(goalTile->getXPos(),goalTile->getYPos());
-    //qDebug()<<"1111111111111111111111111111111111111111111111111111111!";
+    gotoXY(goalTile->getXPos(),goalTile->getYPos());   
     connect(model.get(),&Model::moveFinished,[=](){
         take();
-        //qDebug()<<"WE gor here!";
         attack();
     });
-    QTimer::singleShot(1000, this, [=]{
-        if(gameState==0){
-            autoplay();
-        }
-    });
+//    QTimer::singleShot(1000, this, [=]{
+//        if(gameState==0){
+//            autoplay();
+//        }
+//    });
 }
 

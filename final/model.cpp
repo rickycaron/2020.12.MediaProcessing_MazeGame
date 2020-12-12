@@ -31,8 +31,8 @@ bool Model::readData()
     for(unsigned int i=0; i<tempEnemies.size(); i++){
         std::shared_ptr<Enemy> e = std::move(tempEnemies[i]);
         connect(e.get(),&Enemy::dead,[=]{
-            numOfEnemies--;
-            qDebug()<<"numOfEnemies is ="<<numOfEnemies;
+            numOfEnemies--;            
+            qDebug()<<"NORMAL numOfEnemies is ="<<numOfEnemies;
             emit numOfEnemiesChanged(numOfEnemies);
         });
         if(dynamic_cast<PEnemy*>(e.get())){
@@ -208,7 +208,6 @@ std::vector<std::shared_ptr<Node>> Model::getNearestEnemy()
         if( (*i)->getPoisonLevel()!=0 )
         //if(!(*i)->getDefeated() )
         {
-            qDebug()<<"6666666666666666666666666666666666";
             auto penemy = std::make_shared<Node>(*i,protagonistNode);
             penemy->calculateDistance();
             penemy->setTileType(PENEMY);
@@ -417,7 +416,7 @@ void Model::move()
         QTimer::singleShot(500, this, &Model::move);
     }else{
         emit moveFinished();
-        qDebug()<<"Finish!";
+        //qDebug()<<"Finish!";
     }
 }
 
@@ -425,7 +424,7 @@ void Model::gotoXY(int x, int y)
 {
     if(isChangable){
         if(isOutside(x,y)){
-            qDebug()<<"outside the world!";
+            //qDebug()<<"outside the world!";
         }
         else
         {
@@ -449,7 +448,7 @@ void Model::consumeEnergy()
         protagonist->setEnergy(protagonist->getEnergy()-tileValue);
     }
 //    protagonist->setEnergy(protagonist->getEnergy()-tiles[index]->getValue());
-    qDebug()<<"Energy: "<<protagonist->getEnergy()<<",Health: "<<protagonist->getHealth();
+    //qDebug()<<"Energy: "<<protagonist->getEnergy()<<",Health: "<<protagonist->getHealth();
 }
 
 //These two function will excute if checking success in controller
@@ -472,9 +471,8 @@ void Model::attack(int index)
                 protagonist->setHealth(currentHealth);
                 protagonist->setEnergy(currentEnergy);
     //            protagonist->setEnergy(maxEH); //return back
-                qDebug("1111111111111111111111111111111111111111111111!");
                 qDebug()<<"Attack an enemy, enemy strength:"<<normalEnemies[index]->getValue();
-                qDebug()<<"Energy:"<<protagonist->getEnergy()<<", health:"<<protagonist->getHealth();
+                //qDebug()<<"Energy:"<<protagonist->getEnergy()<<", health:"<<protagonist->getHealth();
             }
             break;
         case PENEMY:
