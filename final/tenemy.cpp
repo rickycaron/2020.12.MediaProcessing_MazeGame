@@ -3,21 +3,34 @@
 #include <QColor>
 #include <QDebug>
 
-TEnemy::TEnemy(int x, int y, int i, int scale, bool isP) : QGraphicsTextItem()
+TEnemy::TEnemy(int xPos, int yPos, int scale, int enemyType) : QGraphicsTextItem()
 {
-    xPos = x;
-    yPos = y;
-    index = i;
+    this->xPos = xPos;
+    this->yPos = yPos;
     this->scale=scale;
     setPlainText("E");
     setPos(scale*xPos, scale*yPos);
-    isPEnemy = isP;
-    if(isP){
-        QFont myfont;
+    this->enemyType = enemyType;
+
+    QFont myfont;
+    switch (this->enemyType) {
+    case 1:
         myfont.setBold(true);
         setFont(myfont);
         setDefaultTextColor(QColorConstants::Blue);
+        break;
+    case 2:
+        myfont.setBold(true);
+        setFont(myfont);
+        setDefaultTextColor(QColorConstants::Green);
+        setPlainText("X");
+        break;
     }
+}
+
+void TEnemy::resetPos(int newX, int newY)
+{
+    setPos(newX*scale,newY*scale);
 }
 
 QRectF TEnemy::boundingRect() const

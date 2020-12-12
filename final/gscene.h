@@ -24,11 +24,8 @@ public:
     void printPEnemies(const std::vector<std::shared_ptr<PEnemy>> &penemies);
     void printXEnemy(const std::shared_ptr<XEnemy> &xEnemy);
     void printHealthpacks(const std::vector<std::shared_ptr<Tile>> &healthpacks);
-    int detectEnemy();
-    int detectHealthpack();
     void redrawHealthpack(int index);
     void changeProtagonistImage(int);
-    void setDeath(int,int);
     void setTilePoison(int index);
 
 signals:

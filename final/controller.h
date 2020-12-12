@@ -36,8 +36,7 @@ private:
     int detectedEnemyIndex=-1;
     int detectedPEnemyIndex=-1;
     int detectedHealthPack=-1;
-signals:
-    void gameOver();
+    int detectedXEnemyIndex=-1;
 
 public slots:
     void detected(int type, int index);

@@ -15,6 +15,7 @@ void GView::createScene(const std::vector<std::shared_ptr<Tile> > &tiles, const 
     tScene = new TScene(this, tiles, protagonist, enemies, penemies, healthpacks, scale, row, col);
 
     gameoverScene = new GameoverScene(this);
+    gamewinScene = new GamewinScene(this);
 
     setScene(gScene);
     currentScene = 1;
@@ -51,6 +52,11 @@ void GView::gameover()
     setScene(gameoverScene);
 }
 
+void GView::win()
+{
+    setScene(gamewinScene);
+}
+
 void GView::keyPressEvent(QKeyEvent *event)
 {
     //    qDebug()<<"key is pressed1";
@@ -82,22 +88,24 @@ void GView::keyPressEvent(QKeyEvent *event)
 
 void GView::mousePressEvent(QMouseEvent *event)
 {
-    int x;
-    int y;
-    //if(mapToScene(event->pos()).x()>0&&mapToScene(event->pos()).y()>0){
-    if(mapToScene(event->pos()).x()>0){
-        x = static_cast<int>(mapToScene(event->pos()).x()/20);
-    }
-    else{
-        x = static_cast<int>(mapToScene(event->pos()).x()/20)-1;
-    }
+    if(event->button() == Qt::LeftButton){
+        int x;
+        int y;
+        //if(mapToScene(event->pos()).x()>0&&mapToScene(event->pos()).y()>0){
+        if(mapToScene(event->pos()).x()>0){
+            x = static_cast<int>(mapToScene(event->pos()).x()/20);
+        }
+        else{
+            x = static_cast<int>(mapToScene(event->pos()).x()/20)-1;
+        }
 
-    if(mapToScene(event->pos()).y()>0){
-        y = static_cast<int>(mapToScene(event->pos()).y()/20);
+        if(mapToScene(event->pos()).y()>0){
+            y = static_cast<int>(mapToScene(event->pos()).y()/20);
+        }
+        else{
+            y = static_cast<int>(mapToScene(event->pos()).y()/20)-1;
+        }
+        //qDebug()<<"x="<<x<<", y="<<y;
+        emit mouseClickSignal(x,y);
     }
-    else{
-        y = static_cast<int>(mapToScene(event->pos()).y()/20)-1;
-    }
-    //qDebug()<<"x="<<x<<", y="<<y;
-    emit mouseClickSignal(x,y);
 }

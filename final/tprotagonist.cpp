@@ -17,19 +17,19 @@ QRectF TProtagonist::boundingRect() const
     return QRectF(0,0,scale,scale);
 }
 
-void TProtagonist::getPoisoned(float poisonLevel)
+void TProtagonist::getPoisoned()
 {
-    if(poisonLevel>0){
-        setDefaultTextColor(QColorConstants::Blue);
-        qDebug()<<"get poisoned, poisonlevel "<<poisonLevel;
-    }else{
-        setDefaultTextColor(QColorConstants::Black);
-    }
+    setDefaultTextColor(QColorConstants::Red);
+}
+
+void TProtagonist::reset()
+{
+    setDefaultTextColor(QColorConstants::Black);
 }
 
 void TProtagonist::checkState(int value)
 {
     if(value<=0){
-        setDefaultTextColor(QColorConstants::Red);
+        setDefaultTextColor(QColorConstants::Gray);
     }
 }

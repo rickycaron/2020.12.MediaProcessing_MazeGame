@@ -34,8 +34,6 @@ public:
     bool setIsChangable(bool);
     bool getIsChangable();
     std::shared_ptr<Tile> gotoNearestThing();
-
-
     std::shared_ptr<XEnemy> getXEnemy() const;
     type getEnemyType() const;
 
@@ -48,6 +46,9 @@ private:
     bool isChangable =true;
     //bool isPosional =false;
     enum type enemyType =NONE;
+    int baseScore=1;
+    int numOfEnemies;
+
     bool readData();
     std::unique_ptr<World> world;
     std::shared_ptr<Protagonist> protagonist;
@@ -70,6 +71,10 @@ signals:
     void poisonTilesPermanent(int);
     void xEnemyShown();
     void moveFinished();
+    void updateScoreBoard(int);
+    void protagonistGetPoisoned();
+    void numOfEnemiesChanged(int);
+
 private slots:
     void move();
 };

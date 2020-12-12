@@ -14,6 +14,7 @@ SOURCES += \
     commandcontroller.cpp \
     controller.cpp \
     gameoverscene.cpp \
+    gamewinscene.cpp \
     genemy.cpp \
     ghealthpack.cpp \
     gotoxy.cpp \
@@ -50,6 +51,7 @@ HEADERS += \
     config.h \
     controller.h \
     gameoverscene.h \
+    gamewinscene.h \
     genemy.h \
     ghealthpack.h \
     gotoxy.h \
@@ -80,6 +82,8 @@ HEADERS += \
 
 FORMS += \
     mainwindow.ui
+
+UI_DIR = $$PWD
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

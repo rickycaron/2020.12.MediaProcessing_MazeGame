@@ -18,15 +18,20 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void initializeGame(QString);
 signals:
     void inputCommand(QString commandtext);
 private slots:
     void on_changeSceneButton_clicked();
-    void on_lineEdit_editingFinished();
+    void on_pushButton_clicked();
+    void on_lineEditCommand_editingFinished();
+    void on_lineEditChangeMap_editingFinished();
+
 
     void on_autoplayButton_clicked();
 
 private:
+    QString currentFile;
     Ui::MainWindow *ui;
     GView* view;
     std::shared_ptr<Controller> controller;

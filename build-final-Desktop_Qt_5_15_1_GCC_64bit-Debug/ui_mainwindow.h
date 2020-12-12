@@ -12,6 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLCDNumber>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
@@ -30,20 +31,21 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QHBoxLayout *horizontalLayout_3;
-    QVBoxLayout *verticalLayout_2;
+    QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
     QLabel *label_2;
     QProgressBar *energyBar;
     QHBoxLayout *horizontalLayout_2;
     QLabel *label_3;
     QProgressBar *healthBar;
-    QVBoxLayout *verticalLayout;
     QLabel *label;
     QLineEdit *lineEdit;
     QVBoxLayout *verticalLayout_3;
+    QLCDNumber *lcdNumber;
     QSpacerItem *verticalSpacer;
     QPushButton *changeSceneButton;
     QPushButton *autoplayButton;
+    QPushButton *pushButton;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -56,8 +58,8 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         horizontalLayout_3 = new QHBoxLayout(centralwidget);
         horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
-        verticalLayout_2 = new QVBoxLayout();
-        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         label_2 = new QLabel(centralwidget);
@@ -80,7 +82,7 @@ public:
         horizontalLayout->addWidget(energyBar);
 
 
-        verticalLayout_2->addLayout(horizontalLayout);
+        verticalLayout->addLayout(horizontalLayout);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
@@ -105,28 +107,28 @@ public:
         horizontalLayout_2->addWidget(healthBar);
 
 
-        verticalLayout_2->addLayout(horizontalLayout_2);
-
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-
-        verticalLayout_2->addLayout(verticalLayout);
+        verticalLayout->addLayout(horizontalLayout_2);
 
         label = new QLabel(centralwidget);
         label->setObjectName(QString::fromUtf8("label"));
 
-        verticalLayout_2->addWidget(label);
+        verticalLayout->addWidget(label);
 
         lineEdit = new QLineEdit(centralwidget);
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
 
-        verticalLayout_2->addWidget(lineEdit);
+        verticalLayout->addWidget(lineEdit);
 
 
-        horizontalLayout_3->addLayout(verticalLayout_2);
+        horizontalLayout_3->addLayout(verticalLayout);
 
         verticalLayout_3 = new QVBoxLayout();
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
+        lcdNumber = new QLCDNumber(centralwidget);
+        lcdNumber->setObjectName(QString::fromUtf8("lcdNumber"));
+
+        verticalLayout_3->addWidget(lcdNumber);
+
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout_3->addItem(verticalSpacer);
@@ -146,13 +148,18 @@ public:
 
         verticalLayout_3->addWidget(autoplayButton);
 
+        pushButton = new QPushButton(centralwidget);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+
+        verticalLayout_3->addWidget(pushButton);
+
 
         horizontalLayout_3->addLayout(verticalLayout_3);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 26));
+        menubar->setGeometry(QRect(0, 0, 800, 22));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -169,8 +176,9 @@ public:
         label_2->setText(QCoreApplication::translate("MainWindow", "Energy", nullptr));
         label_3->setText(QCoreApplication::translate("MainWindow", "Health", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
-        changeSceneButton->setText(QCoreApplication::translate("MainWindow", "changeScene", nullptr));
+        changeSceneButton->setText(QCoreApplication::translate("MainWindow", "ChangeScene", nullptr));
         autoplayButton->setText(QCoreApplication::translate("MainWindow", "Autoplay", nullptr));
+        pushButton->setText(QCoreApplication::translate("MainWindow", "Restart", nullptr));
     } // retranslateUi
 
 };

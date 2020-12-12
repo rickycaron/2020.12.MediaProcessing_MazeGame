@@ -5,17 +5,10 @@
 
 Model::Model(QString fileName):QObject()
 {
-
     world = std::make_unique<World>();
-//    world->createWorld("://images/" +fileName+".png",10,10,0.25);
-
-//    world->createWorld("/home/shuai/Desktop/libfinal/" + fileName + ".png",22,22,0.25);
-//    world->createWorld(":/images/worldmap4.png",22,22,0.25);
-
-//    world->createWorld("/home/shuai/Desktop/libfinal/" + fileName + ".png",22,22,0.25);
-    world->createWorld(":/images/worldmap.png",20,20,0.4);
+    world->createWorld(":/images/"+fileName+".png",20,20,0.4);
+    numOfEnemies=21;
     readData();
-    //qDebug()<<"3333";
 }
 
 bool Model::readData()
@@ -25,12 +18,11 @@ bool Model::readData()
     col=world->getCols();
     protagonist = world->getProtagonist();
     maxEH = protagonist->getEnergy();
+
 //    std::vector<std::unique_ptr<Tile>> tempTiles = world->getTiles();
 //    for(unsigned int i=0; i<tempTiles.size(); i++){
 //        tiles.emplace_back(std::move(tempTiles[i]));
 //    }
-
-
 
     std::vector<std::unique_ptr<Enemy>> tempEnemies = world->getEnemies();
     int indexOfEnermy =0;
@@ -38,6 +30,11 @@ bool Model::readData()
 
     for(unsigned int i=0; i<tempEnemies.size(); i++){
         std::shared_ptr<Enemy> e = std::move(tempEnemies[i]);
+        connect(e.get(),&Enemy::dead,[=]{
+            numOfEnemies--;
+            qDebug()<<"numOfEnemies = "<<numOfEnemies;
+            emit numOfEnemiesChanged(numOfEnemies);
+        });
         if(dynamic_cast<PEnemy*>(e.get())){
             pEnemies.emplace_back(std::dynamic_pointer_cast<PEnemy>(e));
             connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
@@ -48,9 +45,10 @@ bool Model::readData()
                 }
             });
 
+
             connect(pEnemies[indexOfPEnermy].get(),&PEnemy::poisonLevelUpdated,[=](int poisonLevel){
                    int pEXPosion = pEnemies[indexOfPEnermy].get()->getXPos();
-                   int pEYPosion = pEnemies[indexOfPEnermy].get()->getYPos();
+                   int pEYPosion = pEnemies[indexOfPEnermy].get()->getYPos(); //here can be used to modify born place
                    int xPos = protagonist.get()->getXPos();
                    int yPos=protagonist.get()->getYPos();
 
@@ -66,6 +64,7 @@ bool Model::readData()
                         }
                         else{
                             protagonist.get()->setHealth(currentHealth);
+                            emit protagonistGetPoisoned();
                         }
                     }
             });
@@ -114,6 +113,12 @@ bool Model::readData()
     xEnemy = std::make_shared<XEnemy>(normalEnemies[index].get()->getXPos(),normalEnemies[index].get()->getYPos(),
                                                    normalEnemies[index].get()->getValue(),speed,col,row);
 
+    connect(xEnemy.get(),&Enemy::dead,[=]{
+        numOfEnemies--;
+        qDebug()<<"numOfEnemies = "<<numOfEnemies;
+        emit numOfEnemiesChanged(numOfEnemies);
+    });
+
     std::vector<std::unique_ptr<Tile>> tempTiles = world->getTiles();
     for(unsigned int i=0; i<tempTiles.size(); i++){
         tiles.emplace_back(std::move(tempTiles[i]));
@@ -136,9 +141,11 @@ bool Model::readData()
 
             }
 
+
         });
     } 
     pathfinder=std::make_shared<Pathfinder>(row,col,tiles);
+
     std::vector<std::unique_ptr<Tile>> tempHealthpacks = world->getHealthPacks();
     for(unsigned int i=0; i<tempHealthpacks.size(); i++){
         std::shared_ptr<Tile> e = std::move(tempHealthpacks[i]);
@@ -420,7 +427,7 @@ void Model::gotoXY(int x, int y)
         }
         else
         {
-            qDebug()<<"go to "<<x<<","<<y;
+            //qDebug()<<"go to "<<x<<","<<y;
             path = pathfinder->findpath(protagonist->getXPos(),protagonist->getYPos(),x,y);
             move();
         }
@@ -432,7 +439,14 @@ void Model::gotoXY(int x, int y)
 void Model::consumeEnergy()
 {
     int index = protagonist->getYPos()*world->getCols()+protagonist->getXPos();
-    protagonist->setEnergy(protagonist->getEnergy()-tiles[index]->getValue());
+    float tileValue = tiles[index]->getValue();
+    if(tileValue<0){
+        protagonist->setEnergy(protagonist->getEnergy()+tileValue);
+    }
+    else{
+        protagonist->setEnergy(protagonist->getEnergy()-tileValue);
+    }
+//    protagonist->setEnergy(protagonist->getEnergy()-tiles[index]->getValue());
     qDebug()<<"Energy: "<<protagonist->getEnergy()<<",Health: "<<protagonist->getHealth();
 }
 
@@ -448,6 +462,7 @@ void Model::attack(int index)
                 qDebug()<<"The enemy is already dead";
             }else{
                 normalEnemies[index]->setDefeated(true);
+                emit updateScoreBoard(baseScore);
                 float currentHealth = protagonist->getHealth()-difficulty*(normalEnemies[index]->getValue());
                 float currentEnergy = protagonist->getEnergy()-difficulty*(normalEnemies[index]->getValue());
                 if(currentHealth<0){currentHealth=0;}
@@ -462,6 +477,7 @@ void Model::attack(int index)
             break;
         case PENEMY:
             qDebug()<<"attacking p enemy.";
+            emit updateScoreBoard(2*baseScore);
             if(pEnemies[index]->getPoisonLevel()!=0){
                 pEnemies[index]->poison();
 //                animation part
@@ -480,6 +496,8 @@ void Model::attack(int index)
             else if(currentLife==-1){
                 qDebug()<<"This x enemy is killed by you.";
                 xEnemy->setDefeated(true);
+                emit updateScoreBoard(3*baseScore);
+
             }
             else{
                 qDebug()<<"This enemy is already dead.";
@@ -493,6 +511,7 @@ int Model::take(int index)
 {
     if(index==-1){
         qDebug()<<"No healthpack.";
+        return index;
     }else{
         if(healthpacks[index]->getValue()==0){qDebug()<< "this is a empty healthpacks"; return -1;}
         float currentHealth = protagonist->getHealth()+healthpacks[index]->getValue();
@@ -504,8 +523,6 @@ int Model::take(int index)
         qDebug()<<"Take a healthpack, content:"<<healthpacks[index]->getValue()<<", health:"<<protagonist->getHealth();
         healthpacks[index]->setValue(0);
         return index;
-//        scene->redrawHealthpack(index);
     }
-    return index;
 }
 

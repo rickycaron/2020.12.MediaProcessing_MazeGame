@@ -8,9 +8,21 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     view  = new GView(this);
-    ui->verticalLayout->addWidget(view);
+    ui->verticalLayout_gameW->addWidget(view);
+    currentFile = QString("worldmap");
+    initializeGame(currentFile);
+}
 
-    model = std::make_shared<Model>(QString("worldmap4"));
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+
+void MainWindow::initializeGame(QString fileName)
+{
+
+    model = std::make_shared<Model>(fileName);
     controller = std::make_shared<Controller>(model,view,this);
     keypressController = std::make_shared<KeypressController>(controller,this);
     commandController = std::make_shared<CommandController>(controller,ui->label,this);
@@ -19,40 +31,63 @@ MainWindow::MainWindow(QWidget *parent)
     ui->healthBar->setValue(100);
     connect(model->getProtagonist().get(),&Protagonist::energyChanged,ui->energyBar,&QProgressBar::setValue);
     connect(model->getProtagonist().get(),&Protagonist::healthChanged,ui->healthBar,&QProgressBar::setValue);
+    connect(model.get(),&Model::updateScoreBoard,[=](int score){
+        qDebug()<<score;
+        int currentScore = ui->scoreBoard->value();
+        ui->scoreBoard->display(currentScore+score);
+    });
 
     //auto completion
     editList<<"right"<<"left"<<"up"<<"down"<<"go to "<<"attack"<<"take"<<"help";
     QCompleter *completer = new QCompleter(editList, this);
     completer->setCompletionMode(QCompleter::InlineCompletion);
-    ui->lineEdit->setCompleter(completer);
-    ui->lineEdit->setEnabled(false);
+    ui->lineEditCommand->setCompleter(completer);
+    ui->lineEditCommand->setEnabled(false);
     ui->label->setText(" ");
-}
 
-MainWindow::~MainWindow()
-{
-    delete ui;
+    ui->scoreBoard->setDigitCount(6);
+    ui->scoreBoard->setSmallDecimalPoint(false);
+    ui->scoreBoard->display(0);
 }
 
 void MainWindow::on_changeSceneButton_clicked()
 {
+
     view->switchScene();
     if(view->getCurrentScene()==2){
-        ui->lineEdit->setEnabled(true);
+        ui->lineEditCommand->setEnabled(true);
     }
     else{
-        ui->lineEdit->setText("");
-        ui->lineEdit->setEnabled(false);
+        ui->lineEditCommand->setText("");
+        ui->lineEditCommand->setEnabled(false);
         ui->label->setText(" ");
     }
 }
 
-void MainWindow::on_lineEdit_editingFinished()
+
+void MainWindow::on_pushButton_clicked()
 {
-    emit inputCommand(ui->lineEdit->text());
+    initializeGame(currentFile);
 }
+
 
 void MainWindow::on_autoplayButton_clicked()
 {
     controller->autoplay();
 }
+
+void MainWindow::on_lineEditCommand_editingFinished()
+{
+    emit inputCommand(ui->lineEditCommand->text());
+
+}
+
+void MainWindow::on_lineEditChangeMap_editingFinished()
+{
+     qDebug()<<"some thing is typed in  " + ui->lineEditChangeMap->text();
+     //there should be a checking function before change file name
+     currentFile = QString(ui->lineEditChangeMap->text());
+     initializeGame(currentFile);
+}
+
+
