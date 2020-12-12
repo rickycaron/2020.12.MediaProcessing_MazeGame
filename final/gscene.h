@@ -10,6 +10,7 @@
 #include"gprotagonist.h"
 #include"ghealthpack.h"
 #include"world.h"
+#include "gxenemy.h"
 
 class GScene : public QGraphicsScene
 {
@@ -21,12 +22,14 @@ public:
     void printProtagonist(const std::shared_ptr<Protagonist> &protagonist);
     void printEnemies(const std::vector<std::shared_ptr<Enemy>> &enemies);
     void printPEnemies(const std::vector<std::shared_ptr<PEnemy>> &penemies);
+    void printXEnemy(const std::shared_ptr<XEnemy> &xEnemy);
     void printHealthpacks(const std::vector<std::shared_ptr<Tile>> &healthpacks);
     int detectEnemy();
     int detectHealthpack();
     void redrawHealthpack(int index);
     void changeProtagonistImage(int);
     void setDeath(int,int);
+    void setTilePoison(int index);
 
 signals:
 void poisonTile(int,int,int);
@@ -35,6 +38,7 @@ private:
     int scale=1;
     QList<GTile *> tileQlist;
     GProtagonist *protagonistView;
+    GXEnemy* gXEnemyView;
     QList<GEnemy *> enemyQlist;
     QList<GPEnemy *> penemyQlist;
     QList<GHealthpack *> healthpackQlist;

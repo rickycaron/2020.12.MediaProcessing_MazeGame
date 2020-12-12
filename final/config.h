@@ -18,7 +18,7 @@
 
 
 enum axis{X=0,Y=1};
-enum type{NONE=-1,ENEMY=0,PENEMY,HEALTHPACK};
+enum type{NONE=-1,ENEMY=0,PENEMY,HEALTHPACK,XENEMY};
 enum sign{POSITIVE=1,NEGATIVE=-1};
 enum direction{UP=0,DOWN,LEFT,RIGHT,TAKE,ATTACK,ENTER};
 

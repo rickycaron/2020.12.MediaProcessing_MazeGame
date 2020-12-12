@@ -34,26 +34,31 @@ public:
     bool setIsChangable(bool);
     bool getIsChangable();
 
+    std::shared_ptr<XEnemy> getXEnemy() const;
+
 private:
     float difficulty{0.1};
     float maxEH;
     int row = 0;
     int col = 0;
     bool isChangable =true;
-    bool isPosional =false;
+    //bool isPosional =false;
+    int enemyType =NONE;
     bool readData();
     std::unique_ptr<World> world;
     std::shared_ptr<Protagonist> protagonist;
     std::vector<std::shared_ptr<Tile>> tiles;
     std::vector<std::shared_ptr<Enemy>> normalEnemies;
     std::vector<std::shared_ptr<PEnemy>> pEnemies;
+    std::shared_ptr<XEnemy> xEnemy;
     std::vector<std::shared_ptr<Tile>> healthpacks;
     std::shared_ptr<Pathfinder> pathfinder;
     QStack<std::shared_ptr<Tile>> path;
 
 signals:
     void detectedSignal(int type, int index);
-
+    void poisonTilesPermanent(int);
+    void xEnemyShown();
 private slots:
     void move();
 };

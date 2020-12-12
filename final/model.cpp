@@ -13,7 +13,7 @@ Model::Model(QString fileName):QObject()
 //    world->createWorld(":/images/worldmap4.png",22,22,0.25);
 
 //    world->createWorld("/home/shuai/Desktop/libfinal/" + fileName + ".png",22,22,0.25);
-    world->createWorld(":/images/worldmap.png",30,20,0.4);
+    world->createWorld(":/images/worldmap.png",20,20,0.4);
     readData();
     //qDebug()<<"3333";
 }
@@ -25,10 +25,10 @@ bool Model::readData()
     col=world->getCols();
     protagonist = world->getProtagonist();
     maxEH = protagonist->getEnergy();
-    std::vector<std::unique_ptr<Tile>> tempTiles = world->getTiles();
-    for(unsigned int i=0; i<tempTiles.size(); i++){
-        tiles.emplace_back(std::move(tempTiles[i]));
-    }
+//    std::vector<std::unique_ptr<Tile>> tempTiles = world->getTiles();
+//    for(unsigned int i=0; i<tempTiles.size(); i++){
+//        tiles.emplace_back(std::move(tempTiles[i]));
+//    }
 
     pathfinder=std::make_shared<Pathfinder>(row,col,tiles);
 
@@ -43,7 +43,7 @@ bool Model::readData()
             connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
                 if(x==e->getXPos()&&y==e->getYPos()){
                     qDebug()<< "there is an posional enermy";
-                    this->isPosional = true;
+                    this->enemyType = PENEMY;
                     emit detectedSignal(PENEMY,indexOfPEnermy);
                 }
             });
@@ -75,7 +75,7 @@ bool Model::readData()
             connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
                 if(x==e->getXPos()&&y==e->getYPos()){
                     qDebug()<< "there is an normal enermy";
-                    this->isPosional = false;
+                    this->enemyType = ENEMY;
                     emit detectedSignal(ENEMY,indexOfEnermy);
                 }
             });
@@ -94,6 +94,50 @@ bool Model::readData()
     qDebug()<< "starting x position is"<< normalEnemies[index].get()->getXPos();
     qDebug()<< "starting y position is"<< normalEnemies[index].get()->getYPos();
 
+    //The X enemy will show up, doing settings then
+    connect(normalEnemies[index].get(),&Enemy::dead,[=]{
+        qDebug()<< "the chosen enemy is dead now";
+        emit xEnemyShown();
+
+        connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
+            if(x==xEnemy->getXPos()&&y==xEnemy->getYPos()){
+                qDebug()<< "there is an X enermy";
+                this->enemyType = XENEMY;
+                emit detectedSignal(XENEMY,index);
+            }
+        });
+        qDebug()<< "the Xenemy xpos is"<<xEnemy->getXPos();
+
+    });
+
+    int speed =2;
+    xEnemy = std::make_shared<XEnemy>(normalEnemies[index].get()->getXPos(),normalEnemies[index].get()->getYPos(),
+                                                   normalEnemies[index].get()->getValue(),speed,col,row);
+
+    std::vector<std::unique_ptr<Tile>> tempTiles = world->getTiles();
+    for(unsigned int i=0; i<tempTiles.size(); i++){
+        tiles.emplace_back(std::move(tempTiles[i]));
+        connect(xEnemy.get(),&XEnemy::posChanged,[=](int x,int y){
+            if(x==tiles[i]->getXPos()&&y==tiles[i]->getYPos()){
+//                    qDebug()<< "poison the tile permanently";
+                qDebug()<< "Is changable state is"<< getIsChangable();
+                emit poisonTilesPermanent(i);
+                tiles[i]->setValue(-1);
+            }
+        });
+        //get poisoned on poisoned tile
+        connect(getProtagonist().get(),&Protagonist::posChanged,[=](int x,int y){
+            if(x==tiles[i]->getXPos()&&y==tiles[i]->getYPos()){
+                float tileValue = tiles[i]->getValue();
+                if(tileValue<0){
+                    float currentHealth = protagonist->getHealth();
+                    protagonist->setHealth(currentHealth-2);
+                }
+
+            }
+        });
+    }
+
     std::vector<std::unique_ptr<Tile>> tempHealthpacks = world->getHealthPacks();
     for(unsigned int i=0; i<tempHealthpacks.size(); i++){
         std::shared_ptr<Tile> e = std::move(tempHealthpacks[i]);
@@ -109,6 +153,11 @@ bool Model::readData()
         return false;
     }
     return true;
+}
+
+std::shared_ptr<XEnemy> Model::getXEnemy() const
+{
+    return xEnemy;
 }
 
 bool Model::setIsChangable(bool status)
@@ -262,12 +311,11 @@ void Model::consumeEnergy()
 //These two function will excute if checking success in controller
 void Model::attack(int index)
 {
-qDebug()<<isPosional;
     if(index==-1){
         qDebug()<<"No enemy.";
     }else{
-        switch (isPosional) {
-        case false:
+        switch (enemyType) {
+        case ENEMY:
             if(normalEnemies[index]->getDefeated()){
                 qDebug()<<"The enemy is already dead";
             }else{
@@ -283,7 +331,7 @@ qDebug()<<isPosional;
                 qDebug()<<"Energy:"<<protagonist->getEnergy()<<", health:"<<protagonist->getHealth();
             }
             break;
-        case true:
+        case PENEMY:
             qDebug()<<"attacking p enemy.";
             if(pEnemies[index]->getPoisonLevel()!=0){
                 pEnemies[index]->poison();
@@ -293,8 +341,22 @@ qDebug()<<isPosional;
                 qDebug()<<"This enemy is already dead.";
             }
             break;
+        case XENEMY:
+            qDebug()<<"attacking x enemy.";
+            int currentLife =xEnemy->useLives();
+            if(currentLife>-1){
+                qDebug()<<"This x enemy is attacked once."<<currentLife;
+//                animation part
+            }
+            else if(currentLife==-1){
+                qDebug()<<"This x enemy is killed by you.";
+                xEnemy->setDefeated(true);
+            }
+            else{
+                qDebug()<<"This enemy is already dead.";
+            }
+            break;
         }
-
     }
 }
 

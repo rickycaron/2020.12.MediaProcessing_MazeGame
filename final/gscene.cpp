@@ -85,6 +85,18 @@ void GScene::printPEnemies(const std::vector<std::shared_ptr<PEnemy> > &penemies
     }
 }
 
+void GScene::printXEnemy(const std::shared_ptr<XEnemy> &xEnemy)
+{
+    gXEnemyView  =  new GXEnemy(xEnemy->getXPos(),xEnemy->getYPos(),scale,this);
+    this->addItem(gXEnemyView);
+    parent()->connect(xEnemy.get(),&XEnemy::posChanged,[=](int x,int y){
+        gXEnemyView->resetPos(x,y);
+    });
+    parent()->connect(xEnemy.get(),&XEnemy::dead,[=](){
+        gXEnemyView->setGrave();
+    });
+}
+
 void GScene::printHealthpacks(const std::vector<std::shared_ptr<Tile> > &healthpacks)
 {
     for(unsigned int i=0;i<healthpacks.size();i++){
@@ -137,5 +149,10 @@ void GScene::setDeath(int type,int index)
             break;
         }
     }
+}
+
+void GScene::setTilePoison(int index)
+{
+    tileQlist[index]->poisonTile();
 }
 
