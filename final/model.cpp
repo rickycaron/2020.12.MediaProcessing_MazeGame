@@ -267,7 +267,7 @@ std::shared_ptr<Tile> Model::gotoNearestThing()
         }
     }
     //compare which one is better
-    if (enemycost < healthpackcost || protagonist->getHealth())
+    if (enemycost < healthpackcost || protagonist->getHealth()>=80 )
     {
         //goto the enemy
         path = enemypath;
