@@ -205,7 +205,7 @@ std::vector<std::shared_ptr<Node>> Model::getNearestEnemy()
     }
     for(auto i = pEnemies.cbegin();i != pEnemies.cend();++i)
     {
-        if( (*i)->getPoisonLevel()!=0 )
+        if( (*i)->getPoisonLevel() == (*i)->getValue() )
         //if(!(*i)->getDefeated() )
         {
             auto penemy = std::make_shared<Node>(*i,protagonistNode);
