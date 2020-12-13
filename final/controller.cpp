@@ -8,7 +8,7 @@ Controller::Controller(std::shared_ptr<Model> model, GView* view, QObject *paren
 {
     this->model = model;
     this->view = view;
-    createScene(10);
+    createScene(2);
 
     connect(model.get(),&Model::protagonistGetPoisoned,[=]{
         view->getTScene()->redrawPoisonedState();

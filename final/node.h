@@ -38,7 +38,6 @@ public:
 private:
     std::shared_ptr<Tile> tile;
     std::shared_ptr<Node> pre;
-    //double distance = std::numeric_limits<double>::infinity();
     double distance = 0;//it is the final cost in Dijkstra and A* algorithum
     double givenCost = 0.0;//the cost from the start point
     double heuristicCost = 0.0;// the distance to the goal

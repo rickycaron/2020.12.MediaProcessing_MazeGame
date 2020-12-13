@@ -20,7 +20,7 @@ bool Model::readData()
     col=world->getCols();
     protagonist = world->getProtagonist();
 
-    //protagonist->setPos(20,8);
+    protagonist->setPos(7,7);
 
     maxEH = protagonist->getEnergy();
 
@@ -137,6 +137,15 @@ bool Model::readData()
         });
     } 
     pathfinder=std::make_shared<Pathfinder>(row,col,tiles);
+    for(int i=0;i<10; i++)
+    {
+        for(int j=0; j<10; j++)
+        {
+            int index= j*col+i;
+            qDebug()<<"the value of ("<<i<<", "<<j<<") is "<<tiles[index]->getValue();
+        }
+    }
+
 
     std::vector<std::unique_ptr<Tile>> tempHealthpacks = world->getHealthPacks();
     for(unsigned int i=0; i<tempHealthpacks.size(); i++){
@@ -434,7 +443,7 @@ void Model::consumeEnergy()
         protagonist->setEnergy(protagonist->getEnergy()+tileValue);
     }
     else{
-        protagonist->setEnergy(protagonist->getEnergy()-tileValue);
+        //protagonist->setEnergy(protagonist->getEnergy()-tileValue);
     }
 }
 

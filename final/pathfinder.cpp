@@ -112,7 +112,7 @@ void Pathfinder::generateSolution()
 }
 
 //find the node that has been created from the openlist
-QList<std::shared_ptr<Node>>::iterator Pathfinder::findOldNote(int index)
+QVector<std::shared_ptr<Node>>::iterator Pathfinder::findOldNote(int index)
 {
     std::shared_ptr<Tile> theTile =tiles[index];
     //std::shared_ptr<Node> theNodeFound = nullptr;
@@ -125,7 +125,7 @@ QList<std::shared_ptr<Node>>::iterator Pathfinder::findOldNote(int index)
     }   
     return openlist.begin();
 }
-QList<std::shared_ptr<Node>>::iterator Pathfinder::findOldNoteinOpenlist(int index, bool & isInOpenlist)
+QVector<std::shared_ptr<Node>>::iterator Pathfinder::findOldNoteinOpenlist(int index, bool & isInOpenlist)
 {
     std::shared_ptr<Tile> theTile =tiles[index];
     isInOpenlist=false;
@@ -141,6 +141,148 @@ QList<std::shared_ptr<Node>>::iterator Pathfinder::findOldNoteinOpenlist(int ind
     isInOpenlist=false;
     return openlist.begin();
 }
+//return the index in the openlist
+QVector<std::shared_ptr<Node>>::iterator Pathfinder::smartfindOldNoteinOpenlist(int index, bool &isInOpenlist, float finalcost)
+{
+    std::shared_ptr<Tile> theTile =tiles[index];
+    isInOpenlist=false;
+    //insert a new node into openlist, openlist is sorted from big to small, according to finalcost
+    //return the index
+    float newFinalCost = finalcost;
+    int sizeSlide=openlist.size();
+    if(sizeSlide == 0 )
+    {
+        return nullptr;
+    }
+    if(sizeSlide == 1 )
+    {
+        if(openlist.at(0)->getTile()==theTile)
+        {
+            isInOpenlist=true;
+            return openlist.begin();
+        }
+        else
+        {
+            isInOpenlist=false;
+            return nullptr;
+        }
+    }
+    QVector<std::shared_ptr<Node>> possibleNodes;
+    int startSlide = 0;
+    int endSlide = sizeSlide-1;
+    int middleSlide1 =0;
+    int middleSlide2 =0;
+    bool dividebyTwo = false;
+    int indexfound=-1;
+    bool isindexfound=false;
+    while (sizeSlide >=2 && !isindexfound) {
+        if(newFinalCost == openlist.at(endSlide)->getFinalCost())
+        {
+            indexfound = endSlide;
+            isindexfound=true;
+            break;
+        }
+        else if(newFinalCost == openlist.at(startSlide)->getFinalCost())
+        {
+            indexfound = startSlide;
+            isindexfound=true;
+            break;
+        }
+        else
+        {
+            dividebyTwo = (sizeSlide%2==0);
+            if(dividebyTwo)
+            {
+                middleSlide2= (endSlide + startSlide + 1 )/2 ;
+                middleSlide1= middleSlide2 - 1;
+                if(newFinalCost > openlist.at(middleSlide1)->getFinalCost())
+                {
+                    endSlide = middleSlide1;
+                }
+                else if (newFinalCost < openlist.at(middleSlide2)->getFinalCost())
+                {
+                    startSlide = middleSlide2;
+                }
+                else if(newFinalCost == openlist.at(middleSlide1)->getFinalCost())
+                {
+                    indexfound = middleSlide1;
+                    isindexfound=true;
+                    break;
+                }
+                else if (newFinalCost == openlist.at(middleSlide2)->getFinalCost())
+                {
+                    indexfound = middleSlide2;
+                    isindexfound=true;
+                    break;
+                }
+            }
+            else
+            {
+                middleSlide1 = (startSlide+ endSlide)/2;
+                middleSlide2 = middleSlide1;
+                sizeSlide = endSlide-startSlide+1;
+                if(newFinalCost == openlist.at(middleSlide1)->getFinalCost())
+                {
+                    indexfound = middleSlide1;
+                    isindexfound=true;
+                    break;
+                }
+                else if(newFinalCost > openlist.at(middleSlide1)->getFinalCost())
+                {
+                    endSlide = middleSlide1;
+                }
+                else
+                {
+                    startSlide = middleSlide1;
+                }
+             }
+        }
+        sizeSlide=endSlide-startSlide+1;
+    }
+    // one index is found, find all the index with the same finalcost
+    if(!isindexfound)
+    {
+        isInOpenlist=false;
+        return nullptr;
+    }
+    else
+    {
+        int leftindex=indexfound-1;
+        int rightindex=indexfound+1;
+        possibleNodes.push_back(openlist.at(indexfound));
+        while (leftindex>=0) {
+            if(openlist.at(leftindex)->getFinalCost() == finalcost)
+            {
+                possibleNodes.push_back(openlist.at(leftindex));
+                leftindex--;
+            }
+            else
+            {
+                break;
+            }
+        }
+        while (rightindex < openlist.size()) {
+            if(openlist.at(rightindex)->getFinalCost() == finalcost)
+            {
+                possibleNodes.push_back(openlist.at(rightindex));
+                rightindex++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        //now check one by one the Node we are looking for
+        for(auto it = possibleNodes.begin(); it !=possibleNodes.end(); it++)
+        {
+            if((*it)->getTile()==theTile)
+            {
+               return it;
+            }
+        }
+    }
+}
+
 QList<std::shared_ptr<Node>>::iterator Pathfinder::findOldNoteinClosedlist(int index, bool & isInClosedlist)
 {
     std::shared_ptr<Tile> theTile =tiles[index];
@@ -154,7 +296,7 @@ QList<std::shared_ptr<Node>>::iterator Pathfinder::findOldNoteinClosedlist(int i
         }
     }
     isInClosedlist = false;
-    return openlist.begin();
+    return closedlist.begin();
 }
 
 bool Pathfinder::isNodeInOpenlist(int index)
@@ -472,7 +614,8 @@ bool Pathfinder::aStaralorithum()
     {
         //1.pop the node that has the best finalCost from the openlist and assign it to currentNode
         //??maybe bug, it returned the reference in the list, will it be deleted after nest line execution?, maybe dequeue is better here
-        currentNode = findMinFinalCostNode();
+        currentNode = openlist.last();
+        openlist.pop_back();
         auto tile=currentNode->getTile();
         auto parent =currentNode;
         //2.check if reached in goal
@@ -534,7 +677,7 @@ void Pathfinder::aStarAddNode(int index, std::shared_ptr<Node> parent)
             {
                 //the node wasn't found in openlist
                bool findInClosedlist = false;
-               oldNote = findOldNoteinClosedlist(index,findInClosedlist);
+               auto oldNote = findOldNoteinClosedlist(index,findInClosedlist);
                if(findInClosedlist)
                {
                    //the node is found in closedlist
@@ -563,11 +706,103 @@ void Pathfinder::aStarAddNode(int index, std::shared_ptr<Node> parent)
             newNode->updateGivenCost(newGivenCost);
 
             //push the newNode to openlist
-            openlist.push_back(newNode);
+            //here should be smart insert
+            smartInsert(newNode);
             createdNoteIndex.insert(index);
         }
     }
 }
+
+int Pathfinder::smartInsert(std::shared_ptr<Node> newNode)
+{
+    //insert a new node into openlist, openlist is sorted from big to small, according to finalcost
+    //return the index
+    float newFinalCost = newNode->getFinalCost();
+    int sizeSlide=openlist.size();
+    if(sizeSlide == 0 )
+    {
+        openlist.push_back(newNode);
+        return 0;
+    }
+    if(sizeSlide == 1 )
+    {
+        if(newFinalCost > openlist.at(0)->getFinalCost())
+        {
+            openlist.insert(0,newNode);
+            return 0;
+        }
+        else
+        {
+            openlist.push_back(newNode);
+            return 1;
+        }
+    }
+    int startSlide = 0;
+    int endSlide = sizeSlide-1;
+    int middleSlide1 =0;
+    int middleSlide2 =0;
+    bool dividebyTwo = false;
+    while (sizeSlide >=2 ) {
+        if(newFinalCost <= openlist.at(endSlide)->getFinalCost())
+        {
+            openlist.push_back(newNode);
+            return endSlide;
+        }
+        else if(newFinalCost >= openlist.at(startSlide)->getFinalCost())
+        {
+            openlist.insert(startSlide,newNode);
+            return startSlide;
+        }
+        else if (sizeSlide == 2)
+        {
+            openlist.insert(endSlide,newNode);
+            return endSlide;
+        }
+        else
+        {
+            dividebyTwo = (sizeSlide%2==0);
+            if(dividebyTwo)
+            {
+                middleSlide2= (endSlide + startSlide + 1 )/2 ;
+                middleSlide1= middleSlide2 - 1;
+                if(newFinalCost > openlist.at(middleSlide1)->getFinalCost())
+                {
+                    endSlide=middleSlide1;
+                }
+                else if (newFinalCost < openlist.at(middleSlide2)->getFinalCost())
+                {
+                    startSlide = middleSlide2;
+                }
+                else
+                {
+                    openlist.insert(middleSlide2,newNode);
+                    return middleSlide1;
+                }
+            }
+            else
+            {
+                middleSlide1 = (startSlide+ endSlide)/2;
+                middleSlide2 = middleSlide1;
+                sizeSlide = endSlide-startSlide+1;
+                if(newFinalCost == openlist.at(middleSlide1)->getFinalCost())
+                {
+                    openlist.insert(middleSlide1,newNode);
+                    return middleSlide1;
+                }
+                else if(newFinalCost > openlist.at(middleSlide1)->getFinalCost())
+                {
+                    endSlide = middleSlide1;
+                }
+                else
+                {
+                    startSlide = middleSlide1;
+                }
+             }
+        }
+        sizeSlide=endSlide-startSlide+1;
+    }
+}
+
 
 float Pathfinder::getMoveCost() const
 {
